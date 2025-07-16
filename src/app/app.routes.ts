@@ -4,29 +4,6 @@ import { DefaultLayout } from './components/default-layuout/default-layuout';
 
 export const routes: Routes = [
   {
-    path: '',
-    component: DefaultLayout,
-    // canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'home',
-        loadComponent: () =>
-          import('./components/home/home').then((c) => c.Home),
-      },
-      {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('./components/dashboard/dashboard').then((c) => c.Dashboard),
-      },
-      {
-        path: '**',
-        pathMatch: 'full',
-        redirectTo: 'dashboard',
-      },
-    ],
-  },
-
-  {
     path: 'welcome',
     loadComponent: () =>
       import('./components/welcome/welcome').then((c) => c.Welcome),
@@ -49,6 +26,29 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: '',
+    component: DefaultLayout,
+    // canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'home',
+        loadComponent: () =>
+          import('./components/home/home').then((c) => c.Home),
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./components/dashboard/dashboard').then((c) => c.Dashboard),
+      },
+      {
+        path: '**',
+        pathMatch: 'full',
+        redirectTo: 'dashboard',
+      },
+    ],
+  },
+
   {
     path: '**',
     redirectTo: 'welcome',

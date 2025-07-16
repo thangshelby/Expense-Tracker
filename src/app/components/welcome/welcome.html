@@ -1,132 +1,115 @@
-<mat-sidenav-container class="h-screen">
-  <mat-sidenav #drawer class="p-12" mode="over">
-    <h2 class="text-md border-b-2 border-red-600 p-2 pb-4">Expense Tracker</h2>
-    <div>
-      <div>
-        <div style="margin-top: 20px" *ngIf="currentChildRoute =='sign-up'">
-          <button
-            mat-raised-button
-            color="primary"
-            routerLink="/welcome/log-in"
-          >
-            <mat-icon>login</mat-icon>Login
-          </button>
-        </div>
-        <div style="margin-top: 20px" *ngIf="currentChildRoute=='log-in'">
-          <button
-            mat-raised-button
-            color="primary"
-            routerLink="/welcome/sign-up"
-          >
-            <mat-icon>perm_identity</mat-icon>Sign Up
-          </button>
-        </div>
-        <div style="margin-top: 20px">
-          <button
-            mat-button
-            class="example-icon favorite-icon"
-            aria-label="Example icon-button with heart icon"
-            (click)="onGithub()"
-          >
-            <img src="assets/images/github.png" height="50px" width="50px" />
-          </button>
-          <button
-            mat-button
-            class="example-icon"
-            aria-label="Example icon-button with share icon"
-            (click)="onLinkedin()"
-          >
-            <img
-              src="/assets/images/linkedin.png"
-              height="30px"
-              width="30px"
-            />
-          </button>
-        </div>
+<div class="flex h-screen flex-row">
+  <div class="flex w-[45%] flex-col items-center justify-between p-8">
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img
+          class="mx-auto h-10 w-auto"
+          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+          alt="Your Company"
+        />
+        <h2
+          class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900"
+        >
+          Sign in to your account
+        </h2>
       </div>
-    </div>
-    <div *ngIf="appVersion!=''" style="margin-top: 20px; font-size: 12px">
-      <p (copy)="false">Application Version: {{appVersion}}</p>
-    </div>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <div class="flex flex-col">
-      <!-- NAVBAR -->
-      <div
-        class="flex flex-row items-center justify-between border-b-1 border-black px-4 py-2"
-      >
-        <div class="flex flex-row items-center gap-1">
-          <button class="cursor-pointer rounded-full p-3 hover:bg-gray-300">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="20"
-              fill="currentColor"
-              class="bi bi-list"
-              viewBox="0 0 16 16"
-              (click)="drawer.toggle()"
+
+      <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form class="space-y-6" action="#" method="POST">
+          <div>
+            <label for="email" class="block text-sm/6 font-medium text-gray-900"
+              >Email address</label
             >
-              <path
-                fill-rule="evenodd"
-                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
+            <div class="mt-2">
+              <input
+                type="email"
+                name="email"
+                id="email"
+                autocomplete="email"
+                required
+                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
-            </svg>
-          </button>
-          <span class="text-md text-2xl font-normal text-gray-900"
-            >Expense Tracker</span
-          >
-        </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between">
+              <label
+                for="password"
+                class="block text-sm/6 font-medium text-gray-900"
+                >Password</label
+              >
+              <div class="text-sm">
+                <a
+                  href="#"
+                  class="font-semibold text-indigo-600 hover:text-indigo-500"
+                  >Forgot password?</a
+                >
+              </div>
+            </div>
+            <div class="mt-2">
+              <input
+                type="password"
+                name="password"
+                id="password"
+                autocomplete="current-password"
+                required
+                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              />
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Sign in
+            </button>
+          </div>
+        </form>
 
         <div>
-          <a
-            *ngIf="currentChildRoute=='sign-up'"
-            class="flex cursor-pointer flex-row items-center gap-1 rounded-md bg-pink-500 p-2"
-            routerLink="/welcome/log-in"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="currentColor"
-              class="bi bi-box-arrow-in-right"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"
-              />
-              <path
-                fill-rule="evenodd"
-                d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
-              />
-            </svg>
-
-            <span> Log In </span>
-          </a>
-
-          <a
-            *ngIf="currentChildRoute=='log-in'"
-            routerLink="/welcome/sign-up"
-            class="flex cursor-pointer flex-row rounded-full bg-pink-500 p-3"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="white"
-              class="bi bi-person"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"
-              />
-            </svg>
-          </a>
+          <div class="flex flex-row items-center justify-between gap-3">
+            <div class="flex-1 border-t-1 border-gray-400"></div>
+            <span>Or continue with</span>
+            <div class="flex-1 border-t-1 border-gray-400"></div>
+          </div>
+          <div class="flex flex-row justify-between gap-4">
+            <button>
+              <div
+                class="flex flex-row items-center justify-center gap-4 rounded-lg border-1 px-4 py-2"
+              >
+                <img class="h-6 w-6" src="/assets/images/google.png" />
+                <span class="font-medium">Google</span>
+              </div>
+            </button>
+            <button>
+              <div
+                class="flex flex-row items-center justify-center gap-4 rounded-lg border-1 px-4 py-2"
+              >
+                <img class="h-6 w-6" src="/assets/images/github.png" />
+                <span class="font-medium">Github</span>
+              </div>
+            </button>
+          </div>
         </div>
-      </div>
 
-      <!-- CONTENT  -->
-      <router-outlet></router-outlet>
+        <p class="mt-10 text-center text-sm/6 text-gray-500">
+          Not a member?
+          <a
+            href="#"
+            class="font-semibold text-indigo-600 hover:text-indigo-500"
+            >Start a 14 day free trial</a
+          >
+        </p>
+      </div>
     </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+  <div class="h-full w-full flex-1">
+    <img
+      class="h-full w-full"
+      src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+    />
+  </div>
+</div>

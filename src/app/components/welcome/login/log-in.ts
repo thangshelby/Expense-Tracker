@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../auth/auth.service';
 import { WelcomeLoader } from '../../../shared/welcome-loader/welcome-loader';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -39,7 +40,10 @@ export class LogIn {
     ]),
   });
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   toggleHidePassword() {
     this.hidePassword.set(!this.hidePassword());
@@ -60,6 +64,15 @@ export class LogIn {
         .finally(() => {
           this.loginContinue.set(false);
         });
+    }
+  }
+
+  async onGoogleSignIn(): Promise<void> {
+    try {
+      await this.authService.googleLogin();
+      this.router.navigateByUrl('/main');
+    } catch (error) {
+      console.error('Google Sign-In error:', error);
     }
   }
 }

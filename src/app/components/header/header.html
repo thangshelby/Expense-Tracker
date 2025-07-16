@@ -1,40 +1,82 @@
 <!-- NAVBAR -->
 <div
-  class="flex flex-row items-center justify-between border-b-1 border-black px-6 py-2"
+  class="flex flex-row items-center justify-between border-b-1 border-gray-200 px-8 py-4"
 >
   <!-- NAVBAR LEFT CONTENT -->
-  <div class="flex flex-row items-center gap-1">
-    <button class="cursor-pointer rounded-full p-3 hover:bg-gray-300">
+  <div class="flex flex-row items-center gap-4">
+    <button
+      (click)="onToggleSidenav()"
+      class="flex cursor-pointer items-center rounded-lg border-1 border-gray-200 p-2"
+    >
+      <mat-icon style="color: #8b93a3" class="text-gray-300">menu </mat-icon>
+    </button>
+    <div
+      class="text-sub-headline flex flex-1 flex-row gap-2 rounded-lg border border-gray-200 p-2 px-4 text-sm focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200"
+    >
+      <mat-icon style="color: #8b93a3" class="text-gray-300">search </mat-icon>
+
+      <input
+        type="text"
+        class="w-80 outline-none"
+        placeholder="Search or type commands..."
+      />
+
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="20"
-        fill="currentColor"
-        class="bi bi-list"
-        viewBox="0 0 16 16"
-        (click)="onToggleSidenav()"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
       >
         <path
-          fill-rule="evenodd"
-          d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18 18 6M6 6l12 12"
         />
       </svg>
-    </button>
-    <span class="text-md text-2xl font-normal text-gray-900"
-      >Expense Tracker</span
-    >
+    </div>
   </div>
 
   <!-- NAVBAR RIGHT CONTENT -->
-  <div>
+  <div class="flex gap-4">
     <button
-      mat-raised-button
-      color="primary"
-      style="background-color: #f6339a"
-      (click)="onLogout()"
+      (click)="onToggleSidenav()"
+      class="flex cursor-pointer items-center rounded-full border-1 border-gray-200 p-2 hover:bg-gray-100"
     >
-      <mat-icon class="text-white" style="color: white"> logout</mat-icon>
-      <p class="text-white">Log Out</p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="#8b93a3"
+        class="size-6 scale-75"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+        />
+      </svg>
+    </button>
+    <button
+      (click)="onToggleSidenav()"
+      class="flex cursor-pointer items-center rounded-full border-1 border-gray-200 p-2 hover:bg-gray-100"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke="#8b93a3"
+        class="size-6 scale-75"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+        />
+      </svg>
     </button>
   </div>
 </div>
