@@ -1,0 +1,12 @@
+mat-sidenav {
+  border-radius: 0px;
+  width: 20%;
+}
+
+mat-raised-button {
+  border-radius: 4px;
+}
+
+button {
+  border-radius: 4px;
+}

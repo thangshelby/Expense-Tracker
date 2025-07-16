@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@theme {
+  --color-background: 0 0% 100%; /* #FFFFFF */
+  --color-button: #5e74fd;
+  --color-primary: #5e74fd;
+  --color-button-text: 257 27% 16%; /* #1f1235 */
+  --color-headline: #1d2939;
+  --color-sub-headline: #8b93a3;
+  --color-stroke: 257 27% 16%; /* #1f1235 */
+  --color-main: 0 0% 100%; /* #FFFFFF */
+  --color-highlight: 0 100% 72%; /* #ff6e6c */
+  --color-secondary: 263 13% 47%; /* #67568c */
+  --color-tertiary: 44 96% 72%; /* #fbd074 */
+}

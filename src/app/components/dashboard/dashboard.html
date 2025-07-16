@@ -1,0 +1,106 @@
+<div class="flex flex-col overflow-auto">
+  <!-- CONTENT  -->
+  <div
+    class="flex h-full w-full flex-col gap-y-12 bg-cover bg-center bg-no-repeat p-12"
+    style="background-image: url(&quot;assets/images/save.svg&quot;)"
+  >
+    <!-- FIRST ITEM -->
+    <div class="grid h-32 grid-cols-4 gap-x-20">
+      <div
+        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110"
+      >
+        <mat-icon style="font-size: 36px; height: 36px; width: 36px"
+          >today</mat-icon
+        >
+        <p>-</p>
+        <p>First Expense Date</p>
+      </div>
+      <div
+        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110"
+      >
+        <mat-icon style="font-size: 36px; width: 36px; height: 36px"
+          >event</mat-icon
+        >
+        <p>-</p>
+        <p>Last Expense Date</p>
+      </div>
+      <div
+        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110"
+      >
+        <mat-icon style="font-size: 36px; width: 36px; height: 36px">
+          exposure_plus_1
+        </mat-icon>
+        <p>-</p>
+        <p>Number Of Expense</p>
+      </div>
+      <div
+        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110"
+      >
+        <mat-icon style="font-size: 36px; width: 36px; height: 36px"
+          >attach_money</mat-icon
+        >
+        <p>-</p>
+        <p>Total Amount</p>
+      </div>
+    </div>
+    <!-- SECOND ITEM -->
+    <div class="grid grid-cols-2 gap-x-20">
+      <div class="col-span-1 flex flex-col gap-y-4 rounded-lg bg-white p-4">
+        <h1 class="text-2xl font-medium">Category</h1>
+        <span class="text-gray-600">Click to view</span>
+        <div class="flex items-center justify-center">
+          <img class="h-60 w-60" src="assets/images/pie23.gif" />
+        </div>
+      </div>
+      <div class="col-span-1 flex flex-col gap-y-4 rounded-lg bg-white p-4">
+        <h1 class="text-2xl font-medium">Expense Monthly Summary</h1>
+        <span class="text-gray-600">Click to view</span>
+        <div class="flex items-center justify-center">
+          <img class="h-60 w-60" src="assets/images/bar11.gif" />
+        </div>
+      </div>
+    </div>
+    <!-- THIRD ITEM -->
+    <div class="flex flex-col gap-y-4 rounded-lg bg-white p-4">
+      <h1 class="text-xl font-medium">Detail Summary</h1>
+      <span class="text-gray-500">Click on row to Edit/Delete Expense</span>
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+          <!-- Position Column -->
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let element">{{element.position}}</td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="weight">
+            <th mat-header-cell *matHeaderCellDef>Weight</th>
+            <td mat-cell *matCellDef="let element">{{element.weight}}</td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="symbol">
+            <th mat-header-cell *matHeaderCellDef>Symbol</th>
+            <td mat-cell *matCellDef="let element">{{element.symbol}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+          aria-label="Select page of periodic elements"
+        >
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

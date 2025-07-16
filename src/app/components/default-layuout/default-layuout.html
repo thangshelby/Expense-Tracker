@@ -1,0 +1,11 @@
+<mat-sidenav-container class="h-screen">
+  <mat-sidenav #sidenav mode="side" opened="track">
+    <app-side-navbar></app-side-navbar>
+  </mat-sidenav>
+  <mat-sidenav-content class="h-full flex-1 flex-col">
+    <app-header [sidenavRef]="sidenav"></app-header>
+    <div class="h-full flex-1 overflow-scroll">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,110 @@
+<div>
+  @if (loginContinue()) {
+  <app-welcome-loader [msg]="'Loading ...'"> </app-welcome-loader>
+  }
+</div>
+
+<div class="flex w-full flex-col items-center justify-center gap-4 p-12">
+  <p
+    class="w-9/12 cursor-text text-center text-lg font-normal duration-500 hover:scale-110"
+  >
+    Expense tracker is a web application to help you keep track of your daily
+    expenses. Charts and tables help you better track spending behaviors.
+  </p>
+
+  <div class="w-full border-t-2 border-blue-600"></div>
+
+  <button
+    class="cursor-pointer rounded-sm border-1 border-gray-700 px-2 py-1 text-orange-500 duration-500 hover:scale-110 hover:bg-orange-100"
+  >
+    Get Started
+  </button>
+
+  <h3
+    class="cursor-text border-b-2 border-red-600 py-4 text-lg font-normal duration-500 hover:scale-110"
+  >
+    Login to Expense Tracker Account
+  </h3>
+
+  <form [formGroup]="loginForm">
+    <div class="flex flex-col gap-4 rounded-sm border-1 border-gray-400 p-4">
+      <mat-form-field>
+        <mat-label>Enter Registed Email</mat-label>
+        <input
+          matInput
+          #input
+          formControlName="gmail"
+          placeholder="Ex: abc@gmail.com"
+        />
+
+        <mat-error
+          *ngIf="this.loginForm.get('gmail')?.errors&& this.loginForm.get('gmail')?.hasError('required')"
+        >
+          Email Address is required
+        </mat-error>
+
+        <mat-error
+          *ngIf="this.loginForm.get('gmail')?.errors&& this.loginForm.get('gmail')?.hasError('email')"
+        >
+          Email Address is invalid
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Enter Your Password</mat-label>
+        <input
+          matInput
+          #input
+          [type]="hidePassword()?'password':'text'"
+          formControlName="password"
+        />
+        <button
+          matIconButton
+          matSuffix
+          (click)="toggleHidePassword()"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hidePassword()"
+        >
+          <i *ngIf="hidePassword()" class="fa-solid fa-eye fa-2xs"></i>
+          <i *ngIf="!hidePassword()" class="fa-solid fa-eye-slash fa-2xs"></i>
+        </button>
+
+        <mat-error
+          *ngIf="this.loginForm.get('password')?.errors&& this.loginForm.get('password')?.hasError('required')"
+        >
+          Password is required
+        </mat-error>
+
+        <mat-error
+          *ngIf="this.loginForm.get('password')?.errors&& this.loginForm.get('password')?.hasError('minlength')"
+        >
+          Password is at least 8 characters
+        </mat-error>
+      </mat-form-field>
+
+      <div class="align-center flex w-full justify-center">
+        @if(!loginContinue()){
+        <button
+          (click)="onSubmit()"
+          type="submit"
+          class="flex cursor-pointer flex-row items-center gap-2 rounded-sm bg-pink-500 px-2 py-1 duration-300 hover:scale-110"
+        >
+          <i
+            class="fa-solid fa-arrow-right-to-bracket fa-xs font-light text-white"
+          ></i>
+          <span class="text-white"> Log In </span>
+        </button>
+        } @if (loginContinue()) {
+        <button class="btn btn-success" type="button" disabled>
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Loading...
+        </button>
+        }
+      </div>
+    </div>
+  </form>
+</div>

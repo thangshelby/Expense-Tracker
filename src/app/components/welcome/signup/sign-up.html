@@ -1,0 +1,90 @@
+<div class="h-full px-6 py-4">
+  <div class="flex flex-row items-center justify-between gap-4">
+    <div class="flex-1 p-4">
+      <img src="assets/images/save.svg" />
+    </div>
+
+    <div class="flex flex-1 flex-col gap-4 p-4">
+      <!-- HEADER -->
+      <div class="border-b-2 border-red-500 pb-2">
+        <h2
+          class="text-center text-lg font-medium duration-300 hover:scale-110"
+        >
+          Create an Expense Tracker Account
+        </h2>
+      </div>
+
+      <!-- FORM -->
+      <form [formGroup]="signUpForm" class="w-full">
+        <!-- Full Name -->
+        <mat-form-field class="w-full">
+          <mat-label>Enter Full Name</mat-label>
+          <input matInput formControlName="fullname" />
+          <mat-error *ngIf="signUpForm.get('fullname')?.hasError('required')">
+            Full Name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Enter Full Name</mat-label>
+          <input matInput formControlName="username" />
+          <mat-error *ngIf="signUpForm.get('username')?.hasError('required')">
+            Full Name is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Email -->
+        <mat-form-field class="w-full">
+          <mat-label>Enter Email</mat-label>
+          <input matInput formControlName="gmail" type="email" />
+          <mat-error *ngIf="signUpForm.get('gmail')?.hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="signUpForm.get('gmail')?.hasError('email')">
+            Enter a valid email
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field class="w-full">
+          <mat-label>Enter Your Password</mat-label>
+          <input
+            matInput
+            [type]="hidePassword() ? 'password' : 'text'"
+            formControlName="password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="toggleHidePassword()"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePassword()"
+          >
+            <i *ngIf="hidePassword()" class="fa-solid fa-eye fa-2xs"></i>
+            <i *ngIf="!hidePassword()" class="fa-solid fa-eye-slash fa-2xs"></i>
+          </button>
+
+          <mat-error *ngIf="signUpForm.get('password')?.hasError('required')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="signUpForm.get('password')?.hasError('minlength')">
+            Password must be at least 8 characters
+          </mat-error>
+        </mat-form-field>
+
+        <div class="flex flex-row items-end justify-center">
+          <button
+            matButton="elevated"
+            type="submit"
+            (click)="onSubmit()"
+            [disabled]="this.signUpForm.invalid"
+          >
+            <mat-icon>check</mat-icon>
+            <span> Proceed </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
