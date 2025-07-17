@@ -13,8 +13,9 @@ import {
   user,
   User,
 } from '@angular/fire/auth';
-import { setPersistence } from 'firebase/auth';
-import { from, Observable } from 'rxjs';
+import { GithubAuthProvider, setPersistence } from 'firebase/auth';
+import { from, Observable, BehaviorSubject } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -25,6 +26,8 @@ export class AuthService {
   private expireTokenTime: any;
   private userId: any;
   private emailAddress: any;
+  private userSubject = new BehaviorSubject<User | null>(null);
+  user$ = this.userSubject.asObservable();
 
   constructor(
     public http: HttpClient,
@@ -35,8 +38,6 @@ export class AuthService {
     this.setSessionStoragePersistence();
     this.user$ = user(this.firebaseAuth);
   }
-
-  user$: Observable<User | null>;
 
   private setSessionStoragePersistence(): void {
     setPersistence(this.firebaseAuth, browserSessionPersistence);
@@ -67,18 +68,38 @@ export class AuthService {
       if (!user) {
         throw new Error('Google-Login error');
       }
+      this.setAuthInformation(user);
     } catch (error) {
       console.error('Google-Login error:', error);
       throw error;
     }
+  }
+  async githubLogin(): Promise<void> {
+    const provider = new GithubAuthProvider();
+    try {
+      const result = await signInWithPopup(this.firebaseAuth, provider);
+      const user = result.user;
+      if (!user) {
+        throw new Error('Github-Login error');
+      }
+      this.setAuthInformation(user);
+    } catch (error) {
+      console.error('Github-Login error', error);
+      throw error;
+    }
+  }
+
+  private setAuthInformation(user: User) {
+    this.setEmail(user.email);
   }
 
   getToken() {
     return this.token;
   }
 
-  getIsAuth() {
-    return this.isAuth;
+  getIsAuth(): boolean {
+    if (this.user$) return true;
+    return false;
   }
   getUSerId() {
     return this.userId;
