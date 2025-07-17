@@ -1,22 +1,48 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
-import { DefaultLayout } from './components/default-layuout/default-layuout';
+import { DefaultLayout } from './features/default-layuout/default-layuout';
+import { LoginGuard } from './auth/login.guard';
 
 export const routes: Routes = [
   {
+    path: 'welcome',
+    loadComponent: () =>
+      import('./features/authencication/welcome').then((c) => c.Welcome),
+    canActivate: [LoginGuard],
+    children: [
+      {
+        path: 'log-in',
+        loadComponent: () =>
+          import('./features/authencication/login/log-in').then((c) => c.LogIn),
+      },
+
+      {
+        path: 'sign-up',
+        loadComponent: () =>
+          import('./features/authencication/signup/sign-up').then(
+            (c) => c.SignUp,
+          ),
+      },
+      {
+        path: '**',
+        pathMatch: 'full',
+        redirectTo: 'log-in',
+      },
+    ],
+  },
+  {
     path: '',
     component: DefaultLayout,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'home',
-        loadComponent: () =>
-          import('./components/home/home').then((c) => c.Home),
+        loadComponent: () => import('./features/home/home').then((c) => c.Home),
       },
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./components/dashboard/dashboard').then((c) => c.Dashboard),
+          import('./features/dashboard/dashboard').then((c) => c.Dashboard),
       },
       {
         path: '**',
@@ -26,29 +52,6 @@ export const routes: Routes = [
     ],
   },
 
-  {
-    path: 'welcome',
-    loadComponent: () =>
-      import('./components/welcome/welcome').then((c) => c.Welcome),
-    children: [
-      {
-        path: 'log-in',
-        loadComponent: () =>
-          import('./components/welcome/login/log-in').then((c) => c.LogIn),
-      },
-
-      {
-        path: 'sign-up',
-        loadComponent: () =>
-          import('./components/welcome/signup/sign-up').then((c) => c.SignUp),
-      },
-      {
-        path: '**',
-        pathMatch: 'full',
-        redirectTo: 'log-in',
-      },
-    ],
-  },
   {
     path: '**',
     redirectTo: 'welcome',
