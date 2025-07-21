@@ -1,16 +1,15 @@
-
 .loader-content {
-    text-align: center;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px 20px 15px 20px;
-  }
-  
-  .spinner-border {
-    width: 3rem; /* Adjust the size as needed */
-    height: 3rem;
-  }
-  
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px 20px 15px 20px;
+}
+
+.spinner-border {
+  width: 3rem; /* Adjust the size as needed */
+  height: 3rem;
+}
+
 .loaderRelay {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 2; /* Ensure the loader is on top */

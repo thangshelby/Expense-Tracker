@@ -1,0 +1,37 @@
+<div class="rounded-2xl border-1 border-gray-200 p-6">
+  <div class="flex flex-row items-center justify-between">
+    <h3 class="text-headline font-bold">Statistics</h3>
+    <div style="padding: 2px" class="flex flex-row rounded-lg bg-gray-300">
+      <div
+        (click)="onSetPeriod('monthly')"
+        class="cursor-pointer p-3 text-xs font-medium hover:text-black"
+        [ngClass]="period() =='monthly'?'bg-white text-black rounded-lg':'text-sub-headline'"
+      >
+        Monthly
+      </div>
+      <div
+        (click)="onSetPeriod('quarterly')"
+        class="cursor-pointer p-3 text-xs font-medium hover:text-black"
+        [ngClass]="period() =='quarterly'?'bg-white text-black rounded-lg':'text-sub-headline'"
+      >
+        Quarterly
+      </div>
+      <div
+        (click)="onSetPeriod('annually')"
+        class="cursor-pointer p-3 text-xs font-medium hover:text-black"
+        [ngClass]="period() =='annually'?'bg-white text-black rounded-lg':'text-sub-headline'"
+      >
+        Annually
+      </div>
+    </div>
+  </div>
+  <apx-chart
+    [series]="chartSeries"
+    [chart]="chartOptions.chart"
+    [xaxis]="chartOptions.xaxis"
+    [colors]="chartOptions.colors"
+    [legend]="chartOptions.legend"
+    [dataLabels]="chartOptions.dataLabels"
+    [plotOptions]="chartOptions.plotOptions"
+  />
+</div>

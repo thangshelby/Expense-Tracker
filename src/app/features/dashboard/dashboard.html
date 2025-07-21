@@ -1,32 +1,42 @@
-<div class="flex flex-col overflow-auto">
+<div class="flex flex-col overflow-auto bg-[#f9fafb]">
   <!-- CONTENT  -->
-  <div
-    class="flex h-full w-full flex-col gap-y-12 bg-cover bg-center bg-no-repeat p-12"
-    style="background-image: url(&quot;assets/images/save.svg&quot;)"
-  >
+  <div class="flex h-full w-full flex-col gap-y-12 p-6">
+    <!-- DASHBOARD OVERVIEW -->
+    <div class=" flex flex-row gap-6 flex-1 h-full">
+      <!-- OVERVIEW  -->
+      <div class=" flex-2/3">
+        <app-dashboard-overview />
+      </div>
+      <!-- ANALYTICS -->
+      <div class="flex-1/3">
+        <app-monthly-target />
+      </div>
+    </div>
+    <!-- DASHBOARD STATISTIC -->
+    <div class="">
+ <app-statistics/>
+    </div>
+
+
+    <div class="card">
+      <p-chart type="line" [data]="data" [options]="options" class="h-[30rem]" />
+    </div>
     <!-- FIRST ITEM -->
     <div class="grid h-32 grid-cols-4 gap-x-20">
       <div
-        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110"
-      >
-        <mat-icon style="font-size: 36px; height: 36px; width: 36px"
-          >today</mat-icon
-        >
+        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110">
+        <mat-icon style="font-size: 36px; height: 36px; width: 36px">today</mat-icon>
         <p>-</p>
         <p>First Expense Date</p>
       </div>
       <div
-        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110"
-      >
-        <mat-icon style="font-size: 36px; width: 36px; height: 36px"
-          >event</mat-icon
-        >
+        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110">
+        <mat-icon style="font-size: 36px; width: 36px; height: 36px">event</mat-icon>
         <p>-</p>
         <p>Last Expense Date</p>
       </div>
       <div
-        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110"
-      >
+        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110">
         <mat-icon style="font-size: 36px; width: 36px; height: 36px">
           exposure_plus_1
         </mat-icon>
@@ -34,11 +44,8 @@
         <p>Number Of Expense</p>
       </div>
       <div
-        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110"
-      >
-        <mat-icon style="font-size: 36px; width: 36px; height: 36px"
-          >attach_money</mat-icon
-        >
+        class="col-span-1 flex flex-col items-center justify-center gap-2 rounded-lg bg-white duration-300 hover:scale-110">
+        <mat-icon style="font-size: 36px; width: 36px; height: 36px">attach_money</mat-icon>
         <p>-</p>
         <p>Total Amount</p>
       </div>
@@ -94,11 +101,8 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
 
-        <mat-paginator
-          [pageSizeOptions]="[5, 10, 20]"
-          showFirstLastButtons
-          aria-label="Select page of periodic elements"
-        >
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+          aria-label="Select page of periodic elements">
         </mat-paginator>
       </div>
     </div>

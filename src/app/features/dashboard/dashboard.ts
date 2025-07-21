@@ -6,6 +6,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ChangeDetectorRef, PLATFORM_ID } from '@angular/core';
+import { ChartModule } from 'primeng/chart';
+import { DashboardOverview } from './dashboard-overview/dashboard-overview';
+import { MonthlyTarget } from './monthly-target/monthly-target';
+import { Statistics } from './statistics/statistics';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +21,10 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
     CommonModule,
     MatTableModule,
     MatPaginatorModule,
+    ChartModule,
+    DashboardOverview,
+    MonthlyTarget,
+    Statistics,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
@@ -30,7 +39,7 @@ export class Dashboard implements AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-  constructor() {}
+  constructor(private cd: ChangeDetectorRef) {}
   route = inject(Router);
 
   onProfile() {}
@@ -45,6 +54,12 @@ export class Dashboard implements AfterViewInit {
   }
   onGithub() {}
   onLinkedin() {}
+
+  data: any;
+
+  options: any;
+
+  platformId = inject(PLATFORM_ID);
 }
 
 export interface PeriodicElement {

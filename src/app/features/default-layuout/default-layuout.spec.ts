@@ -8,9 +8,8 @@ describe('DefaultLayuout', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DefaultLayuout]
-    })
-    .compileComponents();
+      imports: [DefaultLayuout],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DefaultLayuout);
     component = fixture.componentInstance;
