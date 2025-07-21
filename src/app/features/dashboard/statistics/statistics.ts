@@ -36,28 +36,29 @@ export class Statistics {
 
   chartSeries: ApexAxisChartSeries = [
     {
-      name: 'Previous Month',
+      name: 'Expense',
       data: [480, 500, 580, 470, 510, 560, 460, 550],
     },
     {
-      name: 'Current Month',
+      name: 'Income',
       data: [520, 530, 650, 600, 620, 690, 520, 640],
     },
   ];
 
   chartOptions: ChartOptions = {
     series: this.chartSeries,
+    stroke: {
+      // curve: 'smooth',
+      width: [1, 1],
+    },
     chart: {
-      type: 'line',
+      type: 'area',
       height: 400,
       toolbar: {
         show: false,
       },
     },
-    stroke: {
-      curve: 'smooth',
-      width: 1,
-    },
+
     markers: {
       size: 4,
       colors: ['#fff'],
@@ -67,14 +68,6 @@ export class Statistics {
 
     plotOptions: {
       line: {},
-      // bar: {
-      //   horizontal: false,
-      //   columnWidth: '10%',
-      //   // borderRadius: 6,
-      //   borderRadiusWhenStacked: 'all',
-      //   borderRadiusApplication: 'around',
-      //   // endingShape: 'rounded',#1E40AF
-      // },
     },
 
     dataLabels: {

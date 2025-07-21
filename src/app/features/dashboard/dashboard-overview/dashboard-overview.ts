@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import {
   ApexAxisChartSeries,
@@ -19,7 +20,7 @@ export type ChartOptions = {
 };
 @Component({
   selector: 'app-dashboard-overview',
-  imports: [NgApexchartsModule],
+  imports: [NgApexchartsModule, CurrencyPipe],
   templateUrl: './dashboard-overview.html',
   styleUrl: './dashboard-overview.css',
 })

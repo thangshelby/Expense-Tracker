@@ -1,0 +1,22 @@
+/** @type {import('tailwindcss').Config} */
+import PrimeUI from "tailwindcss-primeui";
+
+module.exports = {
+  content: ["./src/**/*.{html,ts}"],
+  theme: {
+    extend: {
+      colors: {
+        "background-page": "var(--backgroud-page)",
+        "background-component": "var(--background-component)",
+        primary: "var(--primary)",
+        headline: "var(--headline)",
+        "sub-headline": "var(--sub-headline)",
+        border: "var(--border)",
+      },
+      boxShadow: {
+        "input-focus": "0 0 0 2px white, 0 0 0 4px #2563eb",
+      },
+    },
+  },
+  plugins: [PrimeUI],
+};

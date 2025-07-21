@@ -4,12 +4,11 @@ import { RouterOutlet } from '@angular/router';
 import { Header } from '../header/header';
 import { SideNavbar } from '../side-navbar/side-navbar';
 import { AuthService } from '../../auth/auth.service';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-default-layuout',
-  imports: [RouterOutlet, MatSidenavModule, Header, SideNavbar, ToastModule],
+  imports: [RouterOutlet, MatSidenavModule, Header, SideNavbar],
   templateUrl: './default-layuout.html',
   styleUrl: './default-layuout.css',
 })

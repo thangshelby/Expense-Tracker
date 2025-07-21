@@ -7,9 +7,11 @@ import {
   ApexPlotOptions,
   ApexDataLabels,
 } from 'ng-apexcharts';
+import { Popover } from 'primeng/popover';
+
 @Component({
   selector: 'app-monthly-target',
-  imports: [NgApexchartsModule],
+  imports: [NgApexchartsModule, Popover],
   templateUrl: './monthly-target.html',
   styleUrl: './monthly-target.css',
 })

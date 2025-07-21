@@ -14,7 +14,8 @@ import { providePrimeNG } from 'primeng/config';
 import Material from '@primeuix/themes/material';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
-
+import { ThemeState } from './store/theme.state';
+import { provideStates, provideStore } from '@ngxs/store';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -27,9 +28,17 @@ export const appConfig: ApplicationConfig = {
     providePrimeNG({
       theme: {
         preset: Material,
+        options: {
+          cssLayer: {
+            name: 'primeng',
+            // order: 'tailwind-base, primeng, tailwind-utilities',
+          },
+        },
       },
     }),
     MessageService,
     ConfirmationService,
+    provideStore([]),
+    provideStates([ThemeState]),
   ],
 };

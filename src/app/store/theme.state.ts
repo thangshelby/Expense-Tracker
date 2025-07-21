@@ -1,0 +1,41 @@
+import { State, Action, StateContext, Selector } from '@ngxs/store';
+
+export class ToggleTheme {
+  static readonly type = '[Theme] Toggle';
+}
+
+export interface ThemeStateModel {
+  darkMode: boolean;
+}
+
+@State<ThemeStateModel>({
+  name: 'theme',
+  defaults: {
+    darkMode: false,
+  },
+})
+export class ThemeState {
+  @Selector()
+  static isDarkMode(state: ThemeStateModel): boolean {
+    return state.darkMode;
+  }
+
+  @Action(ToggleTheme)
+  toggleTheme(ctx: StateContext<ThemeStateModel>) {
+    const state = ctx.getState();
+    const newDarkMode = !state.darkMode;
+
+    // Cập nhật class body (hoặc dùng Angular Renderer2)
+    const body = document.body;
+    if (newDarkMode) {
+      body.classList.add('dark');
+    } else {
+      body.classList.remove('dark');
+    }
+
+    ctx.setState({
+      ...state,
+      darkMode: newDarkMode,
+    });
+  }
+}

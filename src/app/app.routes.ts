@@ -1,14 +1,14 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { DefaultLayout } from './features/default-layuout/default-layuout';
-import { LoginGuard } from './auth/login.guard';
+// import { LoginGuard } from './auth/login.guard';
 
 export const routes: Routes = [
   {
     path: 'welcome',
     loadComponent: () =>
       import('./features/authencication/welcome').then((c) => c.Welcome),
-    canActivate: [LoginGuard],
+    // canActivate: [LoginGuard],
     children: [
       {
         path: 'log-in',

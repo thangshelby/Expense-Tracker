@@ -1,86 +1,122 @@
-    <div class="bg-white rounded-2xl w-full flex-1 flex flex-col justify-between shadow-lg h-full border-1 overflow-hidden border-gray-200">
-          <!-- Header -->
-           <div class="p-6 rounded-2xl">
+<div
+  class="bg-background-page border-border flex h-full w-full flex-1 flex-col justify-between overflow-hidden rounded-2xl border shadow-lg"
+>
+  <!-- Header -->
+  <div class="rounded-2xl border-gray-200 p-6">
+    <div class="items-starsubtext-sub-hfont-medium eadliney-between mb-6 flex">
+      <div>
+        <h2 class="text-headline text-xl font-semibold">Monthly Target</h2>
+        <p class="mt-1 text-sm text-gray-500">
+          Target you've set for each month
+        </p>
+      </div>
+      <button
+        (click)="op.toggle($event)"
+        class="cursor-pointer text-gray-400 hover:text-gray-600"
+      >
+        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+          />
+        </svg>
+      </button>
+    </div>
+    <p-popover
+      styleClass="bg-white! p-2! rounded-md! border! border-border! overflow-hidden! bg-sub-background!"
+      #op
+    >
+      <div class="flex flex-col">
+        <div
+          class="text-headline cursor-pointer rounded-lg p-2 text-sm hover:bg-gray-100"
+        >
+          View More
+        </div>
+        <div
+          class="text-headline cursor-pointer rounded-lg p-2 text-sm hover:bg-gray-100"
+        >
+          Delete
+        </div>
+      </div>
+    </p-popover>
 
-          <div class="flex justify-between items-start mb-6">
-            <div>
-              <h2 class="text-xl font-semibold text-gray-900">Monthly Target</h2>
-              <p class="text-sm text-gray-500 mt-1">Target you've set for each month</p>
-            </div>
-            <button class="text-gray-400 hover:text-gray-600">
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-              </svg>
-            </button>
-          </div>
+    <!-- Progress Circle -->
+    <div class="mb-6 flex justify-center">
+      <!-- gauge-chart.component.html -->
+      <div class="text-center">
+        <apx-chart
+          [series]="chartSeries"
+          [chart]="chartOptions.chart"
+          [labels]="chartOptions.labels"
+          [plotOptions]="chartOptions.plotOptions"
+          [fill]="chartOptions.fill"
+          [stroke]="chartOptions.stroke"
+          [dataLabels]="chartOptions.dataLabels"
+        ></apx-chart>
 
-          <!-- Progress Circle -->
-          <div class="flex justify-center mb-6">
-          <!-- gauge-chart.component.html -->
-<div class="text-center">
-  <apx-chart
-    [series]="chartSeries"
-    [chart]="chartOptions.chart"
-    [labels]="chartOptions.labels"
-    [plotOptions]="chartOptions.plotOptions"
-    [fill]="chartOptions.fill"
-    [stroke]="chartOptions.stroke"
-    [dataLabels]="chartOptions.dataLabels"
-  ></apx-chart>
+        <div class="text-headline text-xl font-bold">{{ chartSeries[0] }}%</div>
+        <div
+          class="mt-2 inline-block rounded-full bg-green-100 px-2 py-1 text-sm font-bold text-green-700"
+        >
+          +10%
+        </div>
+      </div>
+    </div>
 
-  <div class="text-xl font-bold -mt-10">{{ chartSeries[0] }}%</div>
-  <div
-    class="inline-block mt-2 px-2 py-1 text-xs rounded-full bg-green-100 text-green-600 font-semibold"
-  >
-    +10%
+    <!-- Message -->
+    <div class="mb-8 text-center">
+      <p class="text-sub-headline text-sm leading-relaxed">
+        You earn <span class="font-semibold">${{ todayEarnings }}</span> today,
+        it's higher than last month.<br />
+        Keep up your good work!
+      </p>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="bg-background-component flex items-center justify-between p-4">
+    <!-- Target -->
+    <div class="flex flex-col items-center">
+      <p class="text-sub-headline mb-2 text-xs font-medium">Target</p>
+      <div class="flex items-center justify-center">
+        <span class="text-headline text-lg font-bold">${{ target }}</span>
+        <svg
+          class="ml-1 h-4 w-4 text-red-500"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M7 14l5-5 5 5z" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Revenue -->
+    <div class="flex flex-col items-center">
+      <p class="text-sub-headline mb-2 text-xs font-medium">Revenue</p>
+      <div class="flex items-center justify-center">
+        <span class="text-headline text-lg font-bold">${{ revenue }}</span>
+        <svg
+          class="ml-1 h-4 w-4 text-green-500"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M7 10l5 5 5-5z" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Today -->
+    <div class="flex flex-col items-center">
+      <p class="text-sub-headline mb-2 text-xs font-medium">Today</p>
+      <div class="flex items-center justify-center">
+        <span class="text-headline text-lg font-bold">${{ today }}</span>
+        <svg
+          class="ml-1 h-4 w-4 text-green-500"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M7 10l5 5 5-5z" />
+        </svg>
+      </div>
+    </div>
   </div>
 </div>
-
-          </div>
-
-          <!-- Message -->
-          <div class="text-center mb-8">
-            <p class="text-gray-600 text-sm leading-relaxed">
-              You earn <span class="font-semibold">${{ todayEarnings }}</span> today, it's higher than last month.<br>
-              Keep up your good work!
-            </p>
-          </div>
-           </div>
-
-          <!-- Stats -->
-          <div class="flex justify-between items-center bg-gray-300 p-4 ">
-            <!-- Target -->
-            <div class="flex flex-col items-center">
-              <p class="text-xs text-gray-500 mb-2">Target</p>
-              <div class="flex items-center justify-center">
-                <span class="text-lg font-bold text-gray-900">${{ target }}</span>
-                <svg class="w-4 h-4 ml-1 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M7 14l5-5 5 5z" />
-                </svg>
-              </div>
-            </div>
-
-            <!-- Revenue -->
-            <div class="flex flex-col items-center">
-              <p class="text-xs text-gray-500 mb-2">Revenue</p>
-              <div class="flex items-center justify-center">
-                <span class="text-lg font-bold text-gray-900">${{ revenue }}</span>
-                <svg class="w-4 h-4 ml-1 text-green-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M7 10l5 5 5-5z" />
-                </svg>
-              </div>
-            </div>
-
-            <!-- Today -->
-            <div class="flex flex-col items-center">
-              <p class="text-xs text-gray-500 mb-2">Today</p>
-              <div class="flex items-center justify-center">
-                <span class="text-lg font-bold text-gray-900">${{ today }}</span>
-                <svg class="w-4 h-4 ml-1 text-green-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M7 10l5 5 5-5z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>

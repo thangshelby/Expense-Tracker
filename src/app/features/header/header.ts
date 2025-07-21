@@ -8,12 +8,14 @@ import { User } from 'firebase/auth';
 import { AvatarModule } from 'primeng/avatar';
 import { Popover } from 'primeng/popover';
 import { ButtonModule, Button } from 'primeng/button';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { DividerModule } from 'primeng/divider';
 import { Router } from '@angular/router';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
+import { Store, Select } from '@ngxs/store';
+import { ToggleTheme, ThemeState } from '../../store/theme.state';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-header',
   imports: [
@@ -26,6 +28,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     ConfirmDialogModule,
     DividerModule,
     ButtonModule,
+    AsyncPipe,
+    CommonModule,
   ],
   templateUrl: './header.html',
   styleUrl: './header.css',
@@ -51,7 +55,10 @@ export class Header implements OnInit {
       title: 'Support',
     },
   ];
+  isDark$!: Observable<boolean>;
+
   constructor(
+    private store: Store,
     private authService: AuthService,
     private router: Router,
     private messageService: MessageService,
@@ -62,13 +69,23 @@ export class Header implements OnInit {
       this.user = user;
       console.log(user);
     });
+    this.isDark$ = this.store.select(ThemeState.isDarkMode);
   }
+  onToggleTheme() {
+    const body = document.querySelector('body');
+    if (body) {
+      body.classList.toggle('dark');
+      body.classList.toggle('light');
+    }
+    this.store.dispatch(new ToggleTheme());
+  }
+
   onToggleSidenav() {
     this.sidenavRef.toggle();
   }
-  onLogout() {
-    this.authService.logout();
-    this.router.navigate(['/welcome']);
+  async onLogout() {
+    await this.authService.logout();
+    await this.router.navigate(['/welcome']);
   }
 
   @ViewChild('op') popover: any;
