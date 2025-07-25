@@ -3,7 +3,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { Header } from '../header/header';
 import { SideNavbar } from '../side-navbar/side-navbar';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { MessageService } from 'primeng/api';
 
 @Component({

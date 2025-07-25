@@ -24,8 +24,8 @@ export class ThemeState {
   toggleTheme(ctx: StateContext<ThemeStateModel>) {
     const state = ctx.getState();
     const newDarkMode = !state.darkMode;
+    localStorage.setItem('theme', String(newDarkMode));
 
-    // Cập nhật class body (hoặc dùng Angular Renderer2)
     const body = document.body;
     if (newDarkMode) {
       body.classList.add('dark');

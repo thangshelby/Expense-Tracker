@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { User } from 'firebase/auth';
 import { AvatarModule } from 'primeng/avatar';
 import { Popover } from 'primeng/popover';
@@ -13,9 +13,10 @@ import { DividerModule } from 'primeng/divider';
 import { Router } from '@angular/router';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Store, Select } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { ToggleTheme, ThemeState } from '../../store/theme.state';
 import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-header',
   imports: [
@@ -67,16 +68,10 @@ export class Header implements OnInit {
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
       this.user = user;
-      console.log(user);
     });
     this.isDark$ = this.store.select(ThemeState.isDarkMode);
   }
   onToggleTheme() {
-    const body = document.querySelector('body');
-    if (body) {
-      body.classList.toggle('dark');
-      body.classList.toggle('light');
-    }
     this.store.dispatch(new ToggleTheme());
   }
 
@@ -129,5 +124,10 @@ export class Header implements OnInit {
         });
       },
     });
+  }
+
+  onClick() {
+    console.log('click');
+    this.router.navigate(['/profile']);
   }
 }

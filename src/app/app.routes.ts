@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './auth/auth.guard';
-import { DefaultLayout } from './features/default-layuout/default-layuout';
+import { AuthGuard } from './services/auth/auth.guard';
+import { DefaultLayout } from './components/default-layuout/default-layuout';
 // import { LoginGuard } from './auth/login.guard';
 
 export const routes: Routes = [
@@ -33,16 +33,39 @@ export const routes: Routes = [
   {
     path: '',
     component: DefaultLayout,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: 'home',
-        loadComponent: () => import('./features/home/home').then((c) => c.Home),
+        loadComponent: () =>
+          import('./components/home/home').then((c) => c.Home),
       },
       {
         path: 'dashboard',
         loadComponent: () =>
           import('./features/dashboard/dashboard').then((c) => c.Dashboard),
+      },
+      {
+        path: 'transactions',
+        loadComponent: () =>
+          import('./features/transactions/transactions').then(
+            (c) => c.Transactions,
+          ),
+      },
+      {
+        path: 'analytics',
+        loadComponent: () =>
+          import('./features/analytics/analytics').then((c) => c.Analytics),
+      },
+      {
+        path: 'history',
+        loadComponent: () =>
+          import('./features/history/history').then((c) => c.History),
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/profile/profile').then((c) => c.Profile),
       },
       {
         path: '**',

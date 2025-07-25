@@ -1,18 +1,18 @@
 <!-- NAVBAR -->
 <p-confirmdialog />
 <div
-  class="border-b-1 bg-background-page border-border flex flex-row items-center justify-between px-8 py-4 transition-colors duration-500 ease-in-out"
+  class="flex flex-row items-center justify-between border-b border-border bg-background-page px-8 py-4 transition-colors duration-500 ease-in-out"
 >
   <!-- NAVBAR LEFT CONTENT -->
   <div class="flex flex-row items-center gap-4">
     <button
       (click)="onToggleSidenav()"
-      class="border-border flex cursor-pointer items-center rounded-lg border p-2"
+      class="flex cursor-pointer items-center rounded-lg border border-border p-2"
     >
       <mat-icon style="color: #8b93a3" class="text-gray-300">menu </mat-icon>
     </button>
     <div
-      class="text-sub-headline border-border flex flex-1 flex-row gap-2 rounded-lg border p-2 px-4 text-sm focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200"
+      class="flex flex-1 flex-row gap-2 rounded-lg border border-border p-2 px-4 text-sm text-sub-headline focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200"
     >
       <mat-icon style="color: #8b93a3" class="text-gray-300">search </mat-icon>
 
@@ -43,7 +43,7 @@
   <div class="flex gap-4">
     <button
       (click)="onToggleTheme()"
-      class="border-border flex cursor-pointer items-center rounded-full border p-2 hover:bg-gray-100"
+      class="flex cursor-pointer items-center rounded-full border border-border p-2 hover:bg-gray-100"
     >
       @if(isDark$|async){
 
@@ -81,7 +81,7 @@
     </button>
     <button
       (click)="onToggleSidenav()"
-      class="border-border flex cursor-pointer items-center rounded-full border p-2 hover:bg-gray-100"
+      class="flex cursor-pointer items-center rounded-full border border-border p-2 hover:bg-gray-100"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -119,23 +119,27 @@
           </svg>
         </button>
 
-        <p-popover #op styleClass="!mt-6 !bg-white !border-border !p-0">
+        <p-popover
+          #op
+          styleClass="!mt-8  !border-border !rounded-xl !p-0 !bg-background-component"
+        >
           <div class="flex flex-col gap-8">
             <div class="flex flex-col">
               <p class="text-headline">{{user?.displayName}}</p>
-              <p class="text-sub-headline text-sm font-[500]">
+              <p class="text-sm font-[500] text-sub-headline">
                 {{user?.email}}
               </p>
             </div>
             <ul class="flex list-none flex-col">
               @for (item of items; track item; let i = $index) {
               <li
+                (click)="onClick()"
                 class="flex cursor-pointer items-center gap-2 rounded-lg px-6 py-2 hover:bg-gray-200"
               >
                 <mat-icon style="color: #8b93a3; scale: 85%"
                   >{{item.icon}}</mat-icon
                 >
-                <span class="text-headline text-sm font-medium"
+                <span class="text-sm font-medium text-headline"
                   >{{item.title}}</span
                 >
               </li>
@@ -146,7 +150,7 @@
                 class="flex cursor-pointer items-center gap-2 rounded-lg px-6 py-2 hover:bg-gray-200"
               >
                 <mat-icon style="color: #8b93a3; scale: 85%">logout</mat-icon>
-                <span class="text-headline text-sm font-medium">Logout</span>
+                <span class="text-sm font-medium text-headline">Logout</span>
               </li>
               } }
             </ul>

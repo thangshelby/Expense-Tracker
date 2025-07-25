@@ -1,0 +1,13 @@
+::ng-deep .custom-table .p-datatable-thead > tr > th {
+  background-color: #1f2937; /* bg-slate-800 */
+  color: white;
+}
+
+::ng-deep .custom-table .p-datatable-tbody > tr {
+  background-color: #111827; /* bg-slate-900 */
+  color: white;
+}
+
+::ng-deep .custom-table .p-datatable-tbody > tr:hover {
+  background-color: #374151; /* hover:bg-slate-700 */
+}

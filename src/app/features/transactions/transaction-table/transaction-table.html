@@ -1,0 +1,155 @@
+<div class="card bg-background-component">
+  <p-table
+    #dt1
+    [value]="transactions"
+    dataKey="name"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading"
+    [paginator]="true"
+    showGridlines
+    styleClass="!bg-background-component"
+  >
+    <!-- [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']" -->
+    <ng-template #caption>
+      <div class="flex">
+        <p-button
+          label="Clear"
+          [outlined]="true"
+          icon="pi pi-filter-slash"
+          (click)="clear(dt1)"
+        />
+        <!-- <p-iconfield iconPosition="left" class="ml-auto">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input pInputText type="text" placeholder="Search keyword" />
+          (input)="dt1.filterGlobal($event.target.value, 'contains')"
+        </p-iconfield> -->
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <tr ngClass="!bg-blue-400">
+        <!-- <th style="min-width: 3rem">
+          <div class="flex items-center justify-between">
+            Id
+            <p-columnFilter type="text" field="name" display="menu" />
+          </div>
+        </th> -->
+        <th style="min-width: 15rem">
+          <div class="flex items-center justify-between">
+            Name
+            <p-columnFilter type="text" field="name" display="menu" />
+          </div>
+        </th>
+        <th style="min-width: 15rem">
+          <div class="flex items-center justify-between">
+            Amount
+            <p-columnFilter type="text" field="country.name" display="menu" />
+          </div>
+        </th>
+
+        <th style="min-width: 10rem">
+          <div class="flex items-center justify-between">
+            Expense Date
+            <p-columnFilter
+              type="date"
+              field="date"
+              display="menu"
+            ></p-columnFilter>
+          </div>
+        </th>
+        <th style="min-width: 10rem">
+          <div class="flex items-center justify-between">Week Number</div>
+        </th>
+        <th style="min-width: 10rem">
+          <div class="flex items-center justify-between">
+            Expense Category
+            <p-columnFilter
+              type="numeric"
+              field="balance"
+              display="menu"
+              currency="USD"
+            />
+          </div>
+        </th>
+        <th style="min-width: 10rem">
+          <div class="flex items-center justify-between">
+            Payment
+            <p-columnFilter field="status" matchMode="equals" display="menu">
+              <ng-template #filter let-value let-filter="filterCallback">
+                <!-- [(ngModel)]="value" -->
+                <p-select
+                  [options]="statuses"
+                  (onChange)="filter($event.value)"
+                  placeholder="Select One"
+                  class="w-full"
+                >
+                  <ng-template let-option #item>
+                    <p-tag
+                      [value]="option.value"
+                      [severity]="getSeverity(option.value)"
+                    ></p-tag>
+                  </ng-template>
+                </p-select>
+              </ng-template>
+            </p-columnFilter>
+          </div>
+        </th>
+        <th style="min-width: 10rem">
+          <div class="flex items-center justify-between">
+            Comment
+            <p-columnFilter
+              field="activity"
+              matchMode="between"
+              display="menu"
+              [showMatchModes]="false"
+              [showOperator]="false"
+              [showAddButton]="false"
+            >
+              <ng-template #filter let-value let-filter="filterCallback">
+                <!-- <p-slider
+                  [(ngModel)]="value"
+                  [range]="true"
+                  class="m-4"
+                  (onSlideEnd)="filter($event.values)"
+                /> -->
+                <div class="flex items-center px-2">
+                  <span *ngIf="!value">0</span>
+                  <span *ngIf="value">{{ value[0] }} - {{ value[1] }}</span>
+                </div>
+              </ng-template>
+            </p-columnFilter>
+          </div>
+        </th>
+        <th style="width: 3rem">
+          <div class="flex items-center justify-between">
+            Verified
+            <p-columnFilter type="boolean" field="verified" display="menu" />
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-transaction>
+      <tr>
+        <!-- <td>{{transaction.id}}</td> -->
+        <td>{{ transaction.name }}</td>
+        <td>{{ transaction.amount | currency: 'USD' : 'symbol' }}</td>
+        <td>{{ transaction.expenseDate | date: 'MM/dd/yyyy' }}</td>
+        <td>{{ transaction.weekNumber }}</td>
+        <td>{{ transaction.expenseCategory }}</td>
+        <td>{{ transaction.payment }}</td>
+        <td>{{ transaction.comment }}</td>
+
+        <td class="text-center">
+          <i class="pi pi-check-circle text-green-500"></i>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="7">No transactions found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

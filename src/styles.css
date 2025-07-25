@@ -27,8 +27,10 @@ body {
 .light {
   --backgroud-page: #ffffff;
   --background-component: #ffffff;
+  --background-component-active: #ecf3ff;
   --primary: #465fff;
   --headline: #1d2939;
+  --headline-active: #465fff;
   --sub-headline: #8b93a3;
   --border: #e5e7eb;
 }
@@ -36,8 +38,10 @@ body {
 .dark {
   --backgroud-page: #101828;
   --background-component: #171f2e;
+  --background-component-active: #1d2959;
   --primary: #465fff;
   --headline: #ffffff;
+  --headline-active: #7592ff;
   --sub-headline: #9ca3af;
   --border: #1f2937;
 }

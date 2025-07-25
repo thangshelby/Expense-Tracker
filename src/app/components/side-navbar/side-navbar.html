@@ -1,0 +1,41 @@
+<div
+  class="flex h-screen flex-col items-center justify-between bg-background-page p-4 transition-colors duration-500 ease-in-out"
+>
+  <div class="flex flex-col gap-8">
+    <div class="flex w-full flex-row items-center gap-2 px-4">
+      @if((isDark$|async)== true){
+
+      <img class="h-12 w-full" src="../../../assets/images/logo-dark.svg" />
+      } @if((isDark$|async)==false){
+
+      <img class="h-12 w-full" src="../../../assets/images/logo-light.svg" />
+      }
+    </div>
+
+    <div class="flex flex-col gap-1">
+      @for (item of sideNavItems(); track item.key) {
+      <button
+        [ngClass]="(item.key==activatedSideNavItem()?'bg-background-component-active text-headline-active font-medium':'text-headline light:hover:bg-gray-200 dark:hover:bg-[#1c2332]')+' flex w-full hover:cursor-pointer flex-row items-center  gap-4 group rounded-md p-3'"
+        (click)="onSideNavItemClick(item.key)"
+      >
+        <i class="pi" [ngClass]="item.icon"></i>
+        <span class="text-sm font-medium">{{item.title}}</span>
+      </button>
+      }
+    </div>
+  </div>
+  <div class="flex w-full flex-col gap-2">
+    <button
+      class="light:hover:bg-gray-200 group flex w-full flex-row items-center gap-4 rounded-md p-3 text-headline hover:cursor-pointer dark:hover:bg-[#1c2332]"
+    >
+      <i class="pi pi-cog"></i>
+      <p>Settings</p>
+    </button>
+    <button
+      class="light:hover:bg-gray-200 group flex w-full flex-row items-center gap-4 rounded-md p-3 text-headline hover:cursor-pointer dark:hover:bg-[#1c2332]"
+    >
+      <i class="pi pi-sign-out"></i>
+      <p>Logout</p>
+    </button>
+  </div>
+</div>
