@@ -14,7 +14,6 @@ export class App implements OnInit {
   constructor(private store: Store) {}
   ngOnInit(): void {
     const isDarkMode = localStorage.getItem('theme') == 'true' ? true : false;
-    console.log(isDarkMode);
     if (isDarkMode) {
       this.store.dispatch(new ToggleTheme());
     }

@@ -1,13 +1,21 @@
-::ng-deep .custom-table .p-datatable-thead > tr > th {
-  background-color: #1f2937; /* bg-slate-800 */
-  color: white;
+:host ::ng-deep .p-datatable {
+  @apply bg-[#1e2634] text-white; /* Tailwind utility */
+}
+:host ::ng-deep .p-datatable-header {
+  @apply bg-background-component text-white; /* Tailwind utility */
 }
 
-::ng-deep .custom-table .p-datatable-tbody > tr {
-  background-color: #111827; /* bg-slate-900 */
-  color: white;
+:host ::ng-deep .p-datatable-thead > tr > th {
+  @apply border-b border-gray-700 bg-[#1e2634] px-4 py-2 text-gray-300;
 }
 
-::ng-deep .custom-table .p-datatable-tbody > tr:hover {
-  background-color: #374151; /* hover:bg-slate-700 */
+:host ::ng-deep .p-datatable-tbody > tr > td {
+  @apply border-b border-gray-700 bg-[#1e2634] px-4 py-2;
+}
+
+:host ::ng-deep .p-paginator {
+  @apply bg-[#1e2634];
+}
+:host ::ng-deep .p-paginator .p-select {
+  @apply bg-background-component;
 }

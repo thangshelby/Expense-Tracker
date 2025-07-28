@@ -1,155 +1,340 @@
-<div class="card bg-background-component">
-  <p-table
-    #dt1
-    [value]="transactions"
-    dataKey="name"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    [loading]="loading"
-    [paginator]="true"
-    showGridlines
-    styleClass="!bg-background-component"
-  >
-    <!-- [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']" -->
-    <ng-template #caption>
-      <div class="flex">
-        <p-button
-          label="Clear"
-          [outlined]="true"
-          icon="pi pi-filter-slash"
-          (click)="clear(dt1)"
-        />
-        <!-- <p-iconfield iconPosition="left" class="ml-auto">
-          <p-inputicon>
-            <i class="pi pi-search"></i>
-          </p-inputicon>
-          <input pInputText type="text" placeholder="Search keyword" />
-          (input)="dt1.filterGlobal($event.target.value, 'contains')"
-        </p-iconfield> -->
-      </div>
-    </ng-template>
-    <ng-template #header>
-      <tr ngClass="!bg-blue-400">
-        <!-- <th style="min-width: 3rem">
-          <div class="flex items-center justify-between">
-            Id
-            <p-columnFilter type="text" field="name" display="menu" />
-          </div>
-        </th> -->
-        <th style="min-width: 15rem">
-          <div class="flex items-center justify-between">
-            Name
-            <p-columnFilter type="text" field="name" display="menu" />
-          </div>
-        </th>
-        <th style="min-width: 15rem">
-          <div class="flex items-center justify-between">
-            Amount
-            <p-columnFilter type="text" field="country.name" display="menu" />
-          </div>
-        </th>
+<p-toast></p-toast>
+<div class="rounded-2xl border border-border bg-background-component">
+  <div class="flex flex-row justify-between border-b border-border p-4">
+    <h1 class="text-xl font-medium text-headline">Transactions</h1>
+    <div class="flex flex-row gap-4">
+      <p-button
+        label="New"
+        icon="pi pi-plus"
+        class="mr-2 bg-white"
+        (onClick)="onOpenNew()"
+      />
+      <p-button
+        severity="danger"
+        label="Delete"
+        icon="pi pi-trash"
+        outlined
+        (onClick)="onDeleteSelectedTransactions()"
+        [disabled]="!selectedTransactions || !selectedTransactions.length"
+      />
+    </div>
+  </div>
+  <div class="card bg-background-component">
+    <p-table
+      #dt
+      [value]="transactions"
+      dataKey="id"
+      [rows]="5"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [loading]="loading"
+      [paginator]="true"
+      [rowHover]="true"
+      showGridlines
+      [resizableColumns]="true"
+      columnResizeMode="expand"
+      [globalFilterFields]="['name','expenseCategory','payment']"
+    >
+      >
+      <ng-template #caption>
+        <div class="flex flex-row items-center justify-between">
+          <div>
+            <div
+              class="flex flex-1 flex-row items-center gap-2 rounded-lg border border-border p-2 px-4 text-sm text-sub-headline focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200"
+            >
+              <i class="pi pi-search"></i>
 
-        <th style="min-width: 10rem">
-          <div class="flex items-center justify-between">
-            Expense Date
-            <p-columnFilter
-              type="date"
-              field="date"
-              display="menu"
-            ></p-columnFilter>
+              <input
+                #globalSearchBox
+                type="text"
+                pInputText
+                (input)="dt.filterGlobal(globalSearchBox.value, 'contains')"
+                class="w-80 bg-transparent outline-none"
+                placeholder="Search..."
+              />
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </div>
           </div>
-        </th>
-        <th style="min-width: 10rem">
-          <div class="flex items-center justify-between">Week Number</div>
-        </th>
-        <th style="min-width: 10rem">
-          <div class="flex items-center justify-between">
-            Expense Category
-            <p-columnFilter
-              type="numeric"
-              field="balance"
-              display="menu"
-              currency="USD"
+        </div>
+      </ng-template>
+      <ng-template #header>
+        <tr class="!bg-blue-400">
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox />
+          </th>
+          <th pSortableColumn="id" style="min-width: 4rem">
+            <div class="flex items-center justify-between">
+              Id
+              <p-sortIcon field="name"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="name" style="min-width: 10rem">
+            <div class="flex items-center justify-between">
+              Name
+              <p-sortIcon field="name"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="comment" style="min-width: 15rem">
+            <div class="flex items-center justify-between">
+              Comment
+              <p-sortIcon field="comment"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="amount" style="min-width: 8rem">
+            <div class="flex items-center justify-between">
+              Amount
+              <p-sortIcon field="amount"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="expenseDate" style="min-width: 10rem">
+            <div class="flex items-center justify-between">
+              Expense Date
+              <p-sortIcon field="expenseDate"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="weekNumber" style="min-width: 8rem">
+            <div class="flex items-center justify-between">
+              Week Number
+              <p-sortIcon field="weekNumber"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="expenseCategory" style="min-width: 10rem">
+            <div class="flex items-center justify-between">
+              Expense Category
+              <p-sortIcon field="expenseCategory"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="payment" style="min-width: 8rem">
+            <div class="flex items-center justify-between">
+              Payment
+              <p-sortIcon field="payment"></p-sortIcon>
+            </div>
+          </th>
+
+          <th pSortableColumn="verified" style="width: 12rem">
+            <div class="flex items-center justify-center">Action</div>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-transaction>
+        <tr>
+          <td style="width: 3rem">
+            <p-tableCheckbox [value]="transaction" />
+          </td>
+          <td class="truncate">{{transaction.id}}</td>
+          <td class="truncate">{{ transaction.name }}</td>
+          <td
+            style="max-width: 10rem"
+            [pEditableColumn]="transaction.comment"
+            pEditableColumnField="comment"
+          >
+            <p-cellEditor>
+              <ng-template #input>
+                <input
+                  pInputText
+                  type="text"
+                  [(ngModel)]="transaction.comment"
+                  fluid
+                />
+              </ng-template>
+              <ng-template #output>
+                <p class="truncate">{{ transaction.comment }}</p>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="truncate text-end">
+            {{ transaction.amount | currency: 'USD' : 'symbol' }}
+          </td>
+          <td class="truncate text-end">
+            {{ transaction.expenseDate | date: 'MM/dd/yyyy' }}
+          </td>
+          <td class="truncate text-center">{{ transaction.weekNumber }}</td>
+          <td class="truncate">{{ transaction.expenseCategory }}</td>
+          <td class="truncate">{{ transaction.payment }}</td>
+          <td>
+            <div class="flex flex-row">
+              <p-button
+                icon="pi pi-pencil"
+                class="mr-2"
+                [rounded]="true"
+                [outlined]="true"
+                (click)="onEditTransaction(transaction)"
+              />
+              <p-button
+                icon="pi pi-trash"
+                severity="danger"
+                [rounded]="true"
+                [outlined]="true"
+                (click)="onDeleteTransaction(transaction)"
+              />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="7">No transactions found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <p-dialog
+      [(visible)]="isTransactionDialogVisible"
+      [style]="{ width: '450px' }"
+      header="Product Details"
+      [modal]="true"
+    >
+      <ng-template #content>
+        <div class="flex flex-col gap-6">
+          <img
+            [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLe8lTcPRRzWaBrfQUSiUocHD-p9Y_n1eFfQ&s'"
+            alt="qwe"
+            class="m-auto block pb-4"
+            *ngIf="false"
+          />
+          <div>
+            <label for="name" class="mb-3 block font-bold">Name</label>
+            <input
+              type="text"
+              pInputText
+              id="name"
+              [(ngModel)]="selectedTransaction.name"
+              required
+              autofocus
+              fluid
+            />
+            <small
+              class="text-red-500"
+              *ngIf="submitted && !selectedTransaction.name"
+              >Name is required.</small
+            >
+          </div>
+          <div>
+            <label for="description" class="mb-3 block font-bold"
+              >Description</label
+            >
+            <textarea
+              id="description"
+              pTextarea
+              [(ngModel)]="selectedTransaction.comment"
+              required
+              rows="3"
+              cols="20"
+              fluid
+            ></textarea>
+          </div>
+
+          <div>
+            <label for="inventoryStatus" class="mb-3 block font-bold"
+              >Inventory Status</label
+            >
+            <!-- [(ngModel)]="product.inventoryStatus" -->
+            <p-select
+              inputId="inventoryStatus"
+              [options]="statuses"
+              optionLabel="label"
+              placeholder="Select a Status"
+              fluid
             />
           </div>
-        </th>
-        <th style="min-width: 10rem">
-          <div class="flex items-center justify-between">
-            Payment
-            <p-columnFilter field="status" matchMode="equals" display="menu">
-              <ng-template #filter let-value let-filter="filterCallback">
-                <!-- [(ngModel)]="value" -->
-                <p-select
-                  [options]="statuses"
-                  (onChange)="filter($event.value)"
-                  placeholder="Select One"
-                  class="w-full"
-                >
-                  <ng-template let-option #item>
-                    <p-tag
-                      [value]="option.value"
-                      [severity]="getSeverity(option.value)"
-                    ></p-tag>
-                  </ng-template>
-                </p-select>
-              </ng-template>
-            </p-columnFilter>
-          </div>
-        </th>
-        <th style="min-width: 10rem">
-          <div class="flex items-center justify-between">
-            Comment
-            <p-columnFilter
-              field="activity"
-              matchMode="between"
-              display="menu"
-              [showMatchModes]="false"
-              [showOperator]="false"
-              [showAddButton]="false"
-            >
-              <ng-template #filter let-value let-filter="filterCallback">
-                <!-- <p-slider
-                  [(ngModel)]="value"
-                  [range]="true"
-                  class="m-4"
-                  (onSlideEnd)="filter($event.values)"
-                /> -->
-                <div class="flex items-center px-2">
-                  <span *ngIf="!value">0</span>
-                  <span *ngIf="value">{{ value[0] }} - {{ value[1] }}</span>
-                </div>
-              </ng-template>
-            </p-columnFilter>
-          </div>
-        </th>
-        <th style="width: 3rem">
-          <div class="flex items-center justify-between">
-            Verified
-            <p-columnFilter type="boolean" field="verified" display="menu" />
-          </div>
-        </th>
-      </tr>
-    </ng-template>
-    <ng-template #body let-transaction>
-      <tr>
-        <!-- <td>{{transaction.id}}</td> -->
-        <td>{{ transaction.name }}</td>
-        <td>{{ transaction.amount | currency: 'USD' : 'symbol' }}</td>
-        <td>{{ transaction.expenseDate | date: 'MM/dd/yyyy' }}</td>
-        <td>{{ transaction.weekNumber }}</td>
-        <td>{{ transaction.expenseCategory }}</td>
-        <td>{{ transaction.payment }}</td>
-        <td>{{ transaction.comment }}</td>
 
-        <td class="text-center">
-          <i class="pi pi-check-circle text-green-500"></i>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template #emptymessage>
-      <tr>
-        <td colspan="7">No transactions found.</td>
-      </tr>
-    </ng-template>
-  </p-table>
+          <div>
+            <span class="mb-4 block font-bold">Category</span>
+            <div class="grid grid-cols-12 gap-4">
+              <div class="col-span-6 flex items-center gap-2">
+                <p-radiobutton
+                  id="category1"
+                  name="category"
+                  value="Accessories"
+                  [(ngModel)]="selectedTransaction.expenseCategory"
+                />
+                <label for="category1">Accessories</label>
+              </div>
+              <div class="col-span-6 flex items-center gap-2">
+                <p-radiobutton
+                  id="category2"
+                  name="category"
+                  value="Clothing"
+                  [(ngModel)]="selectedTransaction.expenseCategory"
+                />
+                <label for="category2">Clothing</label>
+              </div>
+              <div class="col-span-6 flex items-center gap-2">
+                <p-radiobutton
+                  id="category3"
+                  name="category"
+                  value="Electronics"
+                  [(ngModel)]="selectedTransaction.expenseCategory"
+                />
+                <label for="category3">Electronics</label>
+              </div>
+              <div class="col-span-6 flex items-center gap-2">
+                <p-radiobutton
+                  id="category4"
+                  name="category"
+                  value="Fitness"
+                  [(ngModel)]="selectedTransaction.expenseCategory"
+                />
+                <label for="category4">Fitness</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-12 gap-4">
+            <div class="col-span-6">
+              <label for="price" class="mb-3 block font-bold">Price</label>
+              <p-inputnumber
+                id="price"
+                [(ngModel)]="selectedTransaction.amount"
+                mode="currency"
+                currency="USD"
+                locale="en-US"
+                fluid
+              />
+            </div>
+            <div class="col-span-6">
+              <label for="quantity" class="mb-3 block font-bold"
+                >Quantity</label
+              >
+              <p-inputnumber
+                id="quantity"
+                [(ngModel)]="selectedTransaction.location"
+                fluid
+              />
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #footer>
+        <p-button
+          label="Cancel"
+          icon="pi pi-times"
+          text
+          (click)="onHideDialog()"
+        />
+        <p-button
+          label="Save"
+          icon="pi pi-check"
+          (click)="onSaveTransaction()"
+        />
+      </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '450px' }" />
+  </div>
 </div>
