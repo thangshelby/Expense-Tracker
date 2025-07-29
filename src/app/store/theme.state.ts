@@ -1,4 +1,5 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Injectable } from '@angular/core';
 
 export class ToggleTheme {
   static readonly type = '[Theme] Toggle';
@@ -13,6 +14,9 @@ export interface ThemeStateModel {
   defaults: {
     darkMode: false,
   },
+})
+@Injectable({
+  providedIn: 'root',
 })
 export class ThemeState {
   @Selector()

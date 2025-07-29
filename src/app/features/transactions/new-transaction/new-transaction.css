@@ -1,0 +1,7 @@
+:host ::ng-deep .p-datepicker > input {
+  padding: 8px;
+  border: 1px;
+  border-color: white;
+  border-radius: 8px;
+  outline: none;
+}

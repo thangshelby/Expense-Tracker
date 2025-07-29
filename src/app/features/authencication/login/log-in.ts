@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth/auth.service';
-import { WelcomeLoader } from '../../../shared/welcome-loader/welcome-loader';
+// import { WelcomeLoader } from '../../../shared/welcome-loader/welcome-loader';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    WelcomeLoader,
+    // WelcomeLoader,
   ],
   templateUrl: './log-in.html',
   styleUrl: './log-in.css',

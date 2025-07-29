@@ -5,10 +5,12 @@ import { Header } from '../header/header';
 import { SideNavbar } from '../side-navbar/side-navbar';
 import { AuthService } from '../../services/auth/auth.service';
 import { MessageService } from 'primeng/api';
+import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-default-layuout',
-  imports: [RouterOutlet, MatSidenavModule, Header, SideNavbar],
+  imports: [RouterOutlet, MatSidenavModule, Header, SideNavbar, CommonModule],
   templateUrl: './default-layuout.html',
   styleUrl: './default-layuout.css',
 })
@@ -26,4 +28,5 @@ export class DefaultLayout implements OnInit {
     });
   }
   checked = false;
+  track = true;
 }

@@ -1,11 +1,19 @@
 <div class="!bg-background-page">
   <mat-sidenav-container class="!h-screen !flex-row !bg-background-page">
-    <mat-sidenav #sidenav mode="side" opened="track" class="!flex-1">
+    <mat-sidenav #sidenav mode="side" [(opened)]="track" class="!flex-1">
       <app-side-navbar></app-side-navbar>
     </mat-sidenav>
-    <mat-sidenav-content class="h-full flex-1 flex-col">
-      <app-header [sidenavRef]="sidenav"></app-header>
-      <div class="h-full flex-1 overflow-scroll">
+    <mat-sidenav-content
+      style="position: relative"
+      class="!relative h-full flex-1 flex-col"
+    >
+      <div
+        class="fixed z-10 transition-all duration-300 ease-in-out"
+        [ngClass]="track?'w-[80%]':'w-[100%]'"
+      >
+        <app-header [sidenavRef]="sidenav"></app-header>
+      </div>
+      <div class="mt-20 flex-1 overflow-scroll">
         <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>

@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WelcomeLoader } from './welcome-loader';
+import { NewTransaction } from './new-transaction';
 
-describe('WelcomeLoader', () => {
-  let component: WelcomeLoader;
-  let fixture: ComponentFixture<WelcomeLoader>;
+describe('NewTransaction', () => {
+  let component: NewTransaction;
+  let fixture: ComponentFixture<NewTransaction>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WelcomeLoader],
-    }).compileComponents();
+      imports: [NewTransaction]
+    })
+    .compileComponents();
 
-    fixture = TestBed.createComponent(WelcomeLoader);
+    fixture = TestBed.createComponent(NewTransaction);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

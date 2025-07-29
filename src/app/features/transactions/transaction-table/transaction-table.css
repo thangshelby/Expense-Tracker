@@ -1,21 +1,47 @@
 :host ::ng-deep .p-datatable {
-  @apply bg-[#1e2634] text-white; /* Tailwind utility */
+  @apply bg-[#1e2634];
 }
 :host ::ng-deep .p-datatable-header {
-  @apply bg-background-component text-white; /* Tailwind utility */
+  @apply bg-[#1e2634] py-8;
+}
+
+:host ::ng-deep .p-datatable-thead {
+  @apply border border-gray-700 p-2;
 }
 
 :host ::ng-deep .p-datatable-thead > tr > th {
-  @apply border-b border-gray-700 bg-[#1e2634] px-4 py-2 text-gray-300;
+  @apply border border-gray-700 bg-[#1e2634] p-4 px-2 font-medium text-gray-300;
 }
 
+/* :host ::ng-deep .p-datatable-tbody > tr {
+  @apply hover:cursor-pointer hover:bg-gray-200;
+} */
 :host ::ng-deep .p-datatable-tbody > tr > td {
-  @apply border-b border-gray-700 bg-[#1e2634] px-4 py-2;
+  @apply border border-gray-700 bg-[#1e2634] px-2 py-2 text-gray-400/90;
 }
 
 :host ::ng-deep .p-paginator {
   @apply bg-[#1e2634];
 }
 :host ::ng-deep .p-paginator .p-select {
-  @apply bg-background-component;
+  @apply bg-primary p-0;
 }
+
+:host ::ng-deep .p-dialog .product-image {
+  width: 150px;
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+/* :host ::ng-deep .p-select {
+  @apply border border-border bg-background-component p-5 ;
+}
+:host ::ng-deep .p-select-label {
+  @apply border border-border bg-background-component p-0 text-white;
+}
+:host ::ng-deep .p-select-dropdown {
+  @apply bg-[#1e2634] p-0 text-white;
+}
+
+:host ::ng-deep .p-select-option {
+  @apply bg-[#1e2634] p-0 text-white;
+} */

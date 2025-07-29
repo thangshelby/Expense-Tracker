@@ -20,6 +20,7 @@ export interface TransactionType {
   name: string;
   amount: number;
   expenseDate: Date;
+  invoice: string | null;
   weekNumber: number;
   isRecurring: boolean;
   expenseCategory: ExpenseCategoryType;

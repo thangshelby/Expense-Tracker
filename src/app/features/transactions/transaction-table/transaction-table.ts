@@ -1,5 +1,4 @@
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { Table } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -12,17 +11,15 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TransactionService } from '../../../services/transaction/transaction.service';
 import { TransactionType } from '../../../types/type';
-import { Dialog } from 'primeng/dialog';
-import { RadioButton } from 'primeng/radiobutton';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
-import { InputNumber } from 'primeng/inputnumber';
-import { Ripple } from 'primeng/ripple';
-import { ConfirmDialog } from 'primeng/confirmdialog';
 import { TextareaModule } from 'primeng/textarea';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { FileUploadModule } from 'primeng/fileupload';
+import { NewTransaction } from '../new-transaction/new-transaction';
 
+// import {DropdownModule} from 'primeng/dr'
 @Component({
   selector: 'app-transaction-table',
   imports: [
@@ -31,30 +28,24 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     IconFieldModule,
     InputIconModule,
     InputTextModule,
+    FormsModule,
     MultiSelectModule,
     SelectModule,
     CommonModule,
     ButtonModule,
     TableModule,
-    Dialog,
-    // Ripple,
     SelectModule,
     ToastModule,
     ToolbarModule,
-    ConfirmDialog,
     InputTextModule,
     TextareaModule,
     CommonModule,
-    // FileUpload,
-    // DropdownModule,
-    // Tag,
-    RadioButton,
-    // Rating,
+    FileUploadModule,
     InputTextModule,
     FormsModule,
-    InputNumber,
     IconFieldModule,
     InputIconModule,
+    NewTransaction,
   ],
   templateUrl: './transaction-table.html',
   styleUrl: './transaction-table.css',
@@ -63,6 +54,21 @@ export class TransactionTable implements OnInit {
   transactions: TransactionType[] = [];
   selectedTransaction!: TransactionType;
   selectedTransactions: TransactionType[] = [];
+  rowPerPage = 5;
+  rowPerPageOptions = [
+    {
+      value: 5,
+    },
+    {
+      value: 10,
+    },
+    {
+      value: 15,
+    },
+    {
+      value: 20,
+    },
+  ];
 
   constructor(
     private transactionService: TransactionService,
@@ -93,11 +99,13 @@ export class TransactionTable implements OnInit {
   isTransactionDialogVisible = false;
 
   onOpenNew() {
+    console.log(this.isTransactionDialogVisible);
     this.isTransactionDialogVisible = true;
   }
   onDeleteSelectedTransactions() {}
   onEditTransaction(transaction: TransactionType) {}
   onDeleteTransaction(transaction: TransactionType) {}
-  onHideDialog() {}
+  onToggleDialog() {}
   onSaveTransaction() {}
+  onUpload(value: any) {}
 }

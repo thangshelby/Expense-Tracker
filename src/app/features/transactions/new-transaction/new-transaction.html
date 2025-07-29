@@ -1,0 +1,337 @@
+<!-- CREATE NEW TRANSACTOIN DIALOG -->
+<p-dialog
+  styleClass="border rounded-2xl border-white "
+  [(visible)]="isTransactionDialogVisible"
+  (click)="onToggleDialog()"
+  [style]="{ width: '600px'}"
+  header="New Transactions"
+  [modal]="true"
+>
+  <ng-template #content>
+    <form [formGroup]="newTransactionForm" (ngSubmit)="onSubmit()">
+      <p-stepper [(value)]="activeStep">
+        <p-step-list class="w-full">
+          <p-step [value]="1" class="flex flex-1 flex-row gap-2">
+            <ng-template
+              #content
+              let-activateCallback="activateCallback"
+              let-value="value"
+            >
+              <button
+                class="inline-flex flex-col gap-2 border-0 bg-transparent"
+                (click)="activateCallback()"
+              >
+                <span
+                  class="inline-flex h-12 w-12 items-center justify-center rounded-full border-2"
+                  [ngClass]="{
+                                'bg-primary text-primary-contrast border-primary': value <= activeStep,
+                                'border-surface': value > activeStep
+                            }"
+                >
+                  <i class="pi pi-user"></i>
+                </span>
+              </button>
+            </ng-template>
+          </p-step>
+
+          <p-step [value]="2" class="flex flex-1 flex-row gap-2">
+            <ng-template
+              #content
+              let-activateCallback="activateCallback"
+              let-value="value"
+            >
+              <button
+                class="inline-flex flex-col gap-2 border-0 bg-transparent"
+                (click)="activateCallback()"
+              >
+                <span
+                  class="inline-flex h-12 w-12 items-center justify-center rounded-full border-2"
+                  [ngClass]="{
+                                'bg-primary text-primary-contrast border-primary': value <= activeStep,
+                                'border-surface': value > activeStep
+                            }"
+                >
+                  <i class="pi pi-star"></i>
+                </span>
+              </button>
+            </ng-template>
+          </p-step>
+
+          <p-step [value]="3" class="flex flex-row gap-2">
+            <ng-template
+              #content
+              let-activateCallback="activateCallback"
+              let-value="value"
+            >
+              <button
+                class="inline-flex flex-col gap-2 border-0 bg-transparent"
+                (click)="activateCallback()"
+              >
+                <span
+                  class="inline-flex h-12 w-12 items-center justify-center rounded-full border-2"
+                  [ngClass]="{
+                                'bg-primary text-primary-contrast border-primary': value <= activeStep,
+                                'border-surface': value > activeStep
+                            }"
+                >
+                  <i class="pi pi-id-card"></i>
+                </span>
+              </button>
+            </ng-template>
+          </p-step>
+        </p-step-list>
+        <p-step-panels>
+          <p-step-panel [value]="1">
+            <ng-template
+              #content
+              let-activateCallback="activateCallback"
+              let-value="value"
+            >
+              <div class="flex flex-col gap-8">
+                <div class="flex gap-4">
+                  <div class="flex-1">
+                    <label for="name" class="mb-3 block font-bold">Name</label>
+                    <input
+                      type="text"
+                      pInputText
+                      id="name"
+                      class="w-full rounded-lg border border-white p-2 outline-none"
+                      formControlName="name"
+                      required
+                      autofocus
+                      fluid
+                    />
+                    <small class="text-red-500" *ngIf="submitted"
+                      >Name is required.</small
+                    >
+                  </div>
+                  <div class="z-20 flex-1">
+                    <label for="name" class="mb-3 block font-bold"
+                      >Expense Date</label
+                    >
+                    <p-datepicker
+                      styleClass="border border-white rounded-lg w-full "
+                      appendTo="body"
+                      formControlName="expenseDate"
+                    />
+                    <small class="text-red-500" *ngIf="submitted"
+                      >Expense date is required.</small
+                    >
+                  </div>
+                </div>
+                <div class="flex flex-row gap-4">
+                  <div class="flex-1">
+                    <label for="name" class="mb-3 block font-bold"
+                      >Expense Amount</label
+                    >
+                    <p-inputgroup>
+                      <p-inputgroup-addon>$</p-inputgroup-addon>
+                      <p-inputnumber
+                        formControlName="amount"
+                        placeholder="Price"
+                      />
+                      <p-inputgroup-addon>.00</p-inputgroup-addon>
+                    </p-inputgroup>
+                  </div>
+                  <div class="flex-1">
+                    <label for="name" class="mb-3 block font-bold"
+                      >Location</label
+                    >
+                    <p-inputgroup>
+                      <p-inputgroup-addon>
+                        <i class="pi pi-map"></i>
+                      </p-inputgroup-addon>
+                      <p-select
+                        formControlName="location"
+                        [options]="cities"
+                        optionLabel="name"
+                        appendTo="body"
+                        placeholder="City"
+                      />
+                    </p-inputgroup>
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-end pt-6">
+                <p-button
+                  label="Next"
+                  icon="pi pi-arrow-right"
+                  iconPos="right"
+                  (onClick)="activateCallback(2)"
+                />
+              </div>
+            </ng-template>
+          </p-step-panel>
+          <p-step-panel [value]="2">
+            <ng-template
+              #content
+              let-activateCallback="activateCallback"
+              let-value="value"
+            >
+              <div class="flex flex-col gap-6">
+                <div>
+                  <label for="inventoryStatus" class="mb-3 block font-bold"
+                    >Expense Category</label
+                  >
+
+                  <p-select
+                    styleClass="border border-white rounded-xl"
+                    inputId="inventoryStatus"
+                    [options]="expenseCategories"
+                    optionLabel="label"
+                    placeholder="Select "
+                    fluid
+                  />
+                </div>
+
+                <div>
+                  <span class="mb-4 block font-bold">Payment</span>
+                  <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-6 flex items-center gap-2">
+                      <p-radiobutton
+                        id="payment1"
+                        name="payment"
+                        value="CreditCard"
+                        formControlName="payment"
+                      />
+                      <label for="payment1">Credit Card</label>
+                    </div>
+                    <div class="col-span-6 flex items-center gap-2">
+                      <p-radiobutton
+                        id="payment2"
+                        name="payment"
+                        value="Paypal"
+                        formControlName="payment"
+                      />
+                      <label for="payment2">PayPal</label>
+                    </div>
+                    <div class="col-span-6 flex items-center gap-2">
+                      <p-radiobutton
+                        id="payment3"
+                        name="payment"
+                        value="BankTransfer"
+                        formControlName="payment"
+                      />
+                      <label for="payment3">Bank Transfer</label>
+                    </div>
+                    <div class="col-span-6 flex items-center gap-2">
+                      <p-radiobutton
+                        id="payment4"
+                        name="payment"
+                        value="Cash"
+                        formControlName="payment"
+                      />
+                      <label for="payment4">Cash</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-row justify-between pt-6">
+                <p-button
+                  label="Back"
+                  icon="pi pi-arrow-left"
+                  iconPos="left"
+                  (onClick)="activateCallback(1)"
+                />
+                <p-button
+                  label="Next"
+                  icon="pi pi-arrow-right"
+                  iconPos="right"
+                  (onClick)="activateCallback(3)"
+                />
+              </div>
+            </ng-template>
+          </p-step-panel>
+          <p-step-panel [value]="3">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex flex-col gap-8">
+                <div class="relative">
+                  <label for="invoice" class="mb-3 block font-bold"
+                    >Invoice</label
+                  >
+
+                  <div
+                    *ngIf="newTransactionForm.value.invoice; else uploadBlock"
+                    class="relative"
+                  >
+                    <img
+                      [src]="'../../../../assets/images/' + newTransactionForm.value.invoice"
+                      alt="invoice"
+                      class="m-auto block h-52 w-64 cursor-pointer pb-4"
+                    />
+
+                    <!-- Nút chọn ảnh mới -->
+                    <div
+                      class="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0"
+                    >
+                      <p-fileupload
+                        #file
+                        mode="basic"
+                        chooseLabel="Change"
+                        chooseIcon="pi pi-refresh"
+                        auto="true"
+                        name="demo[]"
+                        url="https://www.primefaces.org/cdn/api/upload.php"
+                        accept="image/*"
+                        maxFileSize="1000000"
+                        (onUpload)="onUpload($event)"
+                      ></p-fileupload>
+                    </div>
+                  </div>
+
+                  <!-- Trường hợp chưa có ảnh -->
+                  <ng-template #uploadBlock>
+                    <p-fileupload
+                      #file
+                      mode="basic"
+                      chooseLabel="Choose"
+                      chooseIcon="pi pi-upload"
+                      auto="true"
+                      name="demo[]"
+                      url="https://www.primefaces.org/cdn/api/upload.php"
+                      accept="image/*"
+                      maxFileSize="1000000"
+                      (onUpload)="onUpload($event)"
+                    ></p-fileupload>
+                  </ng-template>
+                </div>
+
+                <div>
+                  <label for="description" class="mb-3 block font-bold"
+                    >Comment</label
+                  >
+                  <textarea
+                    class="w-full rounded-lg border border-white p-2 outline-none"
+                    id="description"
+                    pTextarea
+                    formControlName="comment"
+                    required
+                    rows="3"
+                    fluid
+                  ></textarea>
+                </div>
+              </div>
+              <div class="flex justify-between pt-6">
+                <p-button
+                  label="Back"
+                  icon="pi pi-arrow-left"
+                  iconPos="left"
+                  (onClick)="activateCallback(2)"
+                />
+                <button
+                  class="flex cursor-pointer flex-row items-center gap-2 rounded-md bg-white px-2 py-1 hover:opacity-80"
+                  (onClick)="onSubmit()"
+                >
+                  <span class="font-medium text-gray-800"> Save </span>
+                  <i class="pi pi-save font-medium text-gray-800"></i>
+                </button>
+              </div>
+            </ng-template>
+          </p-step-panel>
+        </p-step-panels>
+      </p-stepper>
+    </form>
+  </ng-template>
+</p-dialog>
+
+<!-- <p-confirmDialog [style]="{ width: '600px' }" /> -->

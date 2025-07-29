@@ -1,12 +1,16 @@
 <p-toast></p-toast>
-<div class="rounded-2xl border border-border bg-background-component">
-  <div class="flex flex-row justify-between border-b border-border p-4">
+<div
+  class="h-full overflow-hidden rounded-3xl border border-border bg-background-component"
+>
+  <div
+    class="flex flex-row justify-between border-b border-border bg-background-component p-4"
+  >
     <h1 class="text-xl font-medium text-headline">Transactions</h1>
     <div class="flex flex-row gap-4">
       <p-button
         label="New"
         icon="pi pi-plus"
-        class="mr-2 bg-white"
+        class="rounded-lg border-2 border-border bg-background-component px-2 py-1 text-headline"
         (onClick)="onOpenNew()"
       />
       <p-button
@@ -14,327 +18,212 @@
         label="Delete"
         icon="pi pi-trash"
         outlined
+        class="cursor-pointer rounded-lg border-2 border-border bg-background-component px-2 py-1 text-headline"
         (onClick)="onDeleteSelectedTransactions()"
         [disabled]="!selectedTransactions || !selectedTransactions.length"
       />
     </div>
   </div>
-  <div class="card bg-background-component">
-    <p-table
-      #dt
-      [value]="transactions"
-      dataKey="id"
-      [rows]="5"
-      [rowsPerPageOptions]="[10, 25, 50]"
-      [loading]="loading"
-      [paginator]="true"
-      [rowHover]="true"
-      showGridlines
-      [resizableColumns]="true"
-      columnResizeMode="expand"
-      [globalFilterFields]="['name','expenseCategory','payment']"
-    >
+  <div class="card p-4">
+    <div class="overflow-hidden rounded-2xl border border-gray-700">
+      <p-table
+        #dt
+        [value]="transactions"
+        dataKey="id"
+        [rows]="5"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="loading"
+        [paginator]="true"
+        showGridlines
+        [(selection)]="selectedTransaction"
+        [rowHover]="true"
+        [globalFilterFields]="['name','expenseCategory','payment']"
       >
-      <ng-template #caption>
-        <div class="flex flex-row items-center justify-between">
-          <div>
-            <div
-              class="flex flex-1 flex-row items-center gap-2 rounded-lg border border-border p-2 px-4 text-sm text-sub-headline focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200"
-            >
-              <i class="pi pi-search"></i>
-
-              <input
-                #globalSearchBox
-                type="text"
-                pInputText
-                (input)="dt.filterGlobal(globalSearchBox.value, 'contains')"
-                class="w-80 bg-transparent outline-none"
-                placeholder="Search..."
-              />
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6 18 18 6M6 6l12 12"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-      <ng-template #header>
-        <tr class="!bg-blue-400">
-          <th style="width: 3rem">
-            <p-tableHeaderCheckbox />
-          </th>
-          <th pSortableColumn="id" style="min-width: 4rem">
-            <div class="flex items-center justify-between">
-              Id
-              <p-sortIcon field="name"></p-sortIcon>
-            </div>
-          </th>
-          <th pSortableColumn="name" style="min-width: 10rem">
-            <div class="flex items-center justify-between">
-              Name
-              <p-sortIcon field="name"></p-sortIcon>
-            </div>
-          </th>
-          <th pSortableColumn="comment" style="min-width: 15rem">
-            <div class="flex items-center justify-between">
-              Comment
-              <p-sortIcon field="comment"></p-sortIcon>
-            </div>
-          </th>
-          <th pSortableColumn="amount" style="min-width: 8rem">
-            <div class="flex items-center justify-between">
-              Amount
-              <p-sortIcon field="amount"></p-sortIcon>
-            </div>
-          </th>
-          <th pSortableColumn="expenseDate" style="min-width: 10rem">
-            <div class="flex items-center justify-between">
-              Expense Date
-              <p-sortIcon field="expenseDate"></p-sortIcon>
-            </div>
-          </th>
-          <th pSortableColumn="weekNumber" style="min-width: 8rem">
-            <div class="flex items-center justify-between">
-              Week Number
-              <p-sortIcon field="weekNumber"></p-sortIcon>
-            </div>
-          </th>
-          <th pSortableColumn="expenseCategory" style="min-width: 10rem">
-            <div class="flex items-center justify-between">
-              Expense Category
-              <p-sortIcon field="expenseCategory"></p-sortIcon>
-            </div>
-          </th>
-          <th pSortableColumn="payment" style="min-width: 8rem">
-            <div class="flex items-center justify-between">
-              Payment
-              <p-sortIcon field="payment"></p-sortIcon>
-            </div>
-          </th>
-
-          <th pSortableColumn="verified" style="width: 12rem">
-            <div class="flex items-center justify-center">Action</div>
-          </th>
-        </tr>
-      </ng-template>
-
-      <ng-template #body let-transaction>
-        <tr>
-          <td style="width: 3rem">
-            <p-tableCheckbox [value]="transaction" />
-          </td>
-          <td class="truncate">{{transaction.id}}</td>
-          <td class="truncate">{{ transaction.name }}</td>
-          <td
-            style="max-width: 10rem"
-            [pEditableColumn]="transaction.comment"
-            pEditableColumnField="comment"
-          >
-            <p-cellEditor>
-              <ng-template #input>
-                <input
-                  pInputText
-                  type="text"
-                  [(ngModel)]="transaction.comment"
-                  fluid
-                />
-              </ng-template>
-              <ng-template #output>
-                <p class="truncate">{{ transaction.comment }}</p>
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td class="truncate text-end">
-            {{ transaction.amount | currency: 'USD' : 'symbol' }}
-          </td>
-          <td class="truncate text-end">
-            {{ transaction.expenseDate | date: 'MM/dd/yyyy' }}
-          </td>
-          <td class="truncate text-center">{{ transaction.weekNumber }}</td>
-          <td class="truncate">{{ transaction.expenseCategory }}</td>
-          <td class="truncate">{{ transaction.payment }}</td>
-          <td>
-            <div class="flex flex-row">
-              <p-button
-                icon="pi pi-pencil"
-                class="mr-2"
-                [rounded]="true"
-                [outlined]="true"
-                (click)="onEditTransaction(transaction)"
-              />
-              <p-button
-                icon="pi pi-trash"
-                severity="danger"
-                [rounded]="true"
-                [outlined]="true"
-                (click)="onDeleteTransaction(transaction)"
-              />
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template #emptymessage>
-        <tr>
-          <td colspan="7">No transactions found.</td>
-        </tr>
-      </ng-template>
-    </p-table>
-
-    <p-dialog
-      [(visible)]="isTransactionDialogVisible"
-      [style]="{ width: '450px' }"
-      header="Product Details"
-      [modal]="true"
-    >
-      <ng-template #content>
-        <div class="flex flex-col gap-6">
-          <img
-            [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLe8lTcPRRzWaBrfQUSiUocHD-p9Y_n1eFfQ&s'"
-            alt="qwe"
-            class="m-auto block pb-4"
-            *ngIf="false"
-          />
-          <div>
-            <label for="name" class="mb-3 block font-bold">Name</label>
-            <input
-              type="text"
-              pInputText
-              id="name"
-              [(ngModel)]="selectedTransaction.name"
-              required
-              autofocus
-              fluid
-            />
-            <small
-              class="text-red-500"
-              *ngIf="submitted && !selectedTransaction.name"
-              >Name is required.</small
-            >
-          </div>
-          <div>
-            <label for="description" class="mb-3 block font-bold"
-              >Description</label
-            >
-            <textarea
-              id="description"
-              pTextarea
-              [(ngModel)]="selectedTransaction.comment"
-              required
-              rows="3"
-              cols="20"
-              fluid
-            ></textarea>
-          </div>
-
-          <div>
-            <label for="inventoryStatus" class="mb-3 block font-bold"
-              >Inventory Status</label
-            >
-            <!-- [(ngModel)]="product.inventoryStatus" -->
+        >
+        <!-- TALBE CAPTION -->
+        <ng-template #caption>
+          <div class="flex flex-row items-center justify-between">
+            <div class="flex flex-row items-center gap-2">
+              <!-- <span>Show</span>
             <p-select
-              inputId="inventoryStatus"
-              [options]="statuses"
-              optionLabel="label"
-              placeholder="Select a Status"
-              fluid
-            />
-          </div>
-
-          <div>
-            <span class="mb-4 block font-bold">Category</span>
-            <div class="grid grid-cols-12 gap-4">
-              <div class="col-span-6 flex items-center gap-2">
-                <p-radiobutton
-                  id="category1"
-                  name="category"
-                  value="Accessories"
-                  [(ngModel)]="selectedTransaction.expenseCategory"
-                />
-                <label for="category1">Accessories</label>
-              </div>
-              <div class="col-span-6 flex items-center gap-2">
-                <p-radiobutton
-                  id="category2"
-                  name="category"
-                  value="Clothing"
-                  [(ngModel)]="selectedTransaction.expenseCategory"
-                />
-                <label for="category2">Clothing</label>
-              </div>
-              <div class="col-span-6 flex items-center gap-2">
-                <p-radiobutton
-                  id="category3"
-                  name="category"
-                  value="Electronics"
-                  [(ngModel)]="selectedTransaction.expenseCategory"
-                />
-                <label for="category3">Electronics</label>
-              </div>
-              <div class="col-span-6 flex items-center gap-2">
-                <p-radiobutton
-                  id="category4"
-                  name="category"
-                  value="Fitness"
-                  [(ngModel)]="selectedTransaction.expenseCategory"
-                />
-                <label for="category4">Fitness</label>
-              </div>
+              styleClass="!p-0"
+              [(ngModel)]="rowPerPage"
+              [options]="rowPerPageOptions"
+              optionLabel="value"
+              placeholder=""
+            >
+            </p-select>
+            <span>entries</span> -->
             </div>
-          </div>
-
-          <div class="grid grid-cols-12 gap-4">
-            <div class="col-span-6">
-              <label for="price" class="mb-3 block font-bold">Price</label>
-              <p-inputnumber
-                id="price"
-                [(ngModel)]="selectedTransaction.amount"
-                mode="currency"
-                currency="USD"
-                locale="en-US"
-                fluid
-              />
-            </div>
-            <div class="col-span-6">
-              <label for="quantity" class="mb-3 block font-bold"
-                >Quantity</label
+            <div>
+              <div
+                class="border-1 flex flex-1 flex-row items-center gap-2 rounded-lg border border-gray-500 bg-background-component p-2 px-4 text-sm text-sub-headline focus-within:border-blue-500"
               >
-              <p-inputnumber
-                id="quantity"
-                [(ngModel)]="selectedTransaction.location"
-                fluid
-              />
+                <i class="pi pi-search"></i>
+
+                <input
+                  #globalSearchBox
+                  type="text"
+                  pInputText
+                  (input)="dt.filterGlobal(globalSearchBox.value, 'contains')"
+                  class="w-80 bg-background-component outline-none"
+                  placeholder="Search..."
+                />
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
-        </div>
-      </ng-template>
+        </ng-template>
+        <!-- TABLE HEADER -->
+        <ng-template #header>
+          <tr>
+            <th style="min-width: 6rem">
+              <div class="flex items-center gap-4">
+                <p-tableHeaderCheckbox />
+                <span> Id </span>
+              </div>
+            </th>
+            <th pSortableColumn="name" style="min-width: 10rem">
+              <div class="flex items-center justify-between">
+                Name
+                <p-sortIcon field="name"></p-sortIcon>
+              </div>
+            </th>
+            <th style="min-width: 4rem">
+              <div class="flex items-center justify-between">Image</div>
+            </th>
 
-      <ng-template #footer>
-        <p-button
-          label="Cancel"
-          icon="pi pi-times"
-          text
-          (click)="onHideDialog()"
-        />
-        <p-button
-          label="Save"
-          icon="pi pi-check"
-          (click)="onSaveTransaction()"
-        />
-      </ng-template>
-    </p-dialog>
+            <th pSortableColumn="comment" style="min-width: 15rem">
+              <div class="flex items-center justify-between">
+                Comment
+                <p-sortIcon field="comment"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="amount" style="min-width: 8rem">
+              <div class="flex items-center justify-between">
+                Amount
+                <p-sortIcon field="amount"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="expenseDate" style="min-width: 10rem">
+              <div class="flex items-center justify-between">
+                Expense Date
+                <p-sortIcon field="expenseDate"></p-sortIcon>
+              </div>
+            </th>
 
-    <p-confirmDialog [style]="{ width: '450px' }" />
+            <th pSortableColumn="expenseCategory" style="min-width: 12rem">
+              <div class="flex items-center justify-between">
+                Expense Category
+                <p-sortIcon field="expenseCategory"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="payment" style="min-width: 8rem">
+              <div class="flex items-center justify-between">
+                Payment
+                <p-sortIcon field="payment"></p-sortIcon>
+              </div>
+            </th>
+
+            <th pSortableColumn="verified" style="width: 12rem">
+              <div class="flex items-center justify-center">Action</div>
+            </th>
+          </tr>
+        </ng-template>
+        <!-- TABLE BODY -->
+        <ng-template #body let-transaction>
+          <tr>
+            <td>
+              <div class="flex h-full items-center gap-4">
+                <p-tableCheckbox [value]="transaction" />
+                <span class="mt-2"> {{transaction.id}} </span>
+              </div>
+            </td>
+            <td class="truncate font-medium !text-headline">
+              {{ transaction.name }}
+            </td>
+            <td class="">
+              <img
+                class="h-8 w-12 rounded-md object-cover"
+                src="../../../../assets/images/no_image.png"
+              />
+            </td>
+
+            <td
+              style="max-width: 10rem"
+              [pEditableColumn]="transaction.comment"
+              pEditableColumnField="comment"
+            >
+              <p-cellEditor>
+                <ng-template #input>
+                  <input
+                    pInputText
+                    type="text"
+                    [(ngModel)]="transaction.comment"
+                    fluid
+                  />
+                </ng-template>
+                <ng-template #output>
+                  <p class="truncate">{{ transaction.comment }}</p>
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td class="truncate text-end">
+              {{ transaction.amount | currency: 'USD' : 'symbol' }}
+            </td>
+            <td class="truncate text-end">
+              {{ transaction.expenseDate | date: 'MM/dd/yyyy' }}
+            </td>
+            <td class="truncate">{{ transaction.expenseCategory }}</td>
+            <td class="truncate">{{ transaction.payment }}</td>
+            <td>
+              <div class="flex flex-row">
+                <p-button
+                  icon="pi pi-pencil"
+                  class="mr-2"
+                  [rounded]="true"
+                  [outlined]="true"
+                  (click)="onEditTransaction(transaction)"
+                />
+                <p-button
+                  icon="pi pi-trash"
+                  severity="danger"
+                  [rounded]="true"
+                  [outlined]="true"
+                  (click)="onDeleteTransaction(transaction)"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template #emptymessage>
+          <tr>
+            <td colspan="7">No transactions found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <app-new-transaction
+      [isTransactionDialogVisible]="isTransactionDialogVisible"
+      (isTransactionDialogVisibleChange)="isTransactionDialogVisible = $event"
+    >
+      ></app-new-transaction
+    >
   </div>
 </div>

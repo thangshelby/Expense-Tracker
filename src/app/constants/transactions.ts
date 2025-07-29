@@ -4,6 +4,7 @@ export const mockTransactions: TransactionType[] = [
   {
     id: 'txn-001',
     name: 'Lunch at cafe',
+    invoice: null,
     amount: 120000,
     expenseDate: new Date('2025-07-20'),
     weekNumber: 29,
@@ -16,6 +17,7 @@ export const mockTransactions: TransactionType[] = [
   {
     id: 'txn-002',
     name: 'Monthly Internet Bill',
+    invoice: null,
     amount: 250000,
     expenseDate: new Date('2025-07-01'),
     weekNumber: 27,
@@ -28,6 +30,7 @@ export const mockTransactions: TransactionType[] = [
   {
     id: 'txn-003',
     name: 'Grab ride to work',
+    invoice: null,
     amount: 75000,
     expenseDate: new Date('2025-07-22'),
     weekNumber: 30,
@@ -40,6 +43,7 @@ export const mockTransactions: TransactionType[] = [
   {
     id: 'txn-004',
     name: 'Movie ticket',
+    invoice: null,
     amount: 90000,
     expenseDate: new Date('2025-07-18'),
     weekNumber: 29,
@@ -52,6 +56,7 @@ export const mockTransactions: TransactionType[] = [
   {
     id: 'txn-005',
     name: 'Medicine purchase',
+    invoice: null,
     amount: 180000,
     expenseDate: new Date('2025-07-15'),
     weekNumber: 29,
@@ -64,6 +69,7 @@ export const mockTransactions: TransactionType[] = [
   {
     id: 'txn-006',
     name: 'Online course fee',
+    invoice: null,
     amount: 400000,
     expenseDate: new Date('2025-07-10'),
     weekNumber: 28,
