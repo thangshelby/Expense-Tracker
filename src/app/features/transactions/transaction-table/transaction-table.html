@@ -220,8 +220,7 @@
     </div>
 
     <app-new-transaction
-      [isTransactionDialogVisible]="isTransactionDialogVisible"
-      (isTransactionDialogVisibleChange)="isTransactionDialogVisible = $event"
+      [(isTransactionDialogVisible)]="isTransactionDialogVisible"
     >
       ></app-new-transaction
     >

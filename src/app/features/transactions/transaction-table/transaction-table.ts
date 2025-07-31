@@ -19,7 +19,6 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { FileUploadModule } from 'primeng/fileupload';
 import { NewTransaction } from '../new-transaction/new-transaction';
 
-// import {DropdownModule} from 'primeng/dr'
 @Component({
   selector: 'app-transaction-table',
   imports: [
@@ -99,7 +98,7 @@ export class TransactionTable implements OnInit {
   isTransactionDialogVisible = false;
 
   onOpenNew() {
-    console.log(this.isTransactionDialogVisible);
+    // console.log(this.isTransactionDialogVisible);
     this.isTransactionDialogVisible = true;
   }
   onDeleteSelectedTransactions() {}

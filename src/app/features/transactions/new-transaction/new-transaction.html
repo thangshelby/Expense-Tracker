@@ -2,7 +2,7 @@
 <p-dialog
   styleClass="border rounded-2xl border-white "
   [(visible)]="isTransactionDialogVisible"
-  (click)="onToggleDialog()"
+  (onHide)="onToggleDialog()"
   [style]="{ width: '600px'}"
   header="New Transactions"
   [modal]="true"
@@ -101,9 +101,14 @@
                       autofocus
                       fluid
                     />
-                    <small class="text-red-500" *ngIf="submitted"
-                      >Name is required.</small
+                    <small
+                      class="text-red-500"
+                      *ngIf="
+   newTransactionForm.get('name')?.invalid && (newTransactionForm.get('name')?.touched || newTransactionForm.get('name')?.dirty)
+  "
                     >
+                      Name is required.
+                    </small>
                   </div>
                   <div class="z-20 flex-1">
                     <label for="name" class="mb-3 block font-bold"
@@ -114,9 +119,14 @@
                       appendTo="body"
                       formControlName="expenseDate"
                     />
-                    <small class="text-red-500" *ngIf="submitted"
-                      >Expense date is required.</small
+                    <small
+                      class="text-red-500"
+                      *ngIf="
+    newTransactionForm.get('expenseDate')?.invalid && (newTransactionForm.get('expenseDate')?.touched || newTransactionForm.get('expenseDate')?.dirty)
+  "
                     >
+                      Date is required.
+                    </small>
                   </div>
                 </div>
                 <div class="flex flex-row gap-4">
@@ -132,6 +142,14 @@
                       />
                       <p-inputgroup-addon>.00</p-inputgroup-addon>
                     </p-inputgroup>
+                    <small
+                      class="text-red-500"
+                      *ngIf="
+   newTransactionForm.get('amount')?.invalid && (newTransactionForm.get('amount')?.touched || newTransactionForm.get('amount')?.dirty)
+  "
+                    >
+                      Amount is required.
+                    </small>
                   </div>
                   <div class="flex-1">
                     <label for="name" class="mb-3 block font-bold"
@@ -170,18 +188,25 @@
             >
               <div class="flex flex-col gap-6">
                 <div>
-                  <label for="inventoryStatus" class="mb-3 block font-bold"
+                  <label for="expenseCategory" class="mb-3 block font-bold"
                     >Expense Category</label
                   >
 
                   <p-select
-                    styleClass="border border-white rounded-xl"
-                    inputId="inventoryStatus"
+                    styleClass="border border-white rounded-xl w-full"
+                    inputId="expenseCategory"
                     [options]="expenseCategories"
-                    optionLabel="label"
                     placeholder="Select "
-                    fluid
+                    formControlName="expenseCategory"
                   />
+                  <small
+                    class="text-red-500"
+                    *ngIf="
+    newTransactionForm.get('expenseCategory')?.invalid && (newTransactionForm.get('expenseCategory')?.touched || newTransactionForm.get('expenseCategory')?.dirty)
+  "
+                  >
+                    Category is required.
+                  </small>
                 </div>
 
                 <div>
@@ -212,7 +237,7 @@
                         value="BankTransfer"
                         formControlName="payment"
                       />
-                      <label for="payment3">Bank Transfer</label>
+                      <label for="payment">Bank Transfer</label>
                     </div>
                     <div class="col-span-6 flex items-center gap-2">
                       <p-radiobutton

@@ -5,9 +5,15 @@ export type ExpenseCategoryType =
   | 'Utilities'
   | 'Entertainment'
   | 'Healthcare'
-  | 'Education';
+  | 'Education'
+  | '';
 
-export type PaymentType = 'Cash' | 'Credit Card' | 'Bank Transfer' | 'E-Wallet';
+export type PaymentType =
+  | 'Cash'
+  | 'Credit Card'
+  | 'Bank Transfer'
+  | 'E-Wallet'
+  | '';
 
 export interface SideNavbarItemType {
   key: string;
@@ -21,7 +27,7 @@ export interface TransactionType {
   amount: number;
   expenseDate: Date;
   invoice: string | null;
-  weekNumber: number;
+  // weekNumber: number;
   isRecurring: boolean;
   expenseCategory: ExpenseCategoryType;
   payment: PaymentType;

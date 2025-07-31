@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, pipe } from 'rxjs';
 import { TransactionType } from '../../types/type';
 import { mockTransactions } from '../../constants/transactions';
 
@@ -15,6 +15,7 @@ export class TransactionService {
   getTransactions(): Observable<TransactionType[]> {
     return this.transactions$;
   }
+
   addTransaction(transaction: TransactionType): void {
     const current = this.transactionSubject.getValue();
     this.transactionSubject.next([...current, transaction]);
