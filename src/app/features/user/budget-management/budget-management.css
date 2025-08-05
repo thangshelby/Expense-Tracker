@@ -1,0 +1,348 @@
+/* budget-management.component.css */
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Progress bar custom styling */
+.progress-container {
+  position: relative;
+  background: #374151;
+  border-radius: 9999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.progress-bar.safe {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.progress-bar.warning {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.progress-bar.exceeded {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Dark theme customization for PrimeNG components */
+::ng-deep .p-dialog-dark {
+  .p-dialog {
+    background: #1f2937;
+    border: 1px solid #374151;
+    color: white;
+  }
+
+  .p-dialog-header {
+    background: #374151;
+    border-bottom: 1px solid #4b5563;
+    color: white;
+  }
+
+  .p-dialog-content {
+    background: #1f2937;
+    color: white;
+  }
+
+  .p-dialog-footer {
+    background: #1f2937;
+    border-top: 1px solid #4b5563;
+  }
+}
+
+/* Input styling for dark theme */
+::ng-deep .p-inputtext {
+  background: #374151 !important;
+  border: 1px solid #4b5563 !important;
+  color: white !important;
+}
+
+::ng-deep .p-inputtext:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+::ng-deep .p-inputnumber-input {
+  background: #374151 !important;
+  border: 1px solid #4b5563 !important;
+  color: white !important;
+}
+
+::ng-deep .p-dropdown {
+  background: #374151 !important;
+  border: 1px solid #4b5563 !important;
+  color: white !important;
+}
+
+::ng-deep .p-dropdown:not(.p-disabled):hover {
+  border-color: #3b82f6 !important;
+}
+
+::ng-deep .p-dropdown-panel {
+  background: #374151 !important;
+  border: 1px solid #4b5563 !important;
+}
+
+::ng-deep .p-dropdown-items .p-dropdown-item {
+  color: white !important;
+}
+
+::ng-deep .p-dropdown-items .p-dropdown-item:hover {
+  background: #4b5563 !important;
+}
+
+::ng-deep .p-dropdown-items .p-dropdown-item.p-highlight {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+/* Menu styling */
+::ng-deep .p-menu {
+  background: #374151 !important;
+  border: 1px solid #4b5563 !important;
+  color: white !important;
+}
+
+::ng-deep .p-menu .p-menuitem-link {
+  color: white !important;
+}
+
+::ng-deep .p-menu .p-menuitem-link:hover {
+  background: #4b5563 !important;
+}
+
+/* Toast styling */
+::ng-deep .p-toast {
+  .p-toast-message {
+    background: #374151;
+    border: 1px solid #4b5563;
+    color: white;
+  }
+
+  .p-toast-message-success {
+    background: #065f46;
+    border-color: #059669;
+  }
+
+  .p-toast-message-error {
+    background: #7f1d1d;
+    border-color: #dc2626;
+  }
+
+  .p-toast-message-warn {
+    background: #78350f;
+    border-color: #d97706;
+  }
+
+  .p-toast-message-info {
+    background: #1e3a8a;
+    border-color: #3b82f6;
+  }
+}
+
+/* Confirm Dialog styling */
+::ng-deep .p-confirm-dialog {
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: white;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-header {
+  background: #374151;
+  border-bottom: 1px solid #4b5563;
+  color: white;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-content {
+  background: #1f2937;
+  color: white;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-footer {
+  background: #1f2937;
+  border-top: 1px solid #4b5563;
+}
+
+/* Custom animations */
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* Budget card specific styling */
+.budget-card {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  border: 1px solid #374151;
+  transition: all 0.3s ease;
+}
+
+.budget-card:hover {
+  border-color: #4b5563;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.budget-card.exceeded {
+  border-color: #ef4444;
+  background: linear-gradient(135deg, #1f2937 0%, #7f1d1d 100%);
+}
+
+.budget-card.warning {
+  border-color: #f59e0b;
+  background: linear-gradient(135deg, #1f2937 0%, #78350f 100%);
+}
+
+.budget-card.safe {
+  border-color: #10b981;
+  background: linear-gradient(135deg, #1f2937 0%, #064e3b 100%);
+}
+
+/* Category icon styling */
+.category-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* Alert styling */
+.alert-item {
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.alert-item.warning {
+  border-left-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.alert-item.exceeded {
+  border-left-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.alert-item:hover {
+  transform: translateX(4px);
+}
+
+/* Suggestion dialog styling */
+.suggestion-card {
+  background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+/* Statistics cards */
+.stat-card {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  border: 1px solid #374151;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .budget-card {
+    margin-bottom: 1rem;
+  }
+
+  ::ng-deep .p-dialog {
+    width: 95vw !important;
+    margin: 10px;
+  }
+
+  .grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-cols-1.md\\:grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-cols-1.md\\:grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Loading states */
+.loading-skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}

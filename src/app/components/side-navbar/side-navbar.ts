@@ -43,10 +43,21 @@ export class SideNavbar implements OnInit {
         icon: 'pi-receipt',
         title: 'Transactions',
       },
+
       {
         key: 'analytics',
         icon: 'pi-chart-bar',
         title: 'Analytics',
+      },
+      {
+        key: 'loan-management',
+        icon: 'pi-calculator',
+        title: 'Loan Management',
+      },
+      {
+        key: 'budget-management',
+        icon: 'pi-calculator',
+        title: 'Budget Management',
       },
       {
         key: 'history',

@@ -1,0 +1,134 @@
+/* loan-management.component.css */
+
+/* Dark theme customization for PrimeNG components */
+::ng-deep .p-dialog-dark {
+  .p-dialog {
+    background: #1f2937;
+    border: 1px solid #374151;
+    color: white;
+  }
+
+  .p-dialog-header {
+    background: #374151;
+    border-bottom: 1px solid #4b5563;
+    color: white;
+  }
+
+  .p-dialog-content {
+    background: #1f2937;
+    color: white;
+  }
+
+  .p-dialog-footer {
+    background: #1f2937;
+    border-top: 1px solid #4b5563;
+  }
+}
+
+::ng-deep .p-datatable-dark {
+  .p-datatable {
+    background: #1f2937;
+    color: white;
+  }
+
+  .p-datatable-header {
+    background: #374151;
+    border: 1px solid #4b5563;
+    color: white;
+  }
+
+  .p-datatable-tbody > tr {
+    background: #1f2937;
+    color: white;
+    border-bottom: 1px solid #374151;
+  }
+
+  .p-datatable-tbody > tr:hover {
+    background: #374151;
+  }
+
+  .p-datatable-thead > tr > th {
+    background: #374151;
+    color: white;
+    border: 1px solid #4b5563;
+  }
+
+  .p-paginator {
+    background: #1f2937;
+    color: white;
+    border: 1px solid #4b5563;
+  }
+
+  .p-paginator .p-paginator-pages .p-paginator-page {
+    color: white;
+  }
+
+  .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #3b82f6;
+    color: white;
+  }
+}
+
+/* Input styling for dark theme */
+::ng-deep .p-inputtext {
+  background: #374151 !important;
+  border: 1px solid #4b5563 !important;
+  color: white !important;
+}
+
+::ng-deep .p-inputtext:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+::ng-deep .p-inputnumber-input {
+  background: #374151 !important;
+  border: 1px solid #4b5563 !important;
+  color: white !important;
+}
+
+::ng-deep .p-inputtextarea {
+  background: #374151 !important;
+  border: 1px solid #4b5563 !important;
+  color: white !important;
+}
+
+::ng-deep .p-calendar {
+  .p-inputtext {
+    background: #374151 !important;
+    border: 1px solid #4b5563 !important;
+    color: white !important;
+  }
+}
+
+::ng-deep .p-dropdown {
+  background: #374151 !important;
+  border: 1px solid #4b5563 !important;
+  color: white !important;
+}
+
+::ng-deep .p-dropdown:not(.p-disabled):hover {
+  border-color: #3b82f6 !important;
+}
+
+::ng-deep .p-dropdown-panel {
+  background: #374151 !important;
+  border: 1px solid #4b5563 !important;
+}
+
+::ng-deep .p-dropdown-items .p-dropdown-item {
+  color: white !important;
+}
+
+::ng-deep .p-dropdown-items .p-dropdown-item:hover {
+  background: #4b5563 !important;
+}
+
+/* Select Button styling */
+::ng-deep .p-selectbutton {
+  .p-button {
+    background: #374151 !important;
+    border: 1px solid #4b5563 !important;
+    color: white !important;
+  }
+}

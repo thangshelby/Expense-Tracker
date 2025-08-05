@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './services/auth/auth.guard';
 import { DefaultLayout } from './components/default-layuout/default-layuout';
+import { LoanManagementComponent } from './services/loanmanagement/loan-management/loan-management';
 // import { LoginGuard } from './auth/login.guard';
 
 export const routes: Routes = [
@@ -43,29 +44,49 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./features/dashboard/dashboard').then((c) => c.Dashboard),
+          import('./features/user/dashboard/dashboard').then(
+            (c) => c.Dashboard,
+          ),
       },
       {
         path: 'transactions',
         loadComponent: () =>
-          import('./features/transactions/transactions').then(
+          import('./features/user/transactions/transactions').then(
             (c) => c.Transactions,
           ),
       },
       {
         path: 'analytics',
         loadComponent: () =>
-          import('./features/analytics/analytics').then((c) => c.Analytics),
+          import('./features/user/analytics/analytics').then(
+            (c) => c.Analytics,
+          ),
+      },
+      {
+        path: 'loan-management',
+        component: LoanManagementComponent,
+
+        // loadComponent: () =>
+        //   import('./features/loanmanagement/loan-management').then(
+        //     (c) => c.LoanManagementComponent,
+        //   ),
+      },
+      {
+        path: 'budget-management',
+        loadComponent: () =>
+          import('./features/user/budget-management/budget-management').then(
+            (c) => c.BudgetManagement,
+          ),
       },
       {
         path: 'history',
         loadComponent: () =>
-          import('./features/history/history').then((c) => c.History),
+          import('./features/user/history/history').then((c) => c.History),
       },
       {
         path: 'profile',
         loadComponent: () =>
-          import('./features/profile/profile').then((c) => c.Profile),
+          import('./features/user/profile/profile').then((c) => c.Profile),
       },
       {
         path: '**',

@@ -14,7 +14,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { TransactionService } from '../../../services/transaction/transaction.service';
+import { TransactionService } from '../../../../services/transaction/transaction.service';
 import { Dialog } from 'primeng/dialog';
 import { RadioButton } from 'primeng/radiobutton';
 import { ToastModule } from 'primeng/toast';
@@ -32,9 +32,13 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { TransactionType } from '../../../types/type';
-import { cities, expenseCategories } from '../../../constants/transactions';
-import { ExpenseCategoryType, PaymentType } from '../../../types/type';
+import {
+  TransactionType,
+  ExpenseCategoryType,
+  PaymentType,
+} from '../../../../types/type';
+import { cities, expenseCategories } from '../../../../constants/transactions';
+
 import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-new-transaction',

@@ -1,0 +1,341 @@
+<div class="min-h-screen bg-gray-900 p-6 text-white">
+  <!-- Header Section -->
+  <div class="mb-8">
+    <h1 class="mb-2 text-3xl font-bold">Quản lý Khoản vay & Nợ</h1>
+    <p class="text-gray-400">Theo dõi các khoản vay và nhạc nợ đến hạn</p>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-400">Tổng khoản vay</p>
+          <p class="text-2xl font-bold text-blue-400">
+            {{ formatCurrency(totalLoans) }}
+          </p>
+        </div>
+        <i class="pi pi-arrow-up text-2xl text-blue-400"></i>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-400">Tổng khoản nợ</p>
+          <p class="text-2xl font-bold text-red-400">
+            {{ formatCurrency(totalDebts) }}
+          </p>
+        </div>
+        <i class="pi pi-arrow-down text-2xl text-red-400"></i>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-400">Quá hạn</p>
+          <p class="text-2xl font-bold text-orange-400">
+            {{ formatCurrency(totalOverdue) }}
+          </p>
+        </div>
+        <i class="pi pi-exclamation-triangle text-2xl text-orange-400"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions and Filters -->
+  <div class="mb-6 rounded-lg border border-gray-700 bg-gray-800 p-6">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <p-auto-complete
+          [suggestions]="typeOptions"
+          placeholder="Loại"
+          styleClass="w-40"
+          [style]="{'background': '#374151', 'border': '1px solid #4B5563'}"
+        >
+        </p-auto-complete>
+
+        <p-autocomplete
+          [suggestions]="statusOptions"
+          placeholder="Trạng thái"
+          styleClass="w-40"
+          [style]="{'background': '#374151', 'border': '1px solid #4B5563'}"
+        >
+        </p-autocomplete>
+      </div>
+
+      <p-button
+        label="Thêm mới"
+        icon="pi pi-plus"
+        (onClick)="showAddDialog()"
+        styleClass="p-button-info"
+      >
+      </p-button>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  <div class="overflow-hidden rounded-lg border border-gray-700 bg-gray-800">
+    <p-table
+      [value]="loanDebts"
+      [paginator]="true"
+      [rows]="10"
+      styleClass="p-datatable-dark"
+      [globalFilterFields]="['creditorDebtor', 'description']"
+    >
+      <!-- [responsive]="true" -->
+      <ng-template pTemplate="header">
+        <tr class="bg-gray-700">
+          <th class="p-4 text-left">Loại</th>
+          <th class="p-4 text-left">Người liên quan</th>
+          <th class="p-4 text-left">Mô tả</th>
+          <th class="p-4 text-left">Số tiền</th>
+          <th class="p-4 text-left">Đã trả</th>
+          <th class="p-4 text-left">Còn lại</th>
+          <th class="p-4 text-left">Ngày đến hạn</th>
+          <th class="p-4 text-left">Trạng thái</th>
+          <th class="p-4 text-left">Thao tác</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-item>
+        <tr class="hover:bg-gray-750 border-b border-gray-700">
+          <td class="p-4">
+            <p-tag
+              [value]="getTypeLabel(item.type)"
+              [severity]="item.type === 'loan' ? 'info' : 'warning'"
+              styleClass="text-xs"
+            >
+            </p-tag>
+          </td>
+          <td class="p-4 font-medium">{{ item.creditorDebtor }}</td>
+          <td class="p-4 text-gray-300">{{ item.description }}</td>
+          <td class="p-4 font-medium">{{ formatCurrency(item.amount) }}</td>
+          <td class="p-4 text-green-400">
+            {{ formatCurrency(item.paidAmount || 0) }}
+          </td>
+          <td class="p-4 font-medium">
+            {{ formatCurrency(item.remainingAmount || item.amount) }}
+          </td>
+          <td class="p-4">{{ item.dueDate | date:'dd/MM/yyyy' }}</td>
+          <td class="p-4">
+            <p-tag
+              [value]="getStatusLabel(item.status)"
+              [severity]="getSeverity(item.status)"
+              styleClass="text-xs"
+            >
+            </p-tag>
+          </td>
+          <td class="p-4">
+            <div class="flex gap-2">
+              <p-button
+                icon="pi pi-money-bill"
+                (onClick)="showPaymentDialog(item)"
+                [disabled]="item.status === 'paid'"
+                pTooltip="Thanh toán"
+                styleClass="p-button-sm p-button-success p-button-text"
+              >
+              </p-button>
+              <p-button
+                icon="pi pi-pencil"
+                (onClick)="showEditDialog(item)"
+                pTooltip="Chỉnh sửa"
+                styleClass="p-button-sm p-button-warning p-button-text"
+              >
+              </p-button>
+              <p-button
+                icon="pi pi-trash"
+                (onClick)="deleteLoanDebt(item)"
+                pTooltip="Xóa"
+                styleClass="p-button-sm p-button-danger p-button-text"
+              >
+              </p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="9" class="p-8 text-center text-gray-400">
+            <i class="pi pi-info-circle mb-4 block text-4xl"></i>
+            <p>Chưa có dữ liệu</p>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!-- Add/Edit Dialog -->
+<p-dialog
+  [(visible)]="displayDialog"
+  [header]="isEditing ? 'Chỉnh sửa' : 'Thêm mới'"
+  [modal]="true"
+  [style]="{width: '50vw'}"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="p-dialog-dark"
+>
+  <div class="grid grid-cols-1 gap-4">
+    <!-- Type Selection -->
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium">Loại *</label>
+      <p-selectButton
+        [(ngModel)]="newLoanDebt.type"
+        [options]="[
+          {label: 'Khoản vay', value: 'loan'},
+          {label: 'Khoản nợ', value: 'debt'}
+        ]"
+        optionLabel="label"
+        optionValue="value"
+      >
+      </p-selectButton>
+    </div>
+
+    <!-- Creditor/Debtor -->
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium">
+        {{ newLoanDebt.type === 'loan' ? 'Người cho vay' : 'Người nợ' }} *
+      </label>
+      <input
+        type="text"
+        pInputText
+        [(ngModel)]="newLoanDebt.creditorDebtor"
+        placeholder="Nhập tên..."
+        class="w-full"
+      />
+    </div>
+
+    <!-- Amount -->
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium">Số tiền *</label>
+      <p-inputNumber
+        [(ngModel)]="newLoanDebt.amount"
+        mode="currency"
+        currency="VND"
+        locale="vi-VN"
+        class="w-full"
+      >
+      </p-inputNumber>
+    </div>
+
+    <!-- Interest Rate (for loans) -->
+    <div class="flex flex-col gap-2" *ngIf="newLoanDebt.type === 'loan'">
+      <label class="text-sm font-medium">Lãi suất (%/tháng)</label>
+      <p-inputNumber
+        [(ngModel)]="newLoanDebt.interestRate"
+        [minFractionDigits]="1"
+        [maxFractionDigits]="2"
+        suffix="%"
+        class="w-full"
+      >
+      </p-inputNumber>
+    </div>
+
+    <!-- Description -->
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium">Mô tả</label>
+      <textarea
+        pInputTextarea
+        [(ngModel)]="newLoanDebt.description"
+        rows="3"
+        placeholder="Nhập mô tả..."
+        class="w-full"
+      >
+      </textarea>
+    </div>
+
+    <!-- Due Date -->
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium">Ngày đến hạn *</label>
+      <!-- <p-calendar
+        [(ngModel)]="newLoanDebt.dueDate"
+        dateFormat="dd/mm/yy"
+        [showIcon]="true"
+        class="w-full"
+      >
+      </p-calendar> -->
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3">
+      <p-button
+        label="Hủy"
+        icon="pi pi-times"
+        (onClick)="displayDialog = false"
+        styleClass="p-button-text"
+      >
+      </p-button>
+      <p-button
+        [label]="isEditing ? 'Cập nhật' : 'Thêm mới'"
+        icon="pi pi-check"
+        (onClick)="saveLoanDebt()"
+        styleClass="p-button-info"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- Payment Dialog -->
+<p-dialog
+  [(visible)]="displayPaymentDialog"
+  header="Thanh toán"
+  [modal]="true"
+  [style]="{width: '400px'}"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="p-dialog-dark"
+>
+  <div class="flex flex-col gap-4">
+    <div class="rounded-lg bg-gray-700 p-4">
+      <p class="text-sm text-gray-400">Người liên quan</p>
+      <p class="font-medium">{{ selectedLoanDebt.creditorDebtor }}</p>
+      <p class="mt-2 text-sm text-gray-400">Số tiền còn lại</p>
+      <p class="text-lg font-bold text-red-400">
+        {{ formatCurrency(selectedLoanDebt.remainingAmount || 0) }}
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium">Số tiền thanh toán *</label>
+      <p-inputNumber
+        [(ngModel)]="paymentAmount"
+        mode="currency"
+        currency="VND"
+        locale="vi-VN"
+        class="w-full"
+      >
+        <!-- [max]="selectedLoanDebt.remainingAmount" -->
+      </p-inputNumber>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3">
+      <p-button
+        label="Hủy"
+        icon="pi pi-times"
+        (onClick)="displayPaymentDialog = false"
+        styleClass="p-button-text"
+      >
+      </p-button>
+      <p-button
+        label="Thanh toán"
+        icon="pi pi-check"
+        (onClick)="makePayment()"
+        styleClass="p-button-success"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- Toast Messages -->
+<p-toast position="top-right"></p-toast>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog styleClass="p-dialog-dark"></p-confirmDialog>

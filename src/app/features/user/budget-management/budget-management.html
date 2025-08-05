@@ -1,0 +1,632 @@
+<!-- budget-management.component.html -->
+<div class="min-h-screen bg-gray-900 p-6 text-white">
+  <!-- Header Section -->
+  <div class="mb-8 flex flex-col justify-between md:flex-row md:items-center">
+    <div>
+      <h1 class="mb-2 text-3xl font-bold">Quản lý Ngân sách</h1>
+      <p class="text-gray-400">
+        Thiết lập và theo dõi ngân sách chi tiêu hàng tháng
+      </p>
+    </div>
+
+    <!-- Month/Year Selector -->
+    <div class="mt-4 flex items-center gap-3 md:mt-0">
+      <p-auto-complete
+        [suggestions]="months"
+        [(ngModel)]="currentMonth"
+        (onChange)="onMonthYearChange()"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Chọn tháng"
+        styleClass="w-48"
+      >
+      </p-auto-complete>
+
+      <p-date-picker
+        [(ngModel)]="currentMonth"
+        (onChange)="onMonthYearChange()"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Chọn tháng"
+        styleClass="w-32"
+      >
+      </p-date-picker>
+      <!-- 
+      <p-inputNumber
+        [(ngModel)]="currentYear"
+        (onInput)="onMonthYearChange()"
+        [useGrouping]="false"
+        [min]="2020"
+        [max]="2030"
+        styleClass="w-20"
+      >
+      </p-inputNumber> -->
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-4">
+    <div class="card-hover rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-400">Tổng ngân sách</p>
+          <p class="text-2xl font-bold text-blue-400">
+            {{ formatCurrency(totalBudget) }}
+          </p>
+        </div>
+        <i class="pi pi-wallet text-2xl text-blue-400"></i>
+      </div>
+    </div>
+
+    <div class="card-hover rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-400">Đã chi tiêu</p>
+          <p class="text-2xl font-bold text-red-400">
+            {{ formatCurrency(totalSpent) }}
+          </p>
+        </div>
+        <i class="pi pi-shopping-cart text-2xl text-red-400"></i>
+      </div>
+    </div>
+
+    <div class="card-hover rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-400">Còn lại</p>
+          <p
+            class="text-2xl font-bold"
+            [ngClass]="{'text-green-400': totalRemaining >= 0, 'text-red-400': totalRemaining < 0}"
+          >
+            {{ formatCurrency(totalRemaining) }}
+          </p>
+        </div>
+        <i
+          class="pi pi-money-bill"
+          [ngClass]="{'text-green-400': totalRemaining >= 0, 'text-red-400': totalRemaining < 0}"
+          class="text-2xl"
+        ></i>
+      </div>
+    </div>
+
+    <div class="card-hover rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-400">Sử dụng trung bình</p>
+          <p class="text-2xl font-bold text-purple-400">{{ averageUsage }}%</p>
+        </div>
+        <i class="pi pi-chart-pie text-2xl text-purple-400"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alerts Section -->
+  <div
+    class="mb-6 rounded-lg border border-gray-700 bg-gray-800 p-6"
+    *ngIf="alerts.length > 0"
+  >
+    <div class="mb-4 flex items-center justify-between">
+      <h3 class="flex items-center gap-2 text-lg font-semibold">
+        <i class="pi pi-exclamation-triangle text-orange-400"></i>
+        Cảnh báo ngân sách ({{getAlert()}})
+      </h3>
+      <div class="flex gap-2">
+        <p-button
+          label="Xem tất cả"
+          icon="pi pi-eye"
+          (onClick)="showAlertDialog()"
+          styleClass="p-button-sm p-button-outlined"
+        >
+        </p-button>
+        <p-button
+          label="Đánh dấu đã đọc"
+          icon="pi pi-check"
+          (onClick)="clearAllAlerts()"
+          styleClass="p-button-sm p-button-text"
+        >
+        </p-button>
+      </div>
+    </div>
+
+    <div class="space-y-3">
+      <div
+        *ngFor="let alert of alerts.slice(0, 3)"
+        class="flex items-center gap-3 rounded-lg border p-3"
+        [ngClass]="{'border-red-500 bg-red-900/20': alert.type === 'exceeded', 'border-orange-500 bg-orange-900/20': alert.type === 'warning'}"
+        [class.opacity-50]="alert.isRead"
+      >
+        <i
+          class="pi"
+          [ngClass]="{'pi-times-circle text-red-400': alert.type === 'exceeded', 'pi-exclamation-triangle text-orange-400': alert.type === 'warning'}"
+        ></i>
+        <div class="flex-1">
+          <p class="text-sm">{{ alert.message }}</p>
+          <p class="text-xs text-gray-400">
+            {{ alert.date | date:'dd/MM/yyyy HH:mm' }}
+          </p>
+        </div>
+        <p-button
+          icon="pi pi-times"
+          (onClick)="markAlertAsRead(alert)"
+          styleClass="p-button-sm p-button-text p-button-rounded"
+          *ngIf="!alert.isRead"
+        >
+        </p-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="mb-6 rounded-lg border border-gray-700 bg-gray-800 p-6">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <p-button
+          label="Thêm ngân sách"
+          icon="pi pi-plus"
+          (onClick)="showAddDialog()"
+          styleClass="p-button-info"
+        >
+        </p-button>
+
+        <p-button
+          label="Gợi ý điều chỉnh"
+          icon="pi pi-lightbulb"
+          (onClick)="showSuggestionDialog()"
+          styleClass="p-button-help"
+        >
+        </p-button>
+      </div>
+
+      <div class="text-sm text-gray-400">
+        <i class="pi pi-info-circle mr-2"></i>
+        Cập nhật lần cuối: {{ currentDate | date:'dd/MM/yyyy HH:mm' }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Budget Cards Grid -->
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div
+      *ngFor="let budget of budgets"
+      class="card-hover rounded-lg border border-gray-700 bg-gray-800 p-6"
+    >
+      <!-- Card Header -->
+      <div class="mb-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-lg"
+            [ngClass]="{'bg-green-500/20': budget.status === 'safe', 'bg-orange-500/20': budget.status === 'warning', 'bg-red-500/20': budget.status === 'exceeded'}"
+          >
+            <i
+              [class]="budget.categoryIcon"
+              [ngClass]="{'text-green-400': budget.status === 'safe', 'text-orange-400': budget.status === 'warning', 'text-red-400': budget.status === 'exceeded'}"
+            ></i>
+          </div>
+          <div>
+            <h3 class="font-semibold">
+              {{ getCategoryLabel(budget.category) }}
+            </h3>
+            <p class="text-xs text-gray-400">
+              Tháng {{ budget.month }}/{{ budget.year }}
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <p-tag
+            [value]="getStatusLabel(budget.status)"
+            [severity]="getSeverity(budget.status)"
+            styleClass="text-xs"
+          >
+          </p-tag>
+
+          <p-button
+            icon="pi pi-ellipsis-v"
+            styleClass="p-button-sm p-button-text p-button-rounded"
+            [style]="{'width': '2rem', 'height': '2rem'}"
+            #menuButton
+          >
+          </p-button>
+
+          <p-menu #menu [model]="items" [popup]="true"></p-menu>
+        </div>
+      </div>
+
+      <!-- Progress Section -->
+      <div class="mb-4">
+        <div class="mb-2 flex items-center justify-between">
+          <span class="text-sm text-gray-400">Tiến độ sử dụng</span>
+          <span class="text-sm font-medium">{{ budget.usagePercentage }}%</span>
+        </div>
+
+        <div class="h-2 w-full rounded-full bg-gray-700">
+          <div
+            class="h-2 rounded-full transition-all duration-300"
+            [style.width]="formatPercentage(budget.usagePercentage)"
+            [style.background-color]="getProgressBarColor(budget.status)"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Amount Information -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-gray-400">Ngân sách:</span>
+          <span class="font-medium"
+            >{{ formatCurrency(budget.monthlyLimit) }}</span
+          >
+        </div>
+
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-gray-400">Đã chi:</span>
+          <span class="font-medium text-red-400"
+            >{{ formatCurrency(budget.currentSpent) }}</span
+          >
+        </div>
+
+        <div
+          class="flex items-center justify-between border-t border-gray-700 pt-3"
+        >
+          <span class="text-sm text-gray-400">Còn lại:</span>
+          <span
+            class="font-bold"
+            [ngClass]="{'text-green-400': budget.remainingAmount >= 0, 'text-red-400': budget.remainingAmount < 0}"
+          >
+            {{ budget.remainingAmount >= 0 ? '+' : '-' }}{{
+            formatCurrency(budget.remainingAmount) }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Warning Message -->
+      <div
+        *ngIf="budget.status !== 'safe'"
+        class="mt-4 rounded-lg p-3 text-sm"
+        [ngClass]="{'bg-orange-900/30 text-orange-300': budget.status === 'warning', 'bg-red-900/30 text-red-300': budget.status === 'exceeded'}"
+      >
+        <i class="pi pi-exclamation-triangle mr-2"></i>
+        <span *ngIf="budget.status === 'warning'"
+          >Đã sử dụng {{ budget.usagePercentage }}% ngân sách</span
+        >
+        <span *ngIf="budget.status === 'exceeded'"
+          >Vượt ngân sách {{ formatExceededAmount(budget) }}</span
+        >
+      </div>
+    </div>
+
+    <!-- Add New Budget Card -->
+    <div
+      class="card-hover cursor-pointer rounded-lg border-2 border-dashed border-gray-600 bg-gray-800 p-6"
+      (click)="showAddDialog()"
+    >
+      <div
+        class="flex h-full flex-col items-center justify-center py-8 text-center"
+      >
+        <div
+          class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/20"
+        >
+          <i class="pi pi-plus text-2xl text-blue-400"></i>
+        </div>
+        <h3 class="mb-2 font-semibold">Thêm ngân sách mới</h3>
+        <p class="text-sm text-gray-400">
+          Thiết lập ngân sách cho danh mục chi tiêu
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Budget Dialog -->
+<p-dialog
+  [(visible)]="displayDialog"
+  [header]="isEditing ? 'Chỉnh sửa ngân sách' : 'Thêm ngân sách mới'"
+  [modal]="true"
+  [style]="{width: '500px'}"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="p-dialog-dark"
+>
+  <div class="grid grid-cols-1 gap-4">
+    <!-- Category Selection -->
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium">Danh mục chi tiêu *</label>
+      <!-- [options]="categories" -->
+      <p-dropdown
+        [(ngModel)]="newBudget.category"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Chọn danh mục..."
+        class="w-full"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div class="flex items-center gap-2" *ngIf="newBudget.category">
+            <i [class]="findIcon(newBudget)"></i>
+            <span>{{ getCategoryLabel(newBudget.category) }}</span>
+          </div>
+        </ng-template>
+        <ng-template let-category pTemplate="item">
+          <div class="flex items-center gap-2">
+            <i [class]="category.icon"></i>
+            <span>{{ category.label }}</span>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <!-- Monthly Limit -->
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium">Ngân sách hàng tháng *</label>
+      <p-inputNumber
+        [(ngModel)]="newBudget.monthlyLimit"
+        mode="currency"
+        currency="VND"
+        locale="vi-VN"
+        [min]="0"
+        placeholder="Nhập số tiền..."
+        class="w-full"
+      >
+      </p-inputNumber>
+    </div>
+
+    <!-- Month/Year -->
+    <div class="grid grid-cols-2 gap-4">
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-medium">Tháng *</label>
+        [options]="months"
+        <p-dropdown
+          [(ngModel)]="newBudget.month"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Chọn tháng"
+          class="w-full"
+        >
+        </p-dropdown>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-medium">Năm *</label>
+        <p-inputNumber
+          [(ngModel)]="newBudget.year"
+          [useGrouping]="false"
+          [min]="2020"
+          [max]="2030"
+          class="w-full"
+        >
+        </p-inputNumber>
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <div
+      class="rounded-lg bg-gray-700 p-4"
+      *ngIf="newBudget.category && newBudget.monthlyLimit > 0"
+    >
+      <h4 class="mb-2 text-sm font-medium">Xem trước:</h4>
+      <div class="flex items-center gap-3">
+        <i [class]="findIcon(newBudget)" class="text-blue-400"></i>
+        <div>
+          <p class="font-medium">{{ getCategoryLabel(newBudget.category) }}</p>
+          <p class="text-sm text-gray-400">
+            {{ formatCurrency(newBudget.monthlyLimit) }}/tháng
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3">
+      <p-button
+        label="Hủy"
+        icon="pi pi-times"
+        (onClick)="displayDialog = false"
+        styleClass="p-button-text"
+      >
+      </p-button>
+      <p-button
+        [label]="isEditing ? 'Cập nhật' : 'Thêm mới'"
+        icon="pi pi-check"
+        (onClick)="saveBudget()"
+        styleClass="p-button-info"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- Alerts Dialog -->
+<p-dialog
+  [(visible)]="displayAlertDialog"
+  header="Cảnh báo ngân sách"
+  [modal]="true"
+  [style]="{width: '600px'}"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="p-dialog-dark"
+>
+  <div class="space-y-4" *ngIf="alerts.length > 0; else noAlerts">
+    <div
+      *ngFor="let alert of alerts"
+      class="flex items-start gap-3 rounded-lg border p-4"
+      [ngClass]="{'border-red-500 bg-red-900/20': alert.type === 'exceeded', 'border-orange-500 bg-orange-900/20': alert.type === 'warning'}"
+      [class.opacity-50]="alert.isRead"
+    >
+      <i
+        class="pi mt-1"
+        [ngClass]="{'pi-times-circle text-red-400': alert.type === 'exceeded', 'pi-exclamation-triangle text-orange-400': alert.type === 'warning'}"
+      ></i>
+      <div class="flex-1">
+        <div class="mb-1 flex items-center gap-2">
+          <span class="font-medium"
+            >{{ getCategoryLabel(alert.category) }}</span
+          >
+          <p-tag
+            [value]="alert.type === 'exceeded' ? 'Vượt mức' : 'Cảnh báo'"
+            [severity]="alert.type === 'exceeded' ? 'danger' : 'warning'"
+            styleClass="text-xs"
+          >
+          </p-tag>
+        </div>
+        <p class="mb-2 text-sm">{{ alert.message }}</p>
+        <div class="flex items-center justify-between text-xs text-gray-400">
+          <span>{{ alert.date | date:'dd/MM/yyyy HH:mm' }}</span>
+          <span>{{ formatCurrency(alert.currentAmount) }}</span>
+        </div>
+      </div>
+      <p-button
+        icon="pi pi-check"
+        (onClick)="markAlertAsRead(alert)"
+        pTooltip="Đánh dấu đã đọc"
+        styleClass="p-button-sm p-button-text p-button-rounded"
+        *ngIf="!alert.isRead"
+      >
+      </p-button>
+    </div>
+  </div>
+
+  <ng-template #noAlerts>
+    <div class="py-8 text-center text-gray-400">
+      <i class="pi pi-check-circle mb-4 block text-4xl text-green-400"></i>
+      <p>Không có cảnh báo nào!</p>
+      <p class="text-sm">Ngân sách của bạn đang được quản lý tốt.</p>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3">
+      <p-button
+        label="Đóng"
+        icon="pi pi-times"
+        (onClick)="displayAlertDialog = false"
+        styleClass="p-button-text"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- Budget Suggestions Dialog -->
+<p-dialog
+  [(visible)]="displaySuggestionDialog"
+  header="Gợi ý điều chỉnh ngân sách"
+  [modal]="true"
+  [style]="{width: '600px'}"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="p-dialog-dark"
+>
+  <div class="space-y-4">
+    <!-- AI Suggestions -->
+    <div
+      class="rounded-lg border border-purple-500/30 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-6"
+    >
+      <div class="mb-4 flex items-center gap-3">
+        <div
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-purple-500/20"
+        >
+          <i class="pi pi-lightbulb text-purple-400"></i>
+        </div>
+        <div>
+          <h3 class="font-semibold">Gợi ý thông minh</h3>
+          <p class="text-sm text-gray-400">
+            Dựa trên thói quen chi tiêu của bạn
+          </p>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <div
+          *ngFor="let suggestion of getBudgetSuggestions()"
+          class="flex items-start gap-3"
+        >
+          <i class="pi pi-arrow-right mt-1 text-sm text-purple-400"></i>
+          <p class="text-sm">{{ suggestion }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="rounded-lg bg-gray-700 p-4">
+      <h4 class="mb-3 font-medium">Hành động nhanh:</h4>
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+        <p-button
+          label="Tăng ngân sách 10%"
+          icon="pi pi-arrow-up"
+          styleClass="p-button-sm p-button-outlined p-button-success"
+        >
+        </p-button>
+        <p-button
+          label="Giảm ngân sách 10%"
+          icon="pi pi-arrow-down"
+          styleClass="p-button-sm p-button-outlined p-button-warning"
+        >
+        </p-button>
+        <p-button
+          label="Reset về mặc định"
+          icon="pi pi-refresh"
+          styleClass="p-button-sm p-button-outlined"
+        >
+        </p-button>
+        <p-button
+          label="Sao chép tháng trước"
+          icon="pi pi-copy"
+          styleClass="p-button-sm p-button-outlined p-button-info"
+        >
+        </p-button>
+      </div>
+    </div>
+
+    <!-- Statistics Summary -->
+    <div class="rounded-lg bg-gray-700 p-4">
+      <h4 class="mb-3 font-medium">Tóm tắt hiệu suất:</h4>
+      <div class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <span class="text-gray-400">Danh mục vượt mức:</span>
+          <span class="ml-2 font-medium text-red-400"
+            >{{ getBudgetsStatusCount('exceeded') }}</span
+          >
+        </div>
+        <div>
+          <span class="text-gray-400">Danh mục cảnh báo:</span>
+          <span class="ml-2 font-medium text-orange-400"
+            >{{ getBudgetsStatusCount('warning') }}</span
+          >
+        </div>
+        <div>
+          <span class="text-gray-400">Danh mục an toàn:</span>
+          <span class="ml-2 font-medium text-green-400"
+            >{{ getBudgetsStatusCount('safe') }}</span
+          >
+        </div>
+        <div>
+          <span class="text-gray-400">Sử dụng trung bình:</span>
+          <span class="ml-2 font-medium">{{ averageUsage }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3">
+      <p-button
+        label="Đóng"
+        icon="pi pi-times"
+        (onClick)="displaySuggestionDialog = false"
+        styleClass="p-button-text"
+      >
+      </p-button>
+      <p-button
+        label="Áp dụng gợi ý"
+        icon="pi pi-check"
+        styleClass="p-button-info"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- Toast Messages -->
+<p-toast position="top-right"></p-toast>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog styleClass="p-dialog-dark"></p-confirmDialog>
