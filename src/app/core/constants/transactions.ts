@@ -1,4 +1,4 @@
-import { TransactionType } from '../types/type';
+import { TransactionType } from '../../shared/types/type';
 
 export const mockTransactions: TransactionType[] = [
   {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, pipe } from 'rxjs';
-import { TransactionType } from '../../types/type';
-import { mockTransactions } from '../../constants/transactions';
+import { TransactionType } from '../../shared/types/type';
+import { mockTransactions } from '../../core/constants/transactions';
 
 @Injectable({
   providedIn: 'root',

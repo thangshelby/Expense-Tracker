@@ -14,7 +14,7 @@ import { providePrimeNG } from 'primeng/config';
 import Material from '@primeuix/themes/material';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
-import { ThemeState } from './store/theme.state';
+import { ThemeState } from './core/store/theme.state';
 import { provideStates, provideStore } from '@ngxs/store';
 export const appConfig: ApplicationConfig = {
   providers: [

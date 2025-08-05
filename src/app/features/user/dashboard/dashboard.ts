@@ -8,9 +8,9 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ChangeDetectorRef, PLATFORM_ID } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
-import { DashboardOverview } from './dashboard-overview/dashboard-overview';
-import { MonthlyTarget } from './monthly-target/monthly-target';
-import { Statistics } from './statistics/statistics';
+import { DashboardOverview } from './components/dashboard-overview/dashboard-overview';
+import { MonthlyTarget } from './components/monthly-target/monthly-target';
+import { Statistics } from './components/statistics/statistics';
 
 @Component({
   selector: 'app-dashboard',

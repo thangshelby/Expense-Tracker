@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
-import { Header } from '../header/header';
-import { SideNavbar } from '../side-navbar/side-navbar';
-import { AuthService } from '../../services/auth/auth.service';
+import { Header } from './components/header/header';
+import { SideNavbar } from './components/side-navbar/side-navbar';
+import { AuthService } from '../../services/auth.service';
 import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { AsyncPipe } from '@angular/common';

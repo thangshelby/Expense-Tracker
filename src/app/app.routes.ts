@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './services/auth/auth.guard';
-import { DefaultLayout } from './components/default-layuout/default-layuout';
-import { LoanManagementComponent } from './services/loanmanagement/loan-management/loan-management';
+import { AuthGuard } from './core/guard/auth.guard';
+import { DefaultLayout } from './core/layouts/default-layuout/default-layuout';
+import { LoanManagementComponent } from './features/user/loan-management/loan-management';
 // import { LoginGuard } from './auth/login.guard';
 
 export const routes: Routes = [
@@ -36,11 +36,6 @@ export const routes: Routes = [
     component: DefaultLayout,
     // canActivate: [AuthGuard],
     children: [
-      {
-        path: 'home',
-        loadComponent: () =>
-          import('./components/home/home').then((c) => c.Home),
-      },
       {
         path: 'dashboard',
         loadComponent: () =>

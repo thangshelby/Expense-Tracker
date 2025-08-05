@@ -14,13 +14,12 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { TransactionService } from '../../../../services/transaction/transaction.service';
+import { TransactionService } from '../../../../../core/services/transaction.service';
 import { Dialog } from 'primeng/dialog';
 import { RadioButton } from 'primeng/radiobutton';
 import { ToastModule } from 'primeng/toast';
-import { FormControlName, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { InputNumber } from 'primeng/inputnumber';
-import { ConfirmDialog } from 'primeng/confirmdialog';
 import { TextareaModule } from 'primeng/textarea';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -36,8 +35,11 @@ import {
   TransactionType,
   ExpenseCategoryType,
   PaymentType,
-} from '../../../../types/type';
-import { cities, expenseCategories } from '../../../../constants/transactions';
+} from '../../../../../shared/types/type';
+import {
+  cities,
+  expenseCategories,
+} from '../../../../../core/constants/transactions';
 
 import { firstValueFrom } from 'rxjs';
 @Component({

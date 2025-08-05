@@ -1,20 +1,20 @@
+// login.guard.ts
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from './auth.service';
 import { inject } from '@angular/core';
+import { AuthService } from '../../core/services/auth.service';
 import { map } from 'rxjs';
 
-export const AuthGuard: CanActivateFn = () => {
+export const LoginGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   return authService.user$.pipe(
     map((user) => {
       if (user) {
-        return true;
-      } else {
-        router.navigate(['/welcome']);
+        router.navigate(['/']);
         return false;
       }
+      return true;
     }),
   );
 };

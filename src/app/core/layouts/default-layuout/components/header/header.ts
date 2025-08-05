@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AuthService } from '../../services/auth/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 import { User } from 'firebase/auth';
 import { AvatarModule } from 'primeng/avatar';
 import { Popover } from 'primeng/popover';
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Store } from '@ngxs/store';
-import { ToggleTheme, ThemeState } from '../../store/theme.state';
+import { ToggleTheme, ThemeState } from '../../../../store/theme.state';
 import { Observable } from 'rxjs';
 
 @Component({

@@ -31,7 +31,7 @@
         styleClass="w-32"
       >
       </p-date-picker>
-      <!-- 
+
       <p-inputNumber
         [(ngModel)]="currentYear"
         (onInput)="onMonthYearChange()"
@@ -40,7 +40,7 @@
         [max]="2030"
         styleClass="w-20"
       >
-      </p-inputNumber> -->
+      </p-inputNumber>
     </div>
   </div>
 
@@ -330,11 +330,13 @@
     <!-- Category Selection -->
     <div class="flex flex-col gap-2">
       <label class="text-sm font-medium">Danh mục chi tiêu *</label>
-      <!-- [options]="categories" -->
-      <p-dropdown
+
+      <p-auto-complete
         [(ngModel)]="newBudget.category"
+        [suggestions]="categories"
         optionLabel="label"
         optionValue="value"
+        dropdown="true"
         placeholder="Chọn danh mục..."
         class="w-full"
       >
@@ -350,7 +352,7 @@
             <span>{{ category.label }}</span>
           </div>
         </ng-template>
-      </p-dropdown>
+      </p-auto-complete>
     </div>
 
     <!-- Monthly Limit -->

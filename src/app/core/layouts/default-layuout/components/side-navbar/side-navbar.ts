@@ -3,9 +3,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { SideNavbarItemType } from '../../types/type';
+import { SideNavbarItemType } from '../../../../../shared/types/type';
 import { Store } from '@ngxs/store';
-import { ThemeState } from '../../store/theme.state';
+import { ThemeState } from '../../../../store/theme.state';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
