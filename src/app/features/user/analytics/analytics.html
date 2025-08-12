@@ -17,6 +17,9 @@
         <p-autocomplete
           [suggestions]="timeOptions"
           [(ngModel)]="selectedTime"
+          dropdown="true"
+          optionLabel="label"
+          (completeMethod)="serchTime($event)"
           placeholder="Chọn thời gian"
           class="w-full"
         >
@@ -29,11 +32,11 @@
         <label class="mb-2 block text-sm font-medium text-white"
           >Danh mục</label
         >
+        <!-- placeholder="Tất cả danh mục" class="w-full" -->
         <p-auto-complete
           [suggestions]="categoryOptions"
           [(ngModel)]="selectedCategory"
-          placeholder="Tất cả danh mục"
-          class="w-full"
+          dropdown="true"
         >
         </p-auto-complete>
       </div>
@@ -47,6 +50,7 @@
         <p-autocomplete
           [suggestions]="accountOptions"
           [(ngModel)]="selectedAccount"
+          dropdown="true"
           placeholder="Tất cả tài khoản"
           class="w-full"
         >

@@ -23,7 +23,7 @@ import { InputNumber } from 'primeng/inputnumber';
 import { TextareaModule } from 'primeng/textarea';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StepperModule } from 'primeng/stepper';

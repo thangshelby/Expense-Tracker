@@ -12,13 +12,19 @@ import { TagModule } from 'primeng/tag';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
-// import { DropdownModule } from 'primeng/dropdown';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-// import { CalendarModule } from 'primeng/calendar';
-// import { TabViewModule } from 'primeng/tabview';
 import { TabsModule } from 'primeng/tabs';
 import { DatePickerModule } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
+interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
 
+// interface Time{
+//   label:string,
+//   value:string
+// }
 import {
   FinancialData,
   CategoryData,
@@ -33,15 +39,14 @@ import {
     CommonModule,
     FormsModule,
     CardModule,
-    // DropdownModule,
     AutoCompleteModule,
     ButtonModule,
     TableModule,
     ChartModule,
     DatePickerModule,
-    // CalendarModule,
     InputTextModule,
     TabsModule,
+    SelectModule,
     TagModule,
     ProgressBarModule,
     DialogModule,
@@ -52,15 +57,16 @@ import {
 })
 export class Analytics implements OnInit {
   // Filter Options
-  timeOptions = [
+  timeOptions: any[] = [
     { label: 'Tháng này', value: 'thisMonth' },
     { label: 'Tháng trước', value: 'lastMonth' },
     { label: 'Quý này', value: 'thisQuarter' },
     { label: 'Năm này', value: 'thisYear' },
     { label: 'Tùy chọn', value: 'custom' },
   ];
+  // timeOptions:string[] = ['sad', 'asdad', 'asdasdas'];
 
-  categoryOptions = [
+  categoryOptions: any[] = [
     { label: 'Tất cả danh mục', value: 'all' },
     { label: 'Ăn uống', value: 'food' },
     { label: 'Giải trí', value: 'entertainment' },
@@ -68,14 +74,14 @@ export class Analytics implements OnInit {
     { label: 'Y tế', value: 'health' },
   ];
 
-  accountOptions = [
+  accountOptions: any[] = [
     { label: 'Tất cả tài khoản', value: 'all' },
     { label: 'Tiền mặt', value: 'cash' },
     { label: 'Ngân hàng', value: 'bank' },
     { label: 'Ví điện tử', value: 'ewallet' },
   ];
 
-  chartTypeOptions = [
+  chartTypeOptions: any[] = [
     { label: 'Pie', value: 'pie' },
     { label: 'Doughnut', value: 'doughnut' },
   ];
@@ -84,7 +90,24 @@ export class Analytics implements OnInit {
   selectedTime = 'thisMonth';
   selectedCategory = 'all';
   selectedAccount = 'all';
-  selectedChartType: ChartType = 'doughnut';
+  selectedChartType: ChartType = 'bar';
+
+  items: any[] = [];
+  serchTime(event: AutoCompleteCompleteEvent) {
+    this.timeOptions = [
+      { label: 'Tháng này', value: 'thisMonth' },
+      { label: 'Tháng trước', value: 'lastMonth' },
+      { label: 'Quý này', value: 'thisQuarter' },
+      { label: 'Năm này', value: 'thisYear' },
+      { label: 'Tùy chọn', value: 'custom' },
+    ];
+    // let _items = [...Array(10).keys()];
+    // this.items = event.query
+    //   ? [...Array(10).keys()].map((item) => event.query + '-' + item)
+    //   : _items;
+    // console.log(this.items);
+    // this.items = this.timeOptions;
+  }
 
   // Summary Data
   totalIncome = 15000000;
