@@ -11,50 +11,55 @@
   <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
     <p-card class="border border-slate-700 bg-slate-800/50">
       <div class="p-field">
-        <label class="mb-2 block text-sm font-medium text-white"
-          >Thời gian</label
-        >
-        <p-autocomplete
-          [suggestions]="timeOptions"
+        <label for="name" class="mb-3 block font-bold">Categories</label>
+        <p-select
           [(ngModel)]="selectedTime"
-          dropdown="true"
+          [options]="timeOptions"
           optionLabel="label"
-          (completeMethod)="serchTime($event)"
           placeholder="Chọn thời gian"
-          class="w-full"
+          styleClass="outline-none w-full"
         >
-        </p-autocomplete>
+        </p-select>
       </div>
     </p-card>
 
     <p-card class="border border-slate-700 bg-slate-800/50">
       <div class="p-field">
-        <label class="mb-2 block text-sm font-medium text-white"
-          >Danh mục</label
-        >
-        <!-- placeholder="Tất cả danh mục" class="w-full" -->
-        <p-auto-complete
-          [suggestions]="categoryOptions"
-          [(ngModel)]="selectedCategory"
-          dropdown="true"
-        >
-        </p-auto-complete>
+        <div class="flex-1">
+          <label for="name" class="mb-3 block font-bold">Categories</label>
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <lucide-icon
+                [img]="ChartBarStacked"
+                class="my-icon"
+              ></lucide-icon>
+            </p-inputgroup-addon>
+            <p-select
+              [(ngModel)]="selectedCategory"
+              [options]="categoryOptions"
+              optionLabel="label"
+              placeholder="Select category"
+              styleClass="outline-none"
+            >
+            </p-select>
+          </p-inputgroup>
+        </div>
       </div>
     </p-card>
 
     <p-card class="border border-slate-700 bg-slate-800/50">
       <div class="p-field">
-        <label class="mb-2 block text-sm font-medium text-white"
-          >Tài khoản</label
-        >
-        <p-autocomplete
-          [suggestions]="accountOptions"
+        <label class="mb-2 block text-sm font-medium text-white">
+          Tài khoản
+        </label>
+        <p-select
           [(ngModel)]="selectedAccount"
-          dropdown="true"
+          [options]="accountOptions"
+          optionLabel="label"
           placeholder="Tất cả tài khoản"
-          class="w-full"
+          styleClass="outline-none w-full"
         >
-        </p-autocomplete>
+        </p-select>
       </div>
     </p-card>
 
@@ -176,7 +181,7 @@
   <!-- Charts and Tables Section -->
   <div class="mb-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
     <!-- Income/Expense Trend Chart -->
-    <p-card class="border border-slate-700 bg-slate-800/50">
+    <p-card class="flex-1 border border-slate-700 bg-slate-800/50">
       <ng-template pTemplate="header">
         <div class="flex w-full items-center justify-between p-4">
           <h3 class="text-xl font-bold text-white">
@@ -203,16 +208,18 @@
     <!-- Category Distribution -->
     <p-card class="border border-slate-700 bg-slate-800/50">
       <ng-template pTemplate="header">
-        <div class="flex w-full items-center p-4">
+        <div class="flex w-full items-center justify-between p-4">
           <h3 class="text-xl font-bold text-white">Phân bổ theo Danh mục</h3>
-          <p-autocomplete
-            [suggestions]="chartTypeOptions"
-            [(ngModel)]="selectedChartType"
-            dropdown="true"
-            class="w-32"
-            [virtualScroll]="true"
-          >
-          </p-autocomplete>
+          <div>
+            <p-select
+              [(ngModel)]="selectedChartType"
+              [options]="chartTypeOptions"
+              optionLabel="label"
+              placeholder="Biểu đồ"
+              styleClass="outline-none w-full"
+            >
+            </p-select>
+          </div>
         </div>
       </ng-template>
 

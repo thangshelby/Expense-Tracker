@@ -16,22 +16,24 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TabsModule } from 'primeng/tabs';
 import { DatePickerModule } from 'primeng/datepicker';
 import { SelectModule } from 'primeng/select';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputGroup, InputGroupModule } from 'primeng/inputgroup';
+import { LucideAngularModule, FileIcon, ChartBarStacked } from 'lucide-angular';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
 }
 
-// interface Time{
-//   label:string,
-//   value:string
-// }
 import {
   FinancialData,
   CategoryData,
   AccountData,
   ChartType,
 } from '../../../core/model/interface/analytics';
-
+interface Category {
+  label: string;
+  value: string;
+}
 @Component({
   selector: 'app-financial-report',
   standalone: true,
@@ -46,16 +48,21 @@ import {
     DatePickerModule,
     InputTextModule,
     TabsModule,
-    SelectModule,
     TagModule,
     ProgressBarModule,
     DialogModule,
     TooltipModule,
+    SelectModule,
+    InputGroupAddonModule,
+    InputGroupModule,
+    LucideAngularModule,
   ],
   templateUrl: './analytics.html',
   styleUrl: './analytics.css',
 })
 export class Analytics implements OnInit {
+  readonly FileIcon = FileIcon;
+  readonly ChartBarStacked = ChartBarStacked;
   // Filter Options
   timeOptions: any[] = [
     { label: 'Tháng này', value: 'thisMonth' },
@@ -64,9 +71,8 @@ export class Analytics implements OnInit {
     { label: 'Năm này', value: 'thisYear' },
     { label: 'Tùy chọn', value: 'custom' },
   ];
-  // timeOptions:string[] = ['sad', 'asdad', 'asdasdas'];
 
-  categoryOptions: any[] = [
+  categoryOptions: Category[] | undefined = [
     { label: 'Tất cả danh mục', value: 'all' },
     { label: 'Ăn uống', value: 'food' },
     { label: 'Giải trí', value: 'entertainment' },
@@ -88,9 +94,9 @@ export class Analytics implements OnInit {
 
   // Selected Values
   selectedTime = 'thisMonth';
-  selectedCategory = 'all';
+  selectedCategory: Category | undefined;
   selectedAccount = 'all';
-  selectedChartType: ChartType = 'bar';
+  selectedChartType: ChartType = 'pie';
 
   items: any[] = [];
   serchTime(event: AutoCompleteCompleteEvent) {

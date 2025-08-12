@@ -1,0 +1,127 @@
+:host ::ng-deep {
+  .p-card {
+    background: transparent;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .p-card .p-card-body {
+    padding: 1.5rem;
+  }
+
+  .p-inputtext,
+  .p-autocomplete input {
+    background: rgba(51, 65, 85, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    color: white;
+  }
+
+  .p-inputtext:focus,
+  .p-autocomplete input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.2);
+  }
+
+  .p-dropdown {
+    background: rgba(51, 65, 85, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    color: white;
+  }
+
+  .p-datepicker input {
+    background: rgba(51, 65, 85, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    color: white;
+  }
+
+  .p-button {
+    border-radius: 8px;
+  }
+
+  .p-datatable .p-datatable-header {
+    background: rgba(51, 65, 85, 0.5);
+    border-color: rgba(148, 163, 184, 0.3);
+  }
+
+  .p-datatable .p-datatable-tbody > tr {
+    background: transparent;
+    border-color: rgba(148, 163, 184, 0.1);
+  }
+
+  .p-datatable .p-datatable-tbody > tr:nth-child(even) {
+    background: rgba(51, 65, 85, 0.2);
+  }
+
+  .p-progressbar {
+    background: rgba(51, 65, 85, 0.5);
+    border-radius: 4px;
+  }
+
+  .p-progressbar .p-progressbar-value {
+    background: linear-gradient(90deg, #10b981, #06b6d4);
+  }
+
+  .p-progressbar.danger .p-progressbar-value {
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+  }
+
+  .p-progressbar.warning .p-progressbar-value {
+    background: linear-gradient(90deg, #f59e0b, #d97706);
+  }
+
+  .p-tabs .p-tablist {
+    background: rgba(51, 65, 85, 0.5);
+    border-color: rgba(148, 163, 184, 0.3);
+  }
+
+  .p-tabs .p-tablist .p-tab {
+    color: rgb(203, 213, 225);
+    border-color: transparent;
+  }
+
+  .p-tabs .p-tablist .p-tab.p-tab-active {
+    color: white;
+    border-color: #3b82f6;
+  }
+
+  .p-tabs .p-tabpanels {
+    background: transparent;
+    border-color: rgba(148, 163, 184, 0.3);
+  }
+
+  .custom-dialog .p-dialog {
+    background: rgba(30, 41, 59, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+  }
+
+  .custom-dialog .p-dialog-header {
+    background: rgba(51, 65, 85, 0.5);
+    border-color: rgba(148, 163, 184, 0.3);
+    color: white;
+  }
+
+  .custom-dialog .p-dialog-content {
+    background: transparent;
+    color: white;
+  }
+
+  .custom-timeline .p-timeline-event-content {
+    background: transparent;
+  }
+
+  .p-selectbutton .p-button {
+    background: rgba(51, 65, 85, 0.8);
+    border-color: rgba(148, 163, 184, 0.3);
+    color: rgb(203, 213, 225);
+  }
+
+  .p-selectbutton .p-button.p-highlight {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+  }
+
+  .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider {
+    background: #3b82f6;
+  }
+}

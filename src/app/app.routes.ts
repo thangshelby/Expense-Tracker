@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guard/auth.guard';
 import { DefaultLayout } from './core/layouts/default-layuout/default-layuout';
-import { LoanManagementComponent } from './features/user/loan-management/loan-management';
+
 // import { LoginGuard } from './auth/login.guard';
 
 export const routes: Routes = [
@@ -58,13 +58,11 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'loan-management',
-        component: LoanManagementComponent,
-
-        // loadComponent: () =>
-        //   import('./features/loanmanagement/loan-management').then(
-        //     (c) => c.LoanManagementComponent,
-        //   ),
+        path: 'finance-alerts',
+        loadComponent: () =>
+          import('./features/user/finance-alert/finance-alert').then(
+            (c) => c.FinancialAlertsComponent,
+          ),
       },
       {
         path: 'budget-management',
@@ -74,10 +72,13 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'history',
+        path: 'loan-management',
         loadComponent: () =>
-          import('./features/user/history/history').then((c) => c.History),
+          import('./features/user/loan-management/loan-management').then(
+            (c) => c.LoanManagementComponent,
+          ),
       },
+
       {
         path: 'profile',
         loadComponent: () =>

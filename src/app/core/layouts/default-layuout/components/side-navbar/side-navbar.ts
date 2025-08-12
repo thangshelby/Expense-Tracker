@@ -8,14 +8,39 @@ import { Store } from '@ngxs/store';
 import { ThemeState } from '../../../../store/theme.state';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import {
+  LucideAngularModule,
+  LayoutDashboardIcon,
+  ChartAreaIcon,
+  SirenIcon,
+  CalculatorIcon,
+  PiggyBankIcon,
+  CreditCardIcon,
+  FileIcon,
+  ChartArea,
+} from 'lucide-angular';
 
 @Component({
   selector: 'app-side-navbar',
-  imports: [MatButtonModule, MatIconModule, CommonModule, AsyncPipe],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    CommonModule,
+    AsyncPipe,
+    LucideAngularModule,
+  ],
   templateUrl: './side-navbar.html',
   styleUrl: './side-navbar.css',
 })
 export class SideNavbar implements OnInit {
+  readonly LayoutDashboardIcon = LayoutDashboardIcon;
+  readonly ChartAreaIcon = ChartAreaIcon; //analytic
+  readonly SirenIcon = SirenIcon; //alert
+  readonly CalculatorIcon = CalculatorIcon; //tran
+  readonly PiggyBankIcon = PiggyBankIcon; //budget
+  readonly CreditCardIcon = CreditCardIcon; //loan
+  readonly FileIcon = FileIcon;
+
   sideNavItems = signal<SideNavbarItemType[]>([]);
   activatedSideNavItem = signal<string>('');
   constructor(
@@ -35,34 +60,35 @@ export class SideNavbar implements OnInit {
       ...prev,
       {
         key: 'dashboard',
-        icon: 'pi-objects-column',
+        icon: LayoutDashboardIcon,
         title: 'Dashboard',
       },
       {
         key: 'transactions',
-        icon: 'pi-receipt',
+        icon: CalculatorIcon,
         title: 'Transactions',
       },
 
       {
         key: 'analytics',
-        icon: 'pi-chart-bar',
+        icon: ChartAreaIcon,
         title: 'Analytics',
       },
       {
-        key: 'loan-management',
-        icon: 'pi-calculator',
-        title: 'Loan Management',
-      },
-      {
         key: 'budget-management',
-        icon: 'pi-calculator',
+        icon: PiggyBankIcon,
         title: 'Budget Management',
       },
       {
-        key: 'history',
-        icon: 'pi-history',
-        title: 'History',
+        key: 'loan-management',
+        icon: CreditCardIcon,
+        title: 'Loan Management',
+      },
+
+      {
+        key: 'finance-alerts',
+        icon: SirenIcon,
+        title: 'Finance Alert',
       },
     ]);
   }

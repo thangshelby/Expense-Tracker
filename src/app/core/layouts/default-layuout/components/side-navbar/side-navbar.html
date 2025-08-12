@@ -18,7 +18,8 @@
         [ngClass]="(item.key==activatedSideNavItem()?'bg-background-component-active text-headline-active font-medium':'text-headline light:hover:bg-gray-200 dark:hover:bg-[#1c2332]')+' flex w-full hover:cursor-pointer flex-row items-center  gap-4 group rounded-md p-3'"
         (click)="onSideNavItemClick(item.key)"
       >
-        <i class="pi" [ngClass]="item.icon"></i>
+        <lucide-angular [img]="item.icon" class="my-icon"></lucide-angular>
+        <!-- <i class="pi" [ngClass]="item.icon"></i> -->
         <span class="text-sm font-medium">{{item.title}}</span>
       </button>
       }

@@ -18,7 +18,7 @@ export type PaymentType =
 export interface SideNavbarItemType {
   key: string;
   title: string;
-  icon: string;
+  icon: any;
 }
 
 export interface TransactionType {
