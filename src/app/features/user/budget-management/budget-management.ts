@@ -22,43 +22,16 @@ import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { DatePickerModule } from 'primeng/datepicker';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-
-export interface Budget {
-  id: number;
-  category: string;
-  categoryIcon: string;
-  monthlyLimit: number;
-  currentSpent: number;
-  remainingAmount: number;
-  usagePercentage: number;
-  status: 'safe' | 'warning' | 'exceeded';
-  month: string;
-  year: number;
-  createdDate: Date;
-  lastUpdated: Date;
-}
-
-export interface BudgetAlert {
-  id: number;
-  budgetId: number;
-  category: string;
-  type: 'warning' | 'exceeded';
-  message: string;
-  threshold: number;
-  currentAmount: number;
-  date: Date;
-  isRead: boolean;
-}
-
-export interface Transaction {
-  id: string;
-  name: string;
-  amount: number;
-  category: string;
-  date: Date;
-  type: 'expense' | 'income';
-}
-
+import {
+  months,
+  categories,
+  budgets,
+} from '../../../core/constants/bugget-management';
+import {
+  Budget,
+  BudgetAlert,
+  Transaction,
+} from '../../../core/model/interface/budget-management';
 @Component({
   selector: 'app-budget-management',
   templateUrl: './budget-management.html',
@@ -88,6 +61,8 @@ export class BudgetManagement implements OnInit {
   budgets: Budget[] = [];
   alerts: BudgetAlert[] = [];
   transactions: Transaction[] = [];
+  months = months;
+  categories = categories;
   displayDialog: boolean = false;
   displayAlertDialog: boolean = false;
   displaySuggestionDialog: boolean = false;
@@ -117,34 +92,6 @@ export class BudgetManagement implements OnInit {
 
   items: MenuItem[] | undefined;
 
-  // Months for dropdown
-  months = [
-    { label: 'Tháng 1', value: '01' },
-    { label: 'Tháng 2', value: '02' },
-    { label: 'Tháng 3', value: '03' },
-    { label: 'Tháng 4', value: '04' },
-    { label: 'Tháng 5', value: '05' },
-    { label: 'Tháng 6', value: '06' },
-    { label: 'Tháng 7', value: '07' },
-    { label: 'Tháng 8', value: '08' },
-    { label: 'Tháng 9', value: '09' },
-    { label: 'Tháng 10', value: '10' },
-    { label: 'Tháng 11', value: '11' },
-    { label: 'Tháng 12', value: '12' },
-  ];
-
-  // Categories
-  categories = [
-    { label: 'Ăn uống', value: 'Food', icon: 'pi pi-shopping-cart' },
-    { label: 'Giải trí', value: 'Entertainment', icon: 'pi pi-star' },
-    { label: 'Giao thông', value: 'Transportation', icon: 'pi pi-car' },
-    { label: 'Y tế', value: 'Healthcare', icon: 'pi pi-heart' },
-    { label: 'Tiện ích', value: 'Utilities', icon: 'pi pi-home' },
-    { label: 'Mua sắm', value: 'Shopping', icon: 'pi pi-shopping-bag' },
-    { label: 'Giáo dục', value: 'Education', icon: 'pi pi-book' },
-    { label: 'Khác', value: 'Others', icon: 'pi pi-ellipsis-h' },
-  ];
-
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -173,64 +120,7 @@ export class BudgetManagement implements OnInit {
 
   loadData() {
     // Mock budget data
-    this.budgets = [
-      {
-        id: 1,
-        category: 'Food',
-        categoryIcon: 'pi pi-shopping-cart',
-        monthlyLimit: 2000000,
-        currentSpent: 1500000,
-        remainingAmount: 500000,
-        usagePercentage: 75,
-        status: 'warning',
-        month: this.currentMonth,
-        year: this.currentYear,
-        createdDate: new Date(),
-        lastUpdated: new Date(),
-      },
-      {
-        id: 2,
-        category: 'Entertainment',
-        categoryIcon: 'pi pi-star',
-        monthlyLimit: 1000000,
-        currentSpent: 800000,
-        remainingAmount: 200000,
-        usagePercentage: 80,
-        status: 'warning',
-        month: this.currentMonth,
-        year: this.currentYear,
-        createdDate: new Date(),
-        lastUpdated: new Date(),
-      },
-      {
-        id: 3,
-        category: 'Transportation',
-        categoryIcon: 'pi pi-car',
-        monthlyLimit: 1500000,
-        currentSpent: 1600000,
-        remainingAmount: -100000,
-        usagePercentage: 107,
-        status: 'exceeded',
-        month: this.currentMonth,
-        year: this.currentYear,
-        createdDate: new Date(),
-        lastUpdated: new Date(),
-      },
-      {
-        id: 4,
-        category: 'Healthcare',
-        categoryIcon: 'pi pi-heart',
-        monthlyLimit: 500000,
-        currentSpent: 200000,
-        remainingAmount: 300000,
-        usagePercentage: 40,
-        status: 'safe',
-        month: this.currentMonth,
-        year: this.currentYear,
-        createdDate: new Date(),
-        lastUpdated: new Date(),
-      },
-    ];
+    this.budgets = budgets;
   }
 
   loadTransactions() {

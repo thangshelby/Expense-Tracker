@@ -7,7 +7,7 @@ import {
   Budget,
   BudgetAlert,
   Transaction,
-} from '../../features/user/budget-management/budget-management';
+} from '../model/interface/budget-management';
 
 @Injectable({
   providedIn: 'root',

@@ -1,0 +1,64 @@
+:host ::ng-deep {
+  .p-card {
+    background: transparent;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .p-card .p-card-body {
+    padding: 1.5rem;
+  }
+
+  .p-dropdown {
+    background: rgba(51, 65, 85, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    color: white;
+  }
+
+  .p-button {
+    border-radius: 8px;
+  }
+
+  .p-datatable .p-datatable-header {
+    background: rgba(51, 65, 85, 0.5);
+    border-color: rgba(148, 163, 184, 0.3);
+  }
+
+  .p-datatable .p-datatable-tbody > tr {
+    background: transparent;
+    border-color: rgba(148, 163, 184, 0.1);
+  }
+
+  .p-datatable .p-datatable-tbody > tr:nth-child(even) {
+    background: rgba(51, 65, 85, 0.2);
+  }
+
+  .p-progressbar {
+    background: rgba(51, 65, 85, 0.5);
+    border-radius: 4px;
+  }
+
+  .p-progressbar .p-progressbar-value {
+    background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  }
+
+  .custom-tabview .p-tabview-nav {
+    background: rgba(51, 65, 85, 0.5);
+    border-color: rgba(148, 163, 184, 0.3);
+  }
+
+  .custom-tabview .p-tabview-nav li .p-tabview-nav-link {
+    color: rgb(203, 213, 225);
+    border-color: transparent;
+  }
+
+  .custom-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    color: white;
+    border-color: #3b82f6;
+  }
+
+  .custom-tabview .p-tabview-panels {
+    background: transparent;
+    border-color: rgba(148, 163, 184, 0.3);
+  }
+}
