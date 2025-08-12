@@ -69,11 +69,11 @@ export class SideNavbar implements OnInit {
         title: 'Transactions',
       },
 
-      {
-        key: 'analytics',
-        icon: ChartAreaIcon,
-        title: 'Analytics',
-      },
+      // {
+      //   key: 'analytics',
+      //   icon: ChartAreaIcon,
+      //   title: 'Analytics',
+      // },
       {
         key: 'budget-management',
         icon: PiggyBankIcon,

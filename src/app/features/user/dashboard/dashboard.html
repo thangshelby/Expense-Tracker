@@ -1,64 +1,358 @@
-<div
-  class="bg-background-page flex flex-col overflow-auto transition-colors duration-300 ease-in-out"
->
-  <!-- CONTENT  -->
-  <div class="flex h-full w-full flex-col gap-y-12 p-6">
-    <!-- DASHBOARD OVERVIEW -->
-    <div class="flex h-full flex-1 flex-row gap-6">
-      <!-- OVERVIEW  -->
-      <div class="w-[66%]">
-        <app-dashboard-overview />
-      </div>
-      <!-- ANALYTICS -->
-      <div class="w-[34%]">
-        <app-monthly-target />
-      </div>
+<div class="min-h-screen bg-gray-900 p-6">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="mb-2 text-3xl font-bold text-white">🏠 Dashboard</h1>
+    <p class="text-gray-400">Tổng quan tình hình tài chính của bạn</p>
+
+    <!-- Time Filter -->
+    <div class="mt-6 flex gap-4">
+      <p-select
+        [(ngModel)]="selectedTime"
+        [options]="timeOptions"
+        optionLabel="label"
+        optionValue="value"
+        (onChange)="onTimeFilterChange($event)"
+        styleClass="w-40 bg-gray-800 border-gray-700"
+      >
+      </p-select>
     </div>
-    <!-- DASHBOARD STATISTIC -->
-    <div class="">
-      <app-statistics />
-    </div>
+  </div>
 
-    <!-- THIRD ITEM -->
-    <div class="flex flex-col gap-y-4 rounded-lg bg-white p-4">
-      <h1 class="text-xl font-medium">Detail Summary</h1>
-      <span class="text-gray-500">Click on row to Edit/Delete Expense</span>
-      <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource">
-          <!-- Position Column -->
-          <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef>No.</th>
-            <td mat-cell *matCellDef="let element">{{element.position}}</td>
-          </ng-container>
-
-          <!-- Name Column -->
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Name</th>
-            <td mat-cell *matCellDef="let element">{{element.name}}</td>
-          </ng-container>
-
-          <!-- Weight Column -->
-          <ng-container matColumnDef="weight">
-            <th mat-header-cell *matHeaderCellDef>Weight</th>
-            <td mat-cell *matCellDef="let element">{{element.weight}}</td>
-          </ng-container>
-
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="symbol">
-            <th mat-header-cell *matHeaderCellDef>Symbol</th>
-            <td mat-cell *matCellDef="let element">{{element.symbol}}</td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-
-        <mat-paginator
-          [pageSizeOptions]="[5, 10, 20]"
-          showFirstLastButtons
-          aria-label="Select page of periodic elements"
+  <!-- Summary Cards -->
+  <div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+    <!-- Tổng thu nhập -->
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="mb-4 flex items-center justify-between">
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600"
         >
-        </mat-paginator>
+          <i class="pi pi-arrow-up text-xl text-white"></i>
+        </div>
+        <p-tag
+          value="Thu nhập"
+          severity="info"
+          styleClass="bg-blue-600"
+        ></p-tag>
+      </div>
+      <h3 class="mb-2 text-2xl font-bold text-white">
+        {{ totalIncome | number: '1.0-0' }} VND
+      </h3>
+      <p class="text-sm text-gray-400">
+        <span class="text-green-400">↑ {{ incomeChange }}%</span> so với {{
+        selectedTime }}
+      </p>
+    </div>
+
+    <!-- Tổng chi tiêu -->
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="mb-4 flex items-center justify-between">
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-lg bg-red-600"
+        >
+          <i class="pi pi-arrow-down text-xl text-white"></i>
+        </div>
+        <p-tag
+          value="Chi tiêu"
+          severity="danger"
+          styleClass="bg-red-600"
+        ></p-tag>
+      </div>
+      <h3 class="mb-2 text-2xl font-bold text-white">
+        {{ totalExpense | number: '1.0-0' }} VND
+      </h3>
+      <p class="text-sm text-gray-400">
+        <span class="text-red-400">↑ {{ expenseChange }}%</span> so với {{
+        selectedTime }}
+      </p>
+    </div>
+
+    <!-- Số dư hiện tại -->
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="mb-4 flex items-center justify-between">
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-lg bg-green-600"
+        >
+          <i class="pi pi-wallet text-xl text-white"></i>
+        </div>
+        <p-tag
+          value="Số dư"
+          severity="success"
+          styleClass="bg-green-600"
+        ></p-tag>
+      </div>
+      <h3 class="mb-2 text-2xl font-bold text-white">
+        {{ currentBalance | number: '1.0-0' }} VND
+      </h3>
+      <p class="text-sm text-gray-400">
+        <span [class]="balanceChange >= 0 ? 'text-green-400' : 'text-red-400'">
+          {{ balanceChange >= 0 ? '↑' : '↓' }} {{ Math.abs(balanceChange) }}%
+        </span>
+        so với {{ selectedTime }}
+      </p>
+    </div>
+
+    <!-- Tỷ lệ tiết kiệm -->
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="mb-4 flex items-center justify-between">
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600"
+        >
+          <i class="pi pi-percentage text-xl text-white"></i>
+        </div>
+        <p-tag
+          value="Tiết kiệm"
+          severity="warning"
+          styleClass="bg-purple-600"
+        ></p-tag>
+      </div>
+      <h3 class="mb-2 text-2xl font-bold text-white">{{ savingRate }}%</h3>
+      <p class="text-sm text-gray-400">Tỷ lệ tiết kiệm</p>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <!-- Cash Flow Chart -->
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="mb-6 flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-white">
+          📊 Dòng tiền theo thời gian
+        </h3>
+        <i
+          class="pi pi-info-circle cursor-pointer text-gray-400"
+          pTooltip="Biểu đồ hiển thị thu nhập và chi tiêu theo thời gian"
+        ></i>
+      </div>
+      <p-chart
+        type="line"
+        [data]="cashFlowData"
+        [options]="chartOptions"
+        styleClass="h-80"
+      >
+      </p-chart>
+    </div>
+
+    <!-- Expense Categories Chart -->
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div class="mb-6 flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-white">🏷️ Phân bổ chi tiêu</h3>
+        <i
+          class="pi pi-info-circle cursor-pointer text-gray-400"
+          pTooltip="Tỷ lệ chi tiêu theo từng danh mục"
+        ></i>
+      </div>
+      <p-chart
+        type="doughnut"
+        [data]="expenseCategoryData"
+        [options]="doughnutOptions"
+        styleClass="h-80"
+      >
+      </p-chart>
+    </div>
+  </div>
+
+  <!-- Detailed Reports Tab -->
+  <p-tabs class="custom-tabview" value="0">
+    <p-tablist>
+      <p-tab value="0">📅 Báo cáo theo Tháng</p-tab>
+      <p-tab value="1">📂 Báo cáo theo Danh mục</p-tab>
+      <p-tab value="2">🏦 Báo cáo theo Tài khoản</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <!-- Monthly Report -->
+      <p-tabpanel header="📅 Báo cáo theo Tháng" value="0">
+        <p-card class="border border-slate-700 bg-slate-800/50">
+          <p-table
+            [value]="monthlyData"
+            [paginator]="true"
+            [rows]="10"
+            styleClass="p-datatable-dark"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="text-white">Tháng</th>
+                <th class="text-white">Thu nhập</th>
+                <th class="text-white">Chi tiêu</th>
+                <th class="text-white">Số dư</th>
+                <th class="text-white">So sánh kỳ trước</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+              <tr>
+                <td class="text-white">{{ data.month }}</td>
+                <td class="text-emerald-400">
+                  +{{ data.income | number: '1.0-0' }} VND
+                </td>
+                <td class="text-red-400">
+                  -{{ data.expense | number: '1.0-0' }} VND
+                </td>
+                <td class="text-white">
+                  {{ data.balance | number: '1.0-0' }} VND
+                </td>
+                <td>
+                  <p-tag
+                    [value]="getComparisonText(data)"
+                    [severity]="getComparisonSeverity(data)"
+                  >
+                  </p-tag>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </p-tabpanel>
+
+      <!-- Category Report -->
+      <p-tabpanel header="📂 Báo cáo theo Danh mục" value="1">
+        <p-card class="border border-slate-700 bg-slate-800/50">
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div
+              *ngFor="let category of categoryData"
+              class="rounded-lg border border-slate-600 bg-slate-700/50 p-4"
+            >
+              <div class="mb-3 flex items-center justify-between">
+                <div class="flex items-center">
+                  <span class="mr-3 text-2xl">{{ category.icon }}</span>
+                  <h4 class="font-semibold text-white">{{ category.name }}</h4>
+                </div>
+                <span class="text-sm text-slate-300"
+                  >{{ category.percentage }}%</span
+                >
+              </div>
+              <p class="mb-2 text-2xl font-bold text-white">
+                {{ category.amount | number: '1.0-0' }} VND
+              </p>
+              <p-progressBar
+                [value]="category.percentage"
+                [showValue]="false"
+                [style]="{ height: '6px' }"
+                styleClass="mb-2"
+              >
+              </p-progressBar>
+              <p class="text-xs text-slate-400">Tỷ lệ trong tổng chi tiêu</p>
+            </div>
+          </div>
+        </p-card>
+      </p-tabpanel>
+
+      <!-- Account Report -->
+      <p-tabpanel header="🏦 Báo cáo theo Tài khoản" value="2">
+        <p-card class="border border-slate-700 bg-slate-800/50">
+          <p-table [value]="accountData" styleClass="p-datatable-dark">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="text-white">Tài khoản</th>
+                <th class="text-white">Loại</th>
+                <th class="text-white">Số dư</th>
+                <th class="text-white">Giao dịch</th>
+                <th class="text-white">Trạng thái</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-account>
+              <tr>
+                <td class="font-medium text-white">{{ account.name }}</td>
+                <td>
+                  <p-tag
+                    [value]="account.type"
+                    [severity]="getAccountSeverity(account.type)"
+                  >
+                  </p-tag>
+                </td>
+                <td class="text-white">
+                  {{ account.balance | number: '1.0-0' }} VND
+                </td>
+                <td class="text-slate-300">{{ account.transactions }}</td>
+                <td>
+                  <span
+                    class="inline-block h-3 w-3 rounded-full"
+                    [ngClass]="
+                        account.balance > 0 ? 'bg-emerald-400' : 'bg-red-400'
+                      "
+                  >
+                  </span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+
+  <!-- Bottom Section -->
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+    <!-- Top Spending Categories -->
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <h3 class="mb-6 text-xl font-semibold text-white">
+        💳 Danh mục chi tiêu lớn
+      </h3>
+      <div class="space-y-4">
+        <div
+          *ngFor="let category of topCategories"
+          class="flex items-center justify-between"
+        >
+          <div class="flex items-center gap-3">
+            <div
+              class="h-4 w-4 rounded-full"
+              [style.background-color]="category.color"
+            ></div>
+            <span class="text-gray-300">{{ category.category }}</span>
+          </div>
+          <div class="text-right">
+            <p class="font-semibold text-white">
+              {{ category.amount | number: '1.0-0' }} VND
+            </p>
+            <p class="text-sm text-gray-400">{{ category.percentage }}%</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account Summary -->
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <h3 class="mb-6 text-xl font-semibold text-white">
+        🏦 Tổng hợp tài khoản
+      </h3>
+      <div class="space-y-4">
+        <div
+          *ngFor="let account of accountSummary"
+          class="flex items-center justify-between rounded-lg bg-gray-700 p-3"
+        >
+          <div class="flex items-center gap-3">
+            <i [class]="account.icon" class="text-blue-400"></i>
+            <span class="text-gray-300">{{ account.name }}</span>
+          </div>
+          <span class="font-semibold text-white"
+            >{{ account.balance | number: '1.0-0' }} VND</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial Suggestions -->
+    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <h3 class="mb-6 text-xl font-semibold text-white">💡 Gợi ý cải thiện</h3>
+      <div class="space-y-4">
+        <div
+          *ngFor="let suggestion of financialSuggestions"
+          class="rounded-lg border-l-4 p-3"
+          [class.border-yellow-500]="suggestion.type === 'warning'"
+          [class.border-green-500]="suggestion.type === 'success'"
+          [class.border-blue-500]="suggestion.type === 'info'"
+          [class.bg-yellow-900]="suggestion.type === 'warning'"
+          [class.bg-green-900]="suggestion.type === 'success'"
+          [class.bg-blue-900]="suggestion.type === 'info'"
+        >
+          <div class="flex items-start gap-3">
+            <i
+              [class]="suggestion.icon"
+              [class.text-yellow-400]="suggestion.type === 'warning'"
+              [class.text-green-400]="suggestion.type === 'success'"
+              [class.text-blue-400]="suggestion.type === 'info'"
+            ></i>
+            <p class="text-sm text-gray-300">{{ suggestion.message }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
