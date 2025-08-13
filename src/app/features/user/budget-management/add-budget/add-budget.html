@@ -1,0 +1,91 @@
+<div class="grid grid-cols-1 gap-4">
+  <!-- Category Selection -->
+  <div class="flex flex-col gap-2">
+    <label class="text-sm font-medium">Danh mục chi tiêu *</label>
+
+    <p-select
+      [(ngModel)]="newBudget.category"
+      [options]="categories"
+      optionLabel="label"
+      placeholder="Chọn danh mục..."
+      optionValue="value"
+      class="w-full"
+    >
+      <ng-template let-newBudget.category #selectedItem>
+        @if(newBudget.category){
+        <div class="flex items-center gap-2">
+          <i [class]="findIcon(newBudget)"></i>
+          <span>{{ getCategoryLabel(newBudget.category) }}</span>
+        </div>
+        }
+      </ng-template>
+      <ng-template let-category #item>
+        <div class="flex items-center gap-2">
+          <i [class]="category.icon"></i>
+          <span>{{ category.label }}</span>
+        </div>
+      </ng-template>
+    </p-select>
+  </div>
+
+  <!-- Monthly Limit -->
+  <div class="flex flex-col gap-2">
+    <label class="text-sm font-medium">Ngân sách hàng tháng *</label>
+    <input
+      type="text"
+      [(ngModel)]="newBudget.monthlyLimit"
+      pInputText
+      id="name"
+      class="w-full p-2 outline-none"
+      autofocus
+      fluid
+    />
+  </div>
+
+  <!-- Month/Year -->
+  <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium">Tháng *</label>
+      <p-select
+        [options]="months"
+        [(ngModel)]="newBudget.month"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Chọn tháng"
+        class="w-full"
+      >
+      </p-select>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium">Năm *</label>
+
+      <input
+        type="text"
+        [(ngModel)]="newBudget.year"
+        pInputText
+        id="name"
+        class="r w-full p-2 outline-none"
+        autofocus
+        fluid
+      />
+    </div>
+  </div>
+
+  <!-- Preview -->
+  <div
+    class="rounded-lg bg-gray-700 p-4"
+    *ngIf="newBudget.category && newBudget.monthlyLimit > 0"
+  >
+    <h4 class="mb-2 text-sm font-medium">Xem trước:</h4>
+    <div class="flex items-center gap-3">
+      <i [class]="findIcon(newBudget)" class="text-blue-400"></i>
+      <div>
+        <p class="font-medium">{{ getCategoryLabel(newBudget.category) }}</p>
+        <p class="text-sm text-gray-400">
+          {{ formatCurrency(newBudget.monthlyLimit) }}/tháng
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

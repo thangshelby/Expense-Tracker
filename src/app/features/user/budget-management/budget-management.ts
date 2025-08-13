@@ -22,6 +22,8 @@ import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { DatePickerModule } from 'primeng/datepicker';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { SelectModule } from 'primeng/select';
+
 import {
   months,
   categories,
@@ -32,6 +34,8 @@ import {
   BudgetAlert,
   Transaction,
 } from '../../../core/model/interface/budget-management';
+
+import { AddBudget } from './add-budget/add-budget';
 @Component({
   selector: 'app-budget-management',
   templateUrl: './budget-management.html',
@@ -55,6 +59,8 @@ import {
     DividerModule,
     DatePickerModule,
     AutoCompleteModule,
+
+    AddBudget,
   ],
 })
 export class BudgetManagement implements OnInit {

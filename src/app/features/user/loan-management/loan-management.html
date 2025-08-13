@@ -222,7 +222,8 @@
     </div>
 
     <!-- Interest Rate (for loans) -->
-    <div class="flex flex-col gap-2" *ngIf="newLoanDebt.type === 'loan'">
+    @if(newLoanDebt.type==='loan'){
+    <div class="flex flex-col gap-2">
       <label class="text-sm font-medium">Lãi suất (%/tháng)</label>
       <p-inputNumber
         [(ngModel)]="newLoanDebt.interestRate"
@@ -233,6 +234,7 @@
       >
       </p-inputNumber>
     </div>
+    }
 
     <!-- Description -->
     <div class="flex flex-col gap-2">

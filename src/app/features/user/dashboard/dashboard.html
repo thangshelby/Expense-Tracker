@@ -1,38 +1,110 @@
-<div class="min-h-screen bg-gray-900 p-6">
-  <!-- Header -->
+<div
+  class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6"
+>
+  <!-- Enhanced Header -->
   <div class="mb-8">
-    <h1 class="mb-2 text-3xl font-bold text-white">🏠 Dashboard</h1>
-    <p class="text-gray-400">Tổng quan tình hình tài chính của bạn</p>
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+      <div class="mb-4 lg:mb-0">
+        <h1
+          class="mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-4xl font-bold text-transparent"
+        >
+          💎 Financial Dashboard
+        </h1>
+        <p class="text-xl text-gray-300">
+          Quản lý tài chính thông minh và hiệu quả
+        </p>
+      </div>
 
-    <!-- Time Filter -->
-    <div class="mt-6 flex gap-4">
+      <!-- Quick Actions -->
+      <div class="flex flex-wrap gap-3">
+        <button
+          class="flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2 text-white transition-all hover:from-blue-700 hover:to-blue-800 hover:shadow-lg"
+          (click)="showAddTransaction = true"
+        >
+          <i class="pi pi-plus"></i>
+          Thêm giao dịch
+        </button>
+        <button
+          class="flex items-center gap-2 rounded-lg bg-gradient-to-r from-green-600 to-green-700 px-4 py-2 text-white transition-all hover:from-green-700 hover:to-green-800 hover:shadow-lg"
+        >
+          <i class="pi pi-download"></i>
+          Xuất báo cáo
+        </button>
+      </div>
+    </div>
+
+    <!-- Advanced Time Filter -->
+    <div class="mt-6 flex flex-wrap gap-4">
       <p-select
         [(ngModel)]="selectedTime"
         [options]="timeOptions"
         optionLabel="label"
         optionValue="value"
         (onChange)="onTimeFilterChange($event)"
-        styleClass="w-40 bg-gray-800 border-gray-700"
+        styleClass="w-40"
+      />
+      <p-calendar
+        [(ngModel)]="customDateRange"
+        selectionMode="range"
+        placeholder="Tùy chọn thời gian"
+        styleClass="w-60"
+        (onSelect)="onCustomDateChange($event)"
+      />
+      <button
+        class="rounded-lg bg-gray-700 px-4 py-2 text-white hover:bg-gray-600"
       >
-      </p-select>
+        <i class="pi pi-refresh mr-2"></i>
+        Làm mới
+      </button>
     </div>
   </div>
 
-  <!-- Summary Cards -->
-  <div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-    <!-- Tổng thu nhập -->
-    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+  <!-- Enhanced Summary Cards -->
+  <div
+    class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6"
+  >
+    <!-- Net Worth Card -->
+    <div
+      class="col-span-1 rounded-xl border border-gray-700 bg-gradient-to-br from-purple-900/50 to-purple-800/30 p-6 backdrop-blur-sm md:col-span-2"
+    >
       <div class="mb-4 flex items-center justify-between">
         <div
-          class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600"
+          class="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-r from-purple-600 to-purple-700 shadow-lg"
+        >
+          <i class="pi pi-star text-2xl text-white"></i>
+        </div>
+        <p-tag
+          value="Tài sản ròng"
+          severity="info"
+          styleClass="bg-purple-600"
+        />
+      </div>
+      <h3 class="mb-2 text-3xl font-bold text-white">
+        {{ netWorth | number: '1.0-0' }} VND
+      </h3>
+      <p class="text-sm text-gray-300">
+        <span class="text-purple-400">↑ {{ netWorthChange }}%</span> so với
+        tháng trước
+      </p>
+      <div class="mt-4 h-2 rounded-full bg-gray-700">
+        <div
+          class="h-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600"
+          [style.width.%]="75"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Enhanced existing cards -->
+    <div
+      class="rounded-xl border border-gray-700 bg-gradient-to-br from-blue-900/50 to-blue-800/30 p-6 backdrop-blur-sm"
+    >
+      <div class="mb-4 flex items-center justify-between">
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg"
         >
           <i class="pi pi-arrow-up text-xl text-white"></i>
         </div>
-        <p-tag
-          value="Thu nhập"
-          severity="info"
-          styleClass="bg-blue-600"
-        ></p-tag>
+        <p-tag value="Thu nhập" severity="info" styleClass="bg-blue-600" />
       </div>
       <h3 class="mb-2 text-2xl font-bold text-white">
         {{ totalIncome | number: '1.0-0' }} VND
@@ -43,19 +115,16 @@
       </p>
     </div>
 
-    <!-- Tổng chi tiêu -->
-    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+    <div
+      class="rounded-xl border border-gray-700 bg-gradient-to-br from-red-900/50 to-red-800/30 p-6 backdrop-blur-sm"
+    >
       <div class="mb-4 flex items-center justify-between">
         <div
-          class="flex h-12 w-12 items-center justify-center rounded-lg bg-red-600"
+          class="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-red-600 to-red-700 shadow-lg"
         >
           <i class="pi pi-arrow-down text-xl text-white"></i>
         </div>
-        <p-tag
-          value="Chi tiêu"
-          severity="danger"
-          styleClass="bg-red-600"
-        ></p-tag>
+        <p-tag value="Chi tiêu" severity="danger" styleClass="bg-red-600" />
       </div>
       <h3 class="mb-2 text-2xl font-bold text-white">
         {{ totalExpense | number: '1.0-0' }} VND
@@ -66,19 +135,16 @@
       </p>
     </div>
 
-    <!-- Số dư hiện tại -->
-    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+    <div
+      class="rounded-xl border border-gray-700 bg-gradient-to-br from-green-900/50 to-green-800/30 p-6 backdrop-blur-sm"
+    >
       <div class="mb-4 flex items-center justify-between">
         <div
-          class="flex h-12 w-12 items-center justify-center rounded-lg bg-green-600"
+          class="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-green-600 to-green-700 shadow-lg"
         >
           <i class="pi pi-wallet text-xl text-white"></i>
         </div>
-        <p-tag
-          value="Số dư"
-          severity="success"
-          styleClass="bg-green-600"
-        ></p-tag>
+        <p-tag value="Số dư" severity="success" styleClass="bg-green-600" />
       </div>
       <h3 class="mb-2 text-2xl font-bold text-white">
         {{ currentBalance | number: '1.0-0' }} VND
@@ -91,206 +157,785 @@
       </p>
     </div>
 
-    <!-- Tỷ lệ tiết kiệm -->
-    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+    <div
+      class="rounded-xl border border-gray-700 bg-gradient-to-br from-yellow-900/50 to-yellow-800/30 p-6 backdrop-blur-sm"
+    >
       <div class="mb-4 flex items-center justify-between">
         <div
-          class="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600"
+          class="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-yellow-600 to-yellow-700 shadow-lg"
         >
           <i class="pi pi-percentage text-xl text-white"></i>
         </div>
         <p-tag
           value="Tiết kiệm"
           severity="warning"
-          styleClass="bg-purple-600"
-        ></p-tag>
+          styleClass="bg-yellow-600"
+        />
       </div>
       <h3 class="mb-2 text-2xl font-bold text-white">{{ savingRate }}%</h3>
       <p class="text-sm text-gray-400">Tỷ lệ tiết kiệm</p>
     </div>
   </div>
 
-  <!-- Charts Section -->
-  <div class="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-    <!-- Cash Flow Chart -->
-    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+  <!-- Main Analytics Section -->
+  <div class="mb-8 grid grid-cols-1 gap-6 xl:grid-cols-12">
+    <!-- Enhanced Cash Flow Chart -->
+    <div
+      class="rounded-xl border border-gray-700 bg-gray-800/50 p-6 backdrop-blur-sm xl:col-span-8"
+    >
       <div class="mb-6 flex items-center justify-between">
-        <h3 class="text-xl font-semibold text-white">
-          📊 Dòng tiền theo thời gian
+        <h3 class="text-2xl font-semibold text-white">
+          📊 Phân tích dòng tiền
         </h3>
-        <i
-          class="pi pi-info-circle cursor-pointer text-gray-400"
-          pTooltip="Biểu đồ hiển thị thu nhập và chi tiêu theo thời gian"
-        ></i>
+        <div class="flex gap-2">
+          <button
+            class="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-600"
+          >
+            Thu/Chi
+          </button>
+          <button class="rounded bg-gray-600 px-3 py-1 text-sm text-white">
+            Xu hướng
+          </button>
+          <button
+            class="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-600"
+          >
+            So sánh
+          </button>
+        </div>
       </div>
       <p-chart
         type="line"
         [data]="cashFlowData"
         [options]="chartOptions"
-        styleClass="h-80"
-      >
-      </p-chart>
+        styleClass="h-96"
+      />
     </div>
 
-    <!-- Expense Categories Chart -->
-    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
-      <div class="mb-6 flex items-center justify-between">
-        <h3 class="text-xl font-semibold text-white">🏷️ Phân bổ chi tiêu</h3>
-        <i
-          class="pi pi-info-circle cursor-pointer text-gray-400"
-          pTooltip="Tỷ lệ chi tiêu theo từng danh mục"
-        ></i>
+    <!-- Financial Health Score -->
+    <div
+      class="rounded-xl border border-gray-700 bg-gray-800/50 p-6 backdrop-blur-sm xl:col-span-4"
+    >
+      <h3 class="mb-6 text-xl font-semibold text-white">
+        🏥 Điểm sức khỏe tài chính
+      </h3>
+
+      <div class="mb-6 text-center">
+        <div class="relative mx-auto h-32 w-32">
+          <svg class="h-32 w-32 -rotate-90 transform" viewBox="0 0 120 120">
+            <circle
+              cx="60"
+              cy="60"
+              r="50"
+              fill="none"
+              stroke="#374151"
+              stroke-width="8"
+            />
+            <circle
+              cx="60"
+              cy="60"
+              r="50"
+              fill="none"
+              stroke="#10B981"
+              stroke-width="8"
+              stroke-dasharray="314"
+              [attr.stroke-dashoffset]="314 - (314 * healthScore / 100)"
+              stroke-linecap="round"
+            />
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <span class="text-3xl font-bold text-white">{{ healthScore }}</span>
+          </div>
+        </div>
+        <p class="mt-2 text-lg font-semibold text-green-400">Tốt</p>
       </div>
+
+      <div class="space-y-3">
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-400">Tỷ lệ tiết kiệm</span>
+          <span class="text-green-400">85/100</span>
+        </div>
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-400">Quản lý nợ</span>
+          <span class="text-yellow-400">70/100</span>
+        </div>
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-400">Dự phòng khẩn cấp</span>
+          <span class="text-red-400">45/100</span>
+        </div>
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-400">Đa dạng hóa</span>
+          <span class="text-green-400">80/100</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Budget vs Actual & Goals -->
+  <div class="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <!-- Budget Analysis -->
+    <div
+      class="rounded-xl border border-gray-700 bg-gray-800/50 p-6 backdrop-blur-sm"
+    >
+      <div class="mb-6 flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-white">
+          📋 Ngân sách vs Thực tế
+        </h3>
+        <button class="text-blue-400 hover:text-blue-300">
+          <i class="pi pi-cog"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        @for(budget of budgetData; track $index){
+        <div class="rounded-lg bg-gray-700/50 p-4">
+          <div class="mb-2 flex items-center justify-between">
+            <span class="font-medium text-white">{{ budget.category }}</span>
+            <span
+              class="text-sm"
+              [class.text-green-400]="budget.status === 'good'"
+              [class.text-yellow-400]="budget.status === 'warning'"
+              [class.text-red-400]="budget.status === 'danger'"
+            >
+              {{ budget.spent | number: '1.0-0' }} / {{ budget.budgeted |
+              number: '1.0-0' }}
+            </span>
+          </div>
+          <p-progressBar
+            [value]="budget.percentage"
+            [showValue]="false"
+            [style]="{ height: '8px' }"
+            [styleClass]="budget.status === 'danger' ? 'progress-danger' : budget.status === 'warning' ? 'progress-warning' : 'progress-success'"
+          />
+          <div class="mt-1 flex justify-between text-xs text-gray-400">
+            <span>{{ budget.percentage }}% đã sử dụng</span>
+            <span>Còn lại: {{ budget.remaining | number: '1.0-0' }}</span>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Financial Goals -->
+    <div
+      class="rounded-xl border border-gray-700 bg-gray-800/50 p-6 backdrop-blur-sm"
+    >
+      <div class="mb-6 flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-white">🎯 Mục tiêu tài chính</h3>
+        <button class="text-green-400 hover:text-green-300">
+          <i class="pi pi-plus"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        @for(goal of financialGoals; track $index){
+        <div class="rounded-lg bg-gray-700/50 p-4">
+          <div class="mb-2 flex items-center justify-between">
+            <span class="font-medium text-white">{{ goal.name }}</span>
+            <p-tag
+              [value]="goal.status === 'on-track' ? 'Đúng hạn' : goal.status === 'behind' ? 'Chậm tiến độ' : 'Vượt tiến độ'"
+              [severity]="goal.status === 'on-track' ? 'success' : goal.status === 'behind' ? 'danger' : 'info'"
+            />
+          </div>
+          <p class="mb-2 text-sm text-gray-400">
+            {{ goal.current | number: '1.0-0' }} / {{ goal.target | number:
+            '1.0-0' }} VND
+          </p>
+          <p-progressBar
+            [value]="goal.progress"
+            [showValue]="false"
+            [style]="{ height: '8px' }"
+          />
+          <p class="mt-1 text-xs text-gray-400">Hạn: {{ goal.deadline }}</p>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Expense Analysis & Recent Transactions -->
+  <div class="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-5">
+    <!-- Enhanced Expense Categories -->
+    <div
+      class="rounded-xl border border-gray-700 bg-gray-800/50 p-6 backdrop-blur-sm lg:col-span-2"
+    >
+      <div class="mb-6 flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-white">🏷️ Phân tích chi tiêu</h3>
+        <p-select
+          [(ngModel)]="expenseAnalysisType"
+          [options]="[
+                { label: 'Theo danh mục', value: 'category' },
+                { label: 'Theo tài khoản', value: 'account' },
+                { label: 'Theo thời gian', value: 'time' }
+              ]"
+          optionLabel="label"
+          optionValue="value"
+        />
+      </div>
+
       <p-chart
         type="doughnut"
         [data]="expenseCategoryData"
         [options]="doughnutOptions"
-        styleClass="h-80"
-      >
-      </p-chart>
+        styleClass="h-72"
+      />
+
+      <div class="mt-4 space-y-2">
+        @for(category of topCategories; track $index){
+        <div class="flex items-center justify-between text-sm">
+          <div class="flex items-center gap-2">
+            <div
+              class="h-3 w-3 rounded-full"
+              [style.background-color]="category.color"
+            ></div>
+            <span class="text-gray-300">{{ category.category }}</span>
+          </div>
+          <span class="font-medium text-white">{{ category.percentage }}%</span>
+        </div>
+        } @for(category of topCategories.slice(0, 3); track $index){
+        <div class="flex items-center justify-between text-sm">
+          <div class="flex items-center gap-2">
+            <div
+              class="h-3 w-3 rounded-full"
+              [style.background-color]="category.color"
+            ></div>
+            <span class="text-gray-300">{{ category.category }}</span>
+          </div>
+          <span class="font-medium text-white">{{ category.percentage }}%</span>
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Recent Transactions -->
+    <div
+      class="rounded-xl border border-gray-700 bg-gray-800/50 p-6 backdrop-blur-sm lg:col-span-3"
+    >
+      <div class="mb-6 flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-white">💳 Giao dịch gần đây</h3>
+        <div class="flex gap-2">
+          <p-select
+            [(ngModel)]="transactionFilter"
+            [options]="[
+                  { label: 'Tất cả', value: 'all' },
+                  { label: 'Thu nhập', value: 'income' },
+                  { label: 'Chi tiêu', value: 'expense' }
+                ]"
+            optionLabel="label"
+            optionValue="value"
+            styleClass="w-24 text-xs"
+          />
+          <button class="text-blue-400 hover:text-blue-300">
+            <i class="pi pi-external-link"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        @for(transaction of recentTransactions; track $index){
+        <div
+          class="flex items-center justify-between rounded-lg bg-gray-700/30 p-3"
+        >
+          <div class="flex items-center gap-3">
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-lg"
+              [class.bg-green-600]="transaction.type === 'income'"
+              [class.bg-red-600]="transaction.type === 'expense'"
+            >
+              <i
+                [class.pi-arrow-up]="transaction.type === 'income'"
+                [class.pi-arrow-down]="transaction.type === 'expense'"
+                class="pi text-white"
+              ></i>
+            </div>
+            <div>
+              <p class="font-medium text-white">
+                {{ transaction.description }}
+              </p>
+              <p class="text-xs text-gray-400">
+                {{ transaction.category }} • {{ transaction.account }}
+              </p>
+            </div>
+          </div>
+          <div class="text-right">
+            <p
+              class="font-semibold"
+              [class.text-green-400]="transaction.type === 'income'"
+              [class.text-red-400]="transaction.type === 'expense'"
+            >
+              {{ transaction.type === 'income' ? '+' : '-' }}{{
+              transaction.amount | number: '1.0-0' }}
+            </p>
+            <p class="text-xs text-gray-400">
+              {{ transaction.date | date: 'dd/MM' }}
+            </p>
+          </div>
+        </div>
+        }
+      </div>
     </div>
   </div>
 
-  <!-- Detailed Reports Tab -->
+  <!-- Enhanced Detailed Reports -->
   <p-tabs class="custom-tabview" value="0">
     <p-tablist>
-      <p-tab value="0">📅 Báo cáo theo Tháng</p-tab>
-      <p-tab value="1">📂 Báo cáo theo Danh mục</p-tab>
-      <p-tab value="2">🏦 Báo cáo theo Tài khoản</p-tab>
+      <p-tab value="0">📊 Báo cáo tổng hợp</p-tab>
+      <p-tab value="1">📈 Phân tích xu hướng</p-tab>
+      <p-tab value="2">🏦 Tài khoản & Đầu tư</p-tab>
+      <p-tab value="3">💡 Insights & Dự đoán</p-tab>
     </p-tablist>
     <p-tabpanels>
-      <!-- Monthly Report -->
-      <p-tabpanel header="📅 Báo cáo theo Tháng" value="0">
-        <p-card class="border border-slate-700 bg-slate-800/50">
-          <p-table
-            [value]="monthlyData"
-            [paginator]="true"
-            [rows]="10"
-            styleClass="p-datatable-dark"
-          >
-            <ng-template pTemplate="header">
-              <tr>
-                <th class="text-white">Tháng</th>
-                <th class="text-white">Thu nhập</th>
-                <th class="text-white">Chi tiêu</th>
-                <th class="text-white">Số dư</th>
-                <th class="text-white">So sánh kỳ trước</th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-data>
-              <tr>
-                <td class="text-white">{{ data.month }}</td>
-                <td class="text-emerald-400">
-                  +{{ data.income | number: '1.0-0' }} VND
-                </td>
-                <td class="text-red-400">
-                  -{{ data.expense | number: '1.0-0' }} VND
-                </td>
-                <td class="text-white">
-                  {{ data.balance | number: '1.0-0' }} VND
-                </td>
-                <td>
-                  <p-tag
-                    [value]="getComparisonText(data)"
-                    [severity]="getComparisonSeverity(data)"
-                  >
-                  </p-tag>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </p-card>
-      </p-tabpanel>
-
-      <!-- Category Report -->
-      <p-tabpanel header="📂 Báo cáo theo Danh mục" value="1">
-        <p-card class="border border-slate-700 bg-slate-800/50">
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-            <div
-              *ngFor="let category of categoryData"
-              class="rounded-lg border border-slate-600 bg-slate-700/50 p-4"
-            >
-              <div class="mb-3 flex items-center justify-between">
-                <div class="flex items-center">
-                  <span class="mr-3 text-2xl">{{ category.icon }}</span>
-                  <h4 class="font-semibold text-white">{{ category.name }}</h4>
+      <!-- Comprehensive Report -->
+      <p-tabpanel value="0">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <!-- Monthly Performance -->
+          <div class="lg:col-span-2">
+            <p-card class="border border-slate-700 bg-slate-800/50">
+              <ng-template pTemplate="header">
+                <div class="p-4">
+                  <h4 class="text-lg font-semibold text-white">
+                    📅 Hiệu suất theo tháng
+                  </h4>
                 </div>
-                <span class="text-sm text-slate-300"
-                  >{{ category.percentage }}%</span
-                >
-              </div>
-              <p class="mb-2 text-2xl font-bold text-white">
-                {{ category.amount | number: '1.0-0' }} VND
-              </p>
-              <p-progressBar
-                [value]="category.percentage"
-                [showValue]="false"
-                [style]="{ height: '6px' }"
-                styleClass="mb-2"
+              </ng-template>
+              <p-table
+                [value]="monthlyData"
+                [paginator]="true"
+                [rows]="6"
+                styleClass="p-datatable-dark"
               >
-              </p-progressBar>
-              <p class="text-xs text-slate-400">Tỷ lệ trong tổng chi tiêu</p>
-            </div>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="text-white">Tháng</th>
+                    <th class="text-white">Thu nhập</th>
+                    <th class="text-white">Chi tiêu</th>
+                    <th class="text-white">Tiết kiệm</th>
+                    <th class="text-white">Tỷ lệ tiết kiệm</th>
+                    <th class="text-white">Đánh giá</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data>
+                  <tr>
+                    <td class="text-white">{{ data.month }}</td>
+                    <td class="text-emerald-400">
+                      +{{ data.income | number: '1.0-0' }}
+                    </td>
+                    <td class="text-red-400">
+                      -{{ data.expense | number: '1.0-0' }}
+                    </td>
+                    <td class="text-blue-400">
+                      {{ data.balance | number: '1.0-0' }}
+                    </td>
+                    <td class="text-purple-400">
+                      {{ ((data.balance / data.income) * 100) | number: '1.1-1'
+                      }}%
+                    </td>
+                    <td>
+                      <p-tag
+                        [value]="getMonthRating(data)"
+                        [severity]="getMonthSeverity(data)"
+                      />
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </p-card>
           </div>
-        </p-card>
+
+          <!-- Key Metrics -->
+          <div>
+            <p-card class="border border-slate-700 bg-slate-800/50">
+              <ng-template pTemplate="header">
+                <div class="p-4">
+                  <h4 class="text-lg font-semibold text-white">
+                    📊 Chỉ số quan trọng
+                  </h4>
+                </div>
+              </ng-template>
+              <div class="space-y-4">
+                <div class="rounded-lg bg-slate-700/50 p-4">
+                  <div class="mb-2 flex justify-between">
+                    <span class="text-sm text-gray-400">Tổng tài sản</span>
+                    <span class="text-lg font-bold text-green-400"
+                      >{{ totalAssets | number: '1.0-0' }}</span
+                    >
+                  </div>
+                  <div class="mb-2 flex justify-between">
+                    <span class="text-sm text-gray-400">Tổng nợ</span>
+                    <span class="text-lg font-bold text-red-400"
+                      >{{ totalDebt | number: '1.0-0' }}</span
+                    >
+                  </div>
+                  <hr class="my-2 border-slate-600" />
+                  <div class="flex justify-between">
+                    <span class="text-sm font-medium text-white"
+                      >Tài sản ròng</span
+                    >
+                    <span class="text-xl font-bold text-blue-400"
+                      >{{ totalAssets - totalDebt | number: '1.0-0' }}</span
+                    >
+                  </div>
+                </div>
+
+                <div class="rounded-lg bg-slate-700/50 p-4">
+                  <h5 class="mb-3 font-medium text-white">Tỷ lệ tài chính</h5>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span class="text-gray-400">Debt-to-Income</span>
+                      <span class="text-yellow-400"
+                        >{{ debtToIncomeRatio }}%</span
+                      >
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-400">Emergency Fund</span>
+                      <span class="text-blue-400"
+                        >{{ emergencyFundMonths }} tháng</span
+                      >
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-400">Investment Rate</span>
+                      <span class="text-purple-400">{{ investmentRate }}%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-card>
+          </div>
+        </div>
       </p-tabpanel>
 
-      <!-- Account Report -->
-      <p-tabpanel header="🏦 Báo cáo theo Tài khoản" value="2">
-        <p-card class="border border-slate-700 bg-slate-800/50">
-          <p-table [value]="accountData" styleClass="p-datatable-dark">
+      <!-- Trend Analysis -->
+      <p-tabpanel value="1">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <p-card class="border border-slate-700 bg-slate-800/50">
             <ng-template pTemplate="header">
-              <tr>
-                <th class="text-white">Tài khoản</th>
-                <th class="text-white">Loại</th>
-                <th class="text-white">Số dư</th>
-                <th class="text-white">Giao dịch</th>
-                <th class="text-white">Trạng thái</th>
-              </tr>
+              <div class="p-4">
+                <h4 class="text-lg font-semibold text-white">
+                  📈 Xu hướng thu nhập
+                </h4>
+              </div>
             </ng-template>
-            <ng-template pTemplate="body" let-account>
-              <tr>
-                <td class="font-medium text-white">{{ account.name }}</td>
-                <td>
-                  <p-tag
-                    [value]="account.type"
-                    [severity]="getAccountSeverity(account.type)"
-                  >
-                  </p-tag>
-                </td>
-                <td class="text-white">
-                  {{ account.balance | number: '1.0-0' }} VND
-                </td>
-                <td class="text-slate-300">{{ account.transactions }}</td>
-                <td>
-                  <span
-                    class="inline-block h-3 w-3 rounded-full"
-                    [ngClass]="
-                        account.balance > 0 ? 'bg-emerald-400' : 'bg-red-400'
-                      "
-                  >
-                  </span>
-                </td>
-              </tr>
+            <p-chart
+              type="bar"
+              [data]="incomeTrendData"
+              [options]="trendChartOptions"
+              styleClass="h-80"
+            />
+          </p-card>
+
+          <p-card class="border border-slate-700 bg-slate-800/50">
+            <ng-template pTemplate="header">
+              <div class="p-4">
+                <h4 class="text-lg font-semibold text-white">
+                  📉 Xu hướng chi tiêu
+                </h4>
+              </div>
             </ng-template>
-          </p-table>
-        </p-card>
+            <p-chart
+              type="bar"
+              [data]="expenseTrendData"
+              [options]="trendChartOptions"
+              styleClass="h-80"
+            />
+          </p-card>
+        </div>
+
+        <!-- Predictive Analysis -->
+        <div class="mt-6">
+          <p-card class="border border-slate-700 bg-slate-800/50">
+            <ng-template pTemplate="header">
+              <div class="p-4">
+                <h4 class="text-lg font-semibold text-white">
+                  🔮 Dự đoán xu hướng
+                </h4>
+              </div>
+            </ng-template>
+            <p-chart
+              type="line"
+              [data]="predictiveData"
+              [options]="predictiveChartOptions"
+              styleClass="h-96"
+            />
+          </p-card>
+        </div>
+      </p-tabpanel>
+
+      <!-- Accounts & Investments -->
+      <p-tabpanel value="2">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <!-- Enhanced Account Details -->
+          <p-card class="border border-slate-700 bg-slate-800/50">
+            <ng-template pTemplate="header">
+              <div class="p-4">
+                <h4 class="text-lg font-semibold text-white">
+                  🏦 Chi tiết tài khoản
+                </h4>
+              </div>
+            </ng-template>
+            <div class="space-y-4">
+              @for( account of enhancedAccountData; track $index){
+              <div
+                class="rounded-lg border border-slate-600 bg-slate-700/50 p-4"
+              >
+                <div class="mb-3 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="flex h-12 w-12 items-center justify-center rounded-lg"
+                      [style.background]="account.color"
+                    >
+                      <i [class]="account.icon" class="text-white"></i>
+                    </div>
+                    <div>
+                      <h5 class="font-medium text-white">{{ account.name }}</h5>
+                      <!-- <p class="text-xs text-gray-400">{{ account.type }} • {{ account.bank || account.provider }}</p> -->
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-lg font-bold text-white">
+                      {{ account.balance | number: '1.0-0' }}
+                    </p>
+                    <p
+                      class="text-xs"
+                      [class.text-green-400]="account.monthlyChange >= 0"
+                      [class.text-red-400]="account.monthlyChange < 0"
+                    >
+                      {{ account.monthlyChange >= 0 ? '+' : '' }}{{
+                      account.monthlyChange }}%
+                    </p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-3 gap-4 text-center text-xs">
+                  <div>
+                    <p class="text-gray-400">Giao dịch</p>
+                    <p class="font-medium text-white">
+                      {{ account.transactions }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-gray-400">Lãi suất</p>
+                    <p class="font-medium text-blue-400">
+                      {{ account.interestRate || 0 }}%
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-gray-400">Trạng thái</p>
+                    <span
+                      class="inline-block h-2 w-2 rounded-full"
+                      [class.bg-green-400]="account.status === 'active'"
+                      [class.bg-yellow-400]="account.status === 'limited'"
+                      [class.bg-red-400]="account.status === 'inactive'"
+                    ></span>
+                  </div>
+                </div>
+              </div>
+              }
+            </div>
+          </p-card>
+
+          <!-- Investment Portfolio -->
+          <p-card class="border border-slate-700 bg-slate-800/50">
+            <ng-template pTemplate="header">
+              <div class="p-4">
+                <h4 class="text-lg font-semibold text-white">
+                  📈 Danh mục đầu tư
+                </h4>
+              </div>
+            </ng-template>
+            <div class="mb-6">
+              <div class="mb-4 text-center">
+                <p class="text-2xl font-bold text-white">
+                  {{ totalInvestmentValue | number: '1.0-0' }} VND
+                </p>
+                <p class="text-sm text-gray-400">Tổng giá trị đầu tư</p>
+                <p
+                  class="text-lg"
+                  [class.text-green-400]="totalInvestmentReturn >= 0"
+                  [class.text-red-400]="totalInvestmentReturn < 0"
+                >
+                  {{ totalInvestmentReturn >= 0 ? '+' : '' }}{{
+                  totalInvestmentReturn | number: '1.2-2' }}%
+                </p>
+              </div>
+              <div class="space-y-3">
+                @for(investment of investmentPortfolio; track $index){
+                <div
+                  class="flex items-center justify-between rounded-lg bg-slate-700/30 p-3"
+                >
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="h-3 w-3 rounded-full"
+                      [style.background-color]="investment.color"
+                    ></div>
+                    <div>
+                      <p class="font-medium text-white">
+                        {{ investment.name }}
+                      </p>
+                      <p class="text-xs text-gray-400">{{ investment.type }}</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-medium text-white">
+                      {{ investment.value | number: '1.0-0' }}
+                    </p>
+                    <p
+                      class="text-xs"
+                      [class.text-green-400]="investment.return >= 0"
+                      [class.text-red-400]="investment.return < 0"
+                    >
+                      {{ investment.return >= 0 ? '+' : '' }}{{
+                      investment.return }}%
+                    </p>
+                  </div>
+                </div>
+                }
+              </div>
+            </div>
+            <p-chart
+              type="doughnut"
+              [data]="investmentChartData"
+              [options]="investmentChartOptions"
+              styleClass="h-64"
+            />
+          </p-card>
+        </div>
+      </p-tabpanel>
+
+      <!-- Insights & Predictions -->
+      <p-tabpanel value="3">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <!-- AI Insights -->
+          <div class="lg:col-span-2">
+            <p-card class="border border-slate-700 bg-slate-800/50">
+              <ng-template pTemplate="header">
+                <div class="p-4">
+                  <h4 class="text-lg font-semibold text-white">
+                    🤖 AI Insights
+                  </h4>
+                </div>
+              </ng-template>
+              <div class="space-y-4">
+                @for( insight of aiInsights; track $index){
+                <div
+                  class="rounded-lg border-l-4 p-4"
+                  [class.border-blue-500]="insight.type === 'insight'"
+                  [class.border-yellow-500]="insight.type === 'warning'"
+                  [class.border-green-500]="insight.type === 'opportunity'"
+                  [class.border-purple-500]="insight.type === 'prediction'"
+                  [class.bg-blue-900]="insight.type === 'insight'"
+                >
+                  <!-- [class.bg-yellow-900/20]="insight.type === 'warning'"
+                  [class.bg-green-900/20]="insight.type === 'opportunity'"
+                  [class.bg-purple-900/20]="insight.type === 'prediction'" -->
+                  <div class="mb-2 flex items-center gap-2">
+                    <i
+                      [class]="insight.icon"
+                      [class.text-blue-400]="insight.type === 'insight'"
+                      [class.text-yellow-400]="insight.type === 'warning'"
+                      [class.text-green-400]="insight.type === 'opportunity'"
+                      [class.text-purple-400]="insight.type === 'prediction'"
+                    ></i>
+                    <h5 class="font-medium text-white">{{ insight.title }}</h5>
+                    <p-tag
+                      [value]="insight.priority"
+                      [severity]="insight.priority === 'high' ? 'danger' : insight.priority === 'medium' ? 'warning' : 'success'"
+                      styleClass="ml-auto"
+                    />
+                  </div>
+                  <p class="text-sm text-gray-300">{{ insight.message }}</p>
+                  <div *ngIf="insight.actionable" class="mt-3">
+                    <button
+                      class="rounded bg-blue-600 px-3 py-1 text-xs text-white hover:bg-blue-700"
+                    >
+                      {{ insight.actionText }}
+                    </button>
+                  </div>
+                </div>
+                }
+              </div>
+            </p-card>
+          </div>
+
+          <!-- Quick Actions & Recommendations -->
+          <div>
+            <p-card class="mb-6 border border-slate-700 bg-slate-800/50">
+              <ng-template pTemplate="header">
+                <div class="p-4">
+                  <h4 class="text-lg font-semibold text-white">
+                    ⚡ Hành động nhanh
+                  </h4>
+                </div>
+              </ng-template>
+              <div class="space-y-3">
+                @for(action of quickActions;track $index){
+                <button
+                  class="flex w-full items-center gap-3 rounded-lg bg-slate-700/50 p-3 text-left transition-colors hover:bg-slate-600/50"
+                >
+                  <i [class]="action.icon" class="text-blue-400"></i>
+                  <div>
+                    <p class="font-medium text-white">{{ action.title }}</p>
+                    <p class="text-xs text-gray-400">
+                      {{ action.description }}
+                    </p>
+                  </div>
+                </button>
+                }
+              </div>
+            </p-card>
+
+            <p-card class="border border-slate-700 bg-slate-800/50">
+              <ng-template pTemplate="header">
+                <div class="p-4">
+                  <h4 class="text-lg font-semibold text-white">
+                    💰 Cơ hội tiết kiệm
+                  </h4>
+                </div>
+              </ng-template>
+              <div class="space-y-3">
+                @for(opportunity of savingOpportunities;track $index){
+                <div class="rounded-lg bg-green-900/20 p-3">
+                  <div class="mb-1 flex items-center justify-between">
+                    <span class="text-sm font-medium text-white"
+                      >{{ opportunity.category }}</span
+                    >
+                    <span class="text-sm font-bold text-green-400"
+                      >-{{ opportunity.potential | number: '1.0-0' }}</span
+                    >
+                  </div>
+                  <p class="text-xs text-gray-300">
+                    {{ opportunity.suggestion }}
+                  </p>
+                </div>
+                }
+              </div>
+            </p-card>
+          </div>
+        </div>
       </p-tabpanel>
     </p-tabpanels>
   </p-tabs>
 
-  <!-- Bottom Section -->
-  <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-    <!-- Top Spending Categories -->
-    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
-      <h3 class="mb-6 text-xl font-semibold text-white">
-        💳 Danh mục chi tiêu lớn
-      </h3>
+  <!-- Enhanced Bottom Section -->
+  <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-4">
+    <!-- Top Spending Categories (Enhanced) -->
+    <div
+      class="rounded-xl border border-gray-700 bg-gray-800/50 p-6 backdrop-blur-sm"
+    >
+      <div class="mb-6 flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-white">💳 Chi tiêu hàng đầu</h3>
+        <p-select
+          [(ngModel)]="spendingPeriod"
+          [options]="[
+                { label: '7 ngày', value: '7d' },
+                { label: '30 ngày', value: '30d' },
+                { label: '90 ngày', value: '90d' }
+              ]"
+          optionLabel="label"
+          optionValue="value"
+          styleClass="w-20 text-xs"
+        />
+      </div>
       <div class="space-y-4">
-        <div
-          *ngFor="let category of topCategories"
-          class="flex items-center justify-between"
-        >
+        @for(category of topCategories; track $index){
+        <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div
               class="h-4 w-4 rounded-full"
@@ -300,60 +945,207 @@
           </div>
           <div class="text-right">
             <p class="font-semibold text-white">
-              {{ category.amount | number: '1.0-0' }} VND
+              {{ category.amount | number: '1.0-0' }}
             </p>
-            <p class="text-sm text-gray-400">{{ category.percentage }}%</p>
+            <p class="text-xs text-gray-400">{{ category.percentage }}%</p>
           </div>
         </div>
+        }
       </div>
-    </div>
-
-    <!-- Account Summary -->
-    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
-      <h3 class="mb-6 text-xl font-semibold text-white">
-        🏦 Tổng hợp tài khoản
-      </h3>
-      <div class="space-y-4">
-        <div
-          *ngFor="let account of accountSummary"
-          class="flex items-center justify-between rounded-lg bg-gray-700 p-3"
-        >
-          <div class="flex items-center gap-3">
-            <i [class]="account.icon" class="text-blue-400"></i>
-            <span class="text-gray-300">{{ account.name }}</span>
-          </div>
-          <span class="font-semibold text-white"
-            >{{ account.balance | number: '1.0-0' }} VND</span
+      <div class="mt-4 border-t border-gray-600 pt-4">
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-400">Trung bình/ngày:</span>
+          <span class="text-white"
+            >{{ (totalExpense / 30) | number: '1.0-0' }}</span
           >
         </div>
       </div>
     </div>
 
-    <!-- Financial Suggestions -->
-    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
-      <h3 class="mb-6 text-xl font-semibold text-white">💡 Gợi ý cải thiện</h3>
+    <!-- Enhanced Account Summary -->
+    <div
+      class="rounded-xl border border-gray-700 bg-gray-800/50 p-6 backdrop-blur-sm"
+    >
+      <div class="mb-6 flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-white">🏦 Tài khoản</h3>
+        <button class="text-blue-400 hover:text-blue-300">
+          <i class="pi pi-sync"></i>
+        </button>
+      </div>
       <div class="space-y-4">
+        @for(account of accountSummary; track $index){
         <div
-          *ngFor="let suggestion of financialSuggestions"
-          class="rounded-lg border-l-4 p-3"
+          class="flex items-center justify-between rounded-lg bg-gray-700/30 p-3"
+        >
+          <div class="flex items-center gap-3">
+            <i [class]="account.icon" class="text-blue-400"></i>
+            <div>
+              <span class="font-medium text-gray-300">{{ account.name }}</span>
+              <p class="text-xs text-gray-500">
+                {{ account.type || 'Tài khoản' }}
+              </p>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="font-semibold text-white"
+              >{{ account.balance | number: '1.0-0' }}</span
+            >
+            <p class="text-xs text-gray-400">{{ account.currency || 'VND' }}</p>
+          </div>
+        </div>
+        }
+      </div>
+      <div class="mt-4 border-t border-gray-600 pt-4 text-center">
+        <p class="text-sm text-gray-400">Tổng tài sản</p>
+        <p class="text-xl font-bold text-green-400">
+          {{ getTotalBalance() | number: '1.0-0' }} VND
+        </p>
+      </div>
+    </div>
+
+    <!-- Enhanced Financial Suggestions -->
+    <div
+      class="rounded-xl border border-gray-700 bg-gray-800/50 p-6 backdrop-blur-sm lg:col-span-2"
+    >
+      <div class="mb-6 flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-white">
+          💡 Khuyến nghị thông minh
+        </h3>
+        <div class="flex gap-2">
+          <p-tag value="AI Powered" severity="info" />
+          <button class="text-gray-400 hover:text-gray-300">
+            <i class="pi pi-refresh"></i>
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        @for(suggestion of financialSuggestions; track $index){
+        <div
+          class="rounded-lg border-l-4 p-4"
           [class.border-yellow-500]="suggestion.type === 'warning'"
           [class.border-green-500]="suggestion.type === 'success'"
           [class.border-blue-500]="suggestion.type === 'info'"
-          [class.bg-yellow-900]="suggestion.type === 'warning'"
-          [class.bg-green-900]="suggestion.type === 'success'"
-          [class.bg-blue-900]="suggestion.type === 'info'"
+          [class.border-red-500]="suggestion.type === 'danger'"
         >
-          <div class="flex items-start gap-3">
+          <!-- [class.bg-yellow-900/10]="suggestion.type === 'warning'"
+          [class.bg-green-900/10]="suggestion.type === 'success'"
+          [class.bg-blue-900/10]="suggestion.type === 'info'"
+          [class.bg-red-900/10]="suggestion.type === 'danger'" -->
+          <div class="mb-2 flex items-start gap-3">
             <i
               [class]="suggestion.icon"
               [class.text-yellow-400]="suggestion.type === 'warning'"
               [class.text-green-400]="suggestion.type === 'success'"
               [class.text-blue-400]="suggestion.type === 'info'"
+              [class.text-red-400]="suggestion.type === 'danger'"
             ></i>
-            <p class="text-sm text-gray-300">{{ suggestion.message }}</p>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-300">
+                {{ suggestion.message }}
+              </p>
+              <p-tag
+                [value]="suggestion.priority"
+                [severity]="suggestion.priority === 'high' ? 'danger' : suggestion.priority === 'medium' ? 'warning' : 'success'"
+                styleClass="mt-2 text-xs"
+              />
+            </div>
           </div>
         </div>
+        }
       </div>
     </div>
   </div>
+
+  <!-- Add Transaction Dialog -->
+  <p-dialog
+    header="Thêm giao dịch mới"
+    [(visible)]="showAddTransaction"
+    [modal]="true"
+    [style]="{width: '500px'}"
+    styleClass="bg-gray-800"
+  >
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="mb-2 block text-sm font-medium text-white">Loại</label>
+          <p-select
+            [(ngModel)]="newTransaction.type"
+            [options]="[
+                  { label: 'Thu nhập', value: 'income' },
+                  { label: 'Chi tiêu', value: 'expense' }
+                ]"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Chọn loại"
+            styleClass="w-full"
+          />
+        </div>
+        <div>
+          <label class="mb-2 block text-sm font-medium text-white"
+            >Số tiền</label
+          >
+          <input
+            type="number"
+            pInputText
+            [(ngModel)]="newTransaction.amount"
+            placeholder="0"
+            class="w-full bg-gray-700 text-white"
+          />
+        </div>
+      </div>
+      <div>
+        <label class="mb-2 block text-sm font-medium text-white">Mô tả</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="newTransaction.description"
+          placeholder="Nhập mô tả giao dịch"
+          class="w-full bg-gray-700 text-white"
+        />
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="mb-2 block text-sm font-medium text-white"
+            >Danh mục</label
+          >
+          <p-select
+            [(ngModel)]="newTransaction.category"
+            [options]="transactionCategories"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Chọn danh mục"
+            styleClass="w-full"
+          />
+        </div>
+        <div>
+          <label class="mb-2 block text-sm font-medium text-white"
+            >Tài khoản</label
+          >
+          <p-select
+            [(ngModel)]="newTransaction.account"
+            [options]="accountOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Chọn tài khoản"
+            styleClass="w-full"
+          />
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="flex gap-2">
+        <button
+          pButton
+          label="Hủy"
+          severity="secondary"
+          (click)="showAddTransaction = false"
+        ></button>
+        <button
+          pButton
+          label="Thêm giao dịch"
+          (click)="addTransaction()"
+        ></button>
+      </div>
+    </ng-template>
+  </p-dialog>
 </div>
