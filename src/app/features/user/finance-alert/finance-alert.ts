@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
+  FormControl,
 } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 // PrimeNG Imports - Updated for Angular 20
@@ -29,6 +30,7 @@ import { BadgeModule } from 'primeng/badge';
 import { TimelineModule } from 'primeng/timeline';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { SettingsAlert } from './settings-alert/settings-alert';
 
 interface AlertRule {
   id: string;
@@ -102,6 +104,7 @@ interface DebtReminder {
     BadgeModule,
     TimelineModule,
     ConfirmDialogModule,
+    SettingsAlert,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './finance-alert.html',
@@ -293,37 +296,37 @@ export class FinancialAlertsComponent implements OnInit {
   }
 
   initializeForms() {
-    this.emailSettingsForm = this.fb.group({
-      emailEnabled: [true],
-      notificationEmail: [
-        'user@example.com',
-        [Validators.required, Validators.email],
-      ],
-      budgetAlerts: [true],
-      debtReminders: [true],
-      recurringTransactions: [true],
-      inactivityAlerts: [false],
-      emailFrequency: ['immediate'],
+    this.emailSettingsForm = new FormGroup({
+      emailEnabled: new FormControl(false, Validators.required),
+      notificationEmail: new FormControl('user@example.com', [
+        Validators.required,
+        Validators.email,
+      ]),
+      budgetAlerts: new FormControl(true),
+      debtReminders: new FormControl(true),
+      recurringTransactions: new FormControl(true),
+      inactivityAlerts: new FormControl(false),
+      emailFrequency: new FormControl('immediate'),
     });
 
-    this.pushSettingsForm = this.fb.group({
-      pushEnabled: [true],
-      startTime: [new Date('2025-01-01 08:00')],
-      endTime: [new Date('2025-01-01 22:00')],
-      priority: ['medium'],
-      sound: ['default'],
+    this.pushSettingsForm = new FormGroup({
+      pushEnabled: new FormControl(true),
+      startTime: new FormControl(new Date()),
+      endTime: new FormControl(new Date()),
+      priority: new FormControl('medium'),
+      sound: new FormControl('default'),
     });
 
-    this.newRuleForm = this.fb.group({
-      name: ['', Validators.required],
-      type: ['', Validators.required],
-      category: [''],
-      threshold: [80],
-      daysBefore: [3],
-      recurringName: [''],
-      dayOfMonth: [15],
-      inactivityDays: [7],
-      frequency: ['daily'],
+    this.newRuleForm = new FormGroup({
+      name: new FormControl('', Validators.required),
+      type: new FormControl('', Validators.required),
+      category: new FormControl(''),
+      threshold: new FormControl(80, Validators.required),
+      daysBefore: new FormControl(3),
+      recurringName: new FormControl(''),
+      dayOfMonth: new FormControl(15, Validators.required),
+      inactivityDays: new FormControl(7, Validators.required),
+      frequency: new FormControl('daily'),
     });
   }
 

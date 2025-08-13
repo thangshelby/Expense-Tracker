@@ -17,8 +17,9 @@ import { TabsModule } from 'primeng/tabs';
 import { DatePickerModule } from 'primeng/datepicker';
 import { SelectModule } from 'primeng/select';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputGroup, InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupModule } from 'primeng/inputgroup';
 import { LucideAngularModule, FileIcon, ChartBarStacked } from 'lucide-angular';
+
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -90,30 +91,14 @@ export class Analytics implements OnInit {
   chartTypeOptions: any[] = [
     { label: 'Pie', value: 'pie' },
     { label: 'Doughnut', value: 'doughnut' },
+    { label: 'Bar', value: 'bar' },
   ];
 
   // Selected Values
   selectedTime = 'thisMonth';
   selectedCategory: Category | undefined;
   selectedAccount = 'all';
-  selectedChartType: ChartType = 'pie';
-
-  items: any[] = [];
-  serchTime(event: AutoCompleteCompleteEvent) {
-    this.timeOptions = [
-      { label: 'Tháng này', value: 'thisMonth' },
-      { label: 'Tháng trước', value: 'lastMonth' },
-      { label: 'Quý này', value: 'thisQuarter' },
-      { label: 'Năm này', value: 'thisYear' },
-      { label: 'Tùy chọn', value: 'custom' },
-    ];
-    // let _items = [...Array(10).keys()];
-    // this.items = event.query
-    //   ? [...Array(10).keys()].map((item) => event.query + '-' + item)
-    //   : _items;
-    // console.log(this.items);
-    // this.items = this.timeOptions;
-  }
+  selectedChartType: ChartType = 'doughnut';
 
   // Summary Data
   totalIncome = 15000000;

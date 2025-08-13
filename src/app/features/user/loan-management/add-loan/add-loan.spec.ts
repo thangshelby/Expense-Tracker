@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { History } from './history';
+import { AddLoan } from './add-loan';
 
-describe('History', () => {
-  let component: History;
-  let fixture: ComponentFixture<History>;
+describe('AddLoan', () => {
+  let component: AddLoan;
+  let fixture: ComponentFixture<AddLoan>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [History]
+      imports: [AddLoan]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(History);
+    fixture = TestBed.createComponent(AddLoan);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

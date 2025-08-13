@@ -89,7 +89,7 @@
   </div>
 
   <!-- Main Content Tabs -->
-  <p-tabs>
+  <p-tabs value="0">
     <p-tabpanels>
       <p-tablist>
         <p-tab value="0">🔥 Cảnh báo hiện tại</p-tab>
@@ -283,10 +283,8 @@
 
         <p-card class="border border-slate-700 bg-slate-800/50">
           <div class="space-y-4">
-            <div
-              *ngFor="let rule of alertRules"
-              class="rounded-lg border border-slate-600 bg-slate-700/30 p-4"
-            >
+            @for(rule of alertRules; track $index){
+            <div class="rounded-lg border border-slate-600 bg-slate-700/30 p-4">
               <div class="flex items-center justify-between">
                 <div class="flex-1">
                   <div class="mb-2 flex items-center gap-3">
@@ -300,40 +298,43 @@
                       >{{ rule.frequency }}</span
                     >
                   </div>
-
                   <div class="mb-3 text-sm text-slate-300">
-                    <span *ngIf="rule.type === 'budget'">
+                    @if (rule.type === 'budget') {
+                    <span>
                       Cảnh báo khi vượt {{ rule.threshold }}% ngân sách {{
                       rule.category }}
                     </span>
-                    <span *ngIf="rule.type === 'debt'">
+                    } @if (rule.type === 'debt') {
+                    <span>
                       Nhắc nhở trước {{ rule.conditions.daysBefore }} ngày đến
                       hạn trả nợ
                     </span>
-                    <span *ngIf="rule.type === 'recurring'">
+                    } @if (rule.type === 'recurring') {
+                    <span>
                       Nhắc nhở giao dịch định kỳ {{ rule.conditions.name }}
                     </span>
-                    <span *ngIf="rule.type === 'inactivity'">
+                    } @if (rule.type === 'inactivity') {
+                    <span>
                       Cảnh báo khi không có giao dịch trong {{
                       rule.conditions.days }} ngày
                     </span>
+                    }
                   </div>
 
                   <div class="flex items-center gap-4 text-xs text-slate-400">
                     <span
                       >Tạo: {{ rule.createdDate | date: 'dd/MM/yyyy' }}</span
                     >
-                    <span *ngIf="rule.lastTriggered">
-                      Kích hoạt cuối: {{ rule.lastTriggered | date: 'dd/MM/yyyy
-                      HH:mm' }}
+                    @if (rule.lastTriggered) {
+                    <span>
+                      Kích hoạt cuối: {{ rule.lastTriggered | date: 'dd/MM/yyyy'
+                      }}
                     </span>
+                    }
                     <div class="flex gap-1">
-                      <p-chip
-                        *ngFor="let action of rule.actions"
-                        [label]="getActionText(action)"
-                        styleClass="text-xs"
-                      >
-                      </p-chip>
+                      @for (action of rule.actions; track $index) {
+                      <p-chip [label]="getActionText(action)"> </p-chip>
+                      }
                     </div>
                   </div>
                 </div>
@@ -363,6 +364,7 @@
                 </div>
               </div>
             </div>
+            }
           </div>
         </p-card>
       </p-tabpanel>
@@ -482,234 +484,7 @@
 
       <!-- Notification Settings -->
       <p-tabpanel value="3" header="🔔 Cài đặt thông báo">
-        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <!-- Email Settings -->
-          <p-card class="border border-slate-700 bg-slate-800/50">
-            <ng-template pTemplate="header">
-              <div class="p-4">
-                <h3 class="text-xl font-bold text-white">📧 Thông báo Email</h3>
-              </div>
-            </ng-template>
-
-            <form
-              [formGroup]="emailSettingsForm"
-              (ngSubmit)="saveEmailSettings()"
-            >
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <label class="font-medium text-white"
-                      >Kích hoạt email</label
-                    >
-                    <p class="text-sm text-slate-400">
-                      Nhận cảnh báo qua email
-                    </p>
-                  </div>
-                  <p-toggleSwitch
-                    formControlName="emailEnabled"
-                  ></p-toggleSwitch>
-                </div>
-
-                <div>
-                  <label class="mb-2 block text-sm font-medium text-white"
-                    >Email nhận thông báo</label
-                  >
-                  <input
-                    pInputText
-                    formControlName="notificationEmail"
-                    placeholder="example@email.com"
-                    class="w-full border-slate-600 bg-slate-700/50 text-white"
-                  />
-                </div>
-
-                <div class="space-y-3">
-                  <h4 class="font-medium text-white">Loại cảnh báo</h4>
-
-                  <div class="flex items-center justify-between">
-                    <span class="text-slate-300">Vượt ngân sách</span>
-                    <p-toggleSwitch
-                      formControlName="budgetAlerts"
-                    ></p-toggleSwitch>
-                  </div>
-
-                  <div class="flex items-center justify-between">
-                    <span class="text-slate-300">Nhắc trả nợ</span>
-                    <p-toggleSwitch
-                      formControlName="debtReminders"
-                    ></p-toggleSwitch>
-                  </div>
-
-                  <div class="flex items-center justify-between">
-                    <span class="text-slate-300">Giao dịch định kỳ</span>
-                    <p-toggleSwitch
-                      formControlName="recurringTransactions"
-                    ></p-toggleSwitch>
-                  </div>
-
-                  <div class="flex items-center justify-between">
-                    <span class="text-slate-300">Không hoạt động</span>
-                    <p-toggleSwitch
-                      formControlName="inactivityAlerts"
-                    ></p-toggleSwitch>
-                  </div>
-                </div>
-
-                <div>
-                  <label class="mb-2 block text-sm font-medium text-white"
-                    >Tần suất gửi</label
-                  >
-                  <p-select
-                    [options]="emailFrequencyOptions"
-                    formControlName="emailFrequency"
-                    placeholder="Chọn tần suất"
-                    class="w-full"
-                  >
-                  </p-select>
-                </div>
-              </div>
-
-              <p-button
-                label="Lưu cài đặt"
-                icon="pi pi-save"
-                type="submit"
-                class="mt-6 w-full"
-              >
-              </p-button>
-            </form>
-          </p-card>
-
-          <!-- Push Notification Settings -->
-          <p-card class="border border-slate-700 bg-slate-800/50">
-            <ng-template pTemplate="header">
-              <div class="p-4">
-                <h3 class="text-xl font-bold text-white">📱 Thông báo đẩy</h3>
-              </div>
-            </ng-template>
-
-            <form
-              [formGroup]="pushSettingsForm"
-              (ngSubmit)="savePushSettings()"
-            >
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <label class="font-medium text-white"
-                      >Kích hoạt thông báo đẩy</label
-                    >
-                    <p class="text-sm text-slate-400">
-                      Nhận thông báo trên thiết bị
-                    </p>
-                  </div>
-                  <p-toggleSwitch
-                    formControlName="pushEnabled"
-                  ></p-toggleSwitch>
-                </div>
-
-                <div class="space-y-3">
-                  <h4 class="font-medium text-white">Thời gian thông báo</h4>
-
-                  <div>
-                    <label class="mb-2 block text-sm font-medium text-white"
-                      >Giờ bắt đầu</label
-                    >
-                    <p-datePicker
-                      formControlName="startTime"
-                      [timeOnly]="true"
-                      hourFormat="24"
-                      class="w-full"
-                    >
-                    </p-datePicker>
-                  </div>
-
-                  <div>
-                    <label class="mb-2 block text-sm font-medium text-white"
-                      >Giờ kết thúc</label
-                    >
-                    <p-datePicker
-                      formControlName="endTime"
-                      [timeOnly]="true"
-                      hourFormat="24"
-                      class="w-full"
-                    >
-                    </p-datePicker>
-                  </div>
-                </div>
-
-                <div>
-                  <label class="mb-2 block text-sm font-medium text-white"
-                    >Mức độ ưu tiên</label
-                  >
-                  <p-selectButton
-                    [options]="priorityOptions"
-                    formControlName="priority"
-                    class="w-full"
-                  >
-                  </p-selectButton>
-                </div>
-
-                <div>
-                  <label class="mb-2 block text-sm font-medium text-white"
-                    >Âm thanh thông báo</label
-                  >
-                  <p-select
-                    [options]="soundOptions"
-                    formControlName="sound"
-                    placeholder="Chọn âm thanh"
-                    class="w-full"
-                  >
-                  </p-select>
-                </div>
-              </div>
-
-              <p-button
-                label="Lưu cài đặt"
-                icon="pi pi-save"
-                type="submit"
-                class="mt-6 w-full"
-              >
-              </p-button>
-            </form>
-          </p-card>
-        </div>
-
-        <!-- Test Notifications -->
-        <div class="mt-6">
-          <p-card class="border border-slate-700 bg-slate-800/50">
-            <ng-template pTemplate="header">
-              <div class="p-4">
-                <h3 class="text-xl font-bold text-white">
-                  🧪 Kiểm tra thông báo
-                </h3>
-              </div>
-            </ng-template>
-
-            <div class="flex flex-wrap gap-4">
-              <p-button
-                label="Kiểm tra Email"
-                icon="pi pi-envelope"
-                class="p-button-outlined"
-                (onClick)="testEmail()"
-              >
-              </p-button>
-
-              <p-button
-                label="Kiểm tra Push"
-                icon="pi pi-mobile"
-                class="p-button-outlined"
-                (onClick)="testPushNotification()"
-              >
-              </p-button>
-
-              <p-button
-                label="Kiểm tra tất cả"
-                icon="pi pi-send"
-                class="p-button-outlined p-button-success"
-                (onClick)="testAllNotifications()"
-              >
-              </p-button>
-            </div>
-          </p-card>
-        </div>
+        <app-settings-alert></app-settings-alert>
       </p-tabpanel>
     </p-tabpanels>
   </p-tabs>
