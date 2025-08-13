@@ -16,6 +16,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Store } from '@ngxs/store';
 import { ToggleTheme, ThemeState } from '../../../../store/theme.state';
 import { Observable } from 'rxjs';
+import { NotificationComponent } from '../notification/notification';
 
 @Component({
   selector: 'app-header',
@@ -31,7 +32,8 @@ import { Observable } from 'rxjs';
     ButtonModule,
     AsyncPipe,
     CommonModule,
-  ],
+    NotificationComponent
+],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
