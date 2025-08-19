@@ -48,21 +48,19 @@
   <div class="mb-6 rounded-lg border border-gray-700 bg-gray-800 p-6">
     <div class="flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center gap-4">
-        <p-auto-complete
-          [suggestions]="typeOptions"
+        <p-select
+          [options]="typeOptions"
           placeholder="Loại"
-          styleClass="w-40"
           [style]="{'background': '#374151', 'border': '1px solid #4B5563'}"
         >
-        </p-auto-complete>
+        </p-select>
 
-        <p-autocomplete
-          [suggestions]="statusOptions"
+        <p-select
+          [options]="statusOptions"
           placeholder="Trạng thái"
-          styleClass="w-40"
           [style]="{'background': '#374151', 'border': '1px solid #4B5563'}"
         >
-        </p-autocomplete>
+        </p-select>
       </div>
 
       <p-button
@@ -179,19 +177,33 @@
   styleClass="p-dialog-dark"
 >
   <div class="grid grid-cols-1 gap-4">
-    <!-- Type Selection -->
-    <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium">Loại *</label>
-      <p-selectButton
-        [(ngModel)]="newLoanDebt.type"
-        [options]="[
+    <div class="flex w-full flex-1 flex-row gap-2">
+      <!-- Type Selection -->
+      <div class="flex flex-1 flex-col gap-2">
+        <label class="text-sm font-medium">Loại *</label>
+        <p-select
+          [(ngModel)]="newLoanDebt.type"
+          [options]="[
           {label: 'Khoản vay', value: 'loan'},
           {label: 'Khoản nợ', value: 'debt'}
         ]"
-        optionLabel="label"
-        optionValue="value"
-      >
-      </p-selectButton>
+          placeholder="Select a City"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-select>
+      </div>
+      <!-- Due Date -->
+      <div class="flex h-full flex-1 flex-col gap-2">
+        <label class="text-sm font-medium">Ngày đến hạn *</label>
+        <p-datepicker
+          [(ngModel)]="newLoanDebt.dueDate"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+          class="w-full"
+        >
+        </p-datepicker>
+      </div>
     </div>
 
     <!-- Creditor/Debtor -->
@@ -202,6 +214,7 @@
       <input
         type="text"
         pInputText
+        className="outline-none p-2"
         [(ngModel)]="newLoanDebt.creditorDebtor"
         placeholder="Nhập tên..."
         class="w-full"
@@ -211,28 +224,28 @@
     <!-- Amount -->
     <div class="flex flex-col gap-2">
       <label class="text-sm font-medium">Số tiền *</label>
-      <p-inputNumber
+      <p-inputnumber
         [(ngModel)]="newLoanDebt.amount"
         mode="currency"
         currency="VND"
         locale="vi-VN"
         class="w-full"
       >
-      </p-inputNumber>
+      </p-inputnumber>
     </div>
 
     <!-- Interest Rate (for loans) -->
     @if(newLoanDebt.type==='loan'){
     <div class="flex flex-col gap-2">
       <label class="text-sm font-medium">Lãi suất (%/tháng)</label>
-      <p-inputNumber
+      <p-inputnumber
         [(ngModel)]="newLoanDebt.interestRate"
         [minFractionDigits]="1"
         [maxFractionDigits]="2"
         suffix="%"
         class="w-full"
       >
-      </p-inputNumber>
+      </p-inputnumber>
     </div>
     }
 
@@ -244,21 +257,9 @@
         [(ngModel)]="newLoanDebt.description"
         rows="3"
         placeholder="Nhập mô tả..."
-        class="w-full"
+        class="w-full p-2"
       >
       </textarea>
-    </div>
-
-    <!-- Due Date -->
-    <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium">Ngày đến hạn *</label>
-      <!-- <p-calendar
-        [(ngModel)]="newLoanDebt.dueDate"
-        dateFormat="dd/mm/yy"
-        [showIcon]="true"
-        class="w-full"
-      >
-      </p-calendar> -->
     </div>
   </div>
 

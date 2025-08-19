@@ -13,14 +13,14 @@ export const routes: Routes = [
       {
         path: 'log-in',
         loadComponent: () =>
-          import('./features/authencication/login/log-in').then((c) => c.LogIn),
+          import('./features/authencication/login/login').then((c) => c.Login),
       },
 
       {
         path: 'sign-up',
         loadComponent: () =>
-          import('./features/authencication/signup/sign-up').then(
-            (c) => c.SignUp,
+          import('./features/authencication/signup/signup').then(
+            (c) => c.Signup,
           ),
       },
       {

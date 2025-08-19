@@ -71,6 +71,7 @@
 
 /* Input styling for dark theme */
 ::ng-deep .p-inputtext {
+  padding: 8px;
   background: #374151 !important;
   border: 1px solid #4b5563 !important;
   color: white !important;
@@ -82,19 +83,24 @@
 }
 
 ::ng-deep .p-inputnumber-input {
+  padding: 8px;
   background: #374151 !important;
   border: 1px solid #4b5563 !important;
   color: white !important;
 }
 
 ::ng-deep .p-inputtextarea {
+  padding: 8px;
   background: #374151 !important;
   border: 1px solid #4b5563 !important;
   color: white !important;
 }
 
-::ng-deep .p-calendar {
+::ng-deep .p-datepicker-input {
+  padding: 8px;
+
   .p-inputtext {
+    padding: 12px;
     background: #374151 !important;
     border: 1px solid #4b5563 !important;
     color: white !important;

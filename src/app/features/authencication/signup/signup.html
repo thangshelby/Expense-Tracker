@@ -1,0 +1,230 @@
+<div class="flex min-h-screen items-center justify-center bg-gray-900 p-4">
+  <div class="w-full max-w-md">
+    <!-- Logo/Brand -->
+    <div class="mb-8 text-center">
+      <div class="mb-4 inline-flex items-center gap-3">
+        <div
+          class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600"
+        >
+          <i class="pi pi-chart-bar text-xl text-white"></i>
+        </div>
+        <span class="text-2xl font-bold text-white">TailAdmin</span>
+      </div>
+      <p class="text-gray-400">Tạo tài khoản mới</p>
+    </div>
+
+    <!-- Signup Form Card -->
+    <div class="rounded-2xl border border-gray-700 bg-gray-800 p-8 shadow-2xl">
+      <h2 class="mb-2 text-center text-2xl font-bold text-white">Đăng ký</h2>
+      <p class="mb-6 text-center text-gray-400">
+        Nhập thông tin để tạo tài khoản mới
+      </p>
+
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <!-- Full Name Field -->
+        <div class="mb-4">
+          <label class="mb-2 block text-sm font-medium text-gray-300"
+            >Họ và tên</label
+          >
+          <div class="relative">
+            <input
+              type="text"
+              formControlName="fullname"
+              class="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-3 text-white placeholder-gray-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              placeholder="Nhập họ và tên"
+              [class.border-red-500]="getFieldError('fullName')"
+            />
+            <i
+              class="pi pi-user absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+            ></i>
+          </div>
+          @if (getFieldError('fullName')) {
+          <small class="mt-1 block text-red-400">
+            {{ getFieldError('fullName') }}
+          </small>
+          }
+        </div>
+
+        <!-- Email Field -->
+        <div class="mb-4">
+          <label class="mb-2 block text-sm font-medium text-gray-300"
+            >Email</label
+          >
+          <div class="relative">
+            <input
+              type="email"
+              formControlName="email"
+              class="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-3 text-white placeholder-gray-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              placeholder="Nhập email của bạn"
+              [class.border-red-500]="getFieldError('email')"
+            />
+            <i
+              class="pi pi-envelope absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400"
+            ></i>
+          </div>
+          @if (getFieldError('email')) {
+          <small class="mt-1 block text-red-400">
+            {{ getFieldError('email') }}
+          </small>
+          }
+        </div>
+
+        <!-- Password Field -->
+        <div class="mb-4">
+          <label class="mb-2 block text-sm font-medium text-gray-300"
+            >Mật khẩu</label
+          >
+          <div class="relative">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              class="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-3 pr-12 text-white placeholder-gray-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              placeholder="Nhập mật khẩu"
+              [class.border-red-500]="getFieldError('password')"
+            />
+            <button
+              type="button"
+              (click)="togglePassword()"
+              class="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400 transition-colors hover:text-gray-300"
+            >
+              <i [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+            </button>
+          </div>
+          @if (getFieldError('password')) {
+          <small class="mt-1 block text-red-400">
+            {{ getFieldError('password') }}
+          </small>
+          }
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="mb-4">
+          <label class="mb-2 block text-sm font-medium text-gray-300"
+            >Xác nhận mật khẩu</label
+          >
+          <div class="relative">
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              formControlName="confirmPassword"
+              class="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-3 pr-12 text-white placeholder-gray-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              placeholder="Nhập lại mật khẩu"
+              [class.border-red-500]="getFieldError('confirmPassword')"
+            />
+            <button
+              type="button"
+              (click)="toggleConfirmPassword()"
+              class="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400 transition-colors hover:text-gray-300"
+            >
+              <i
+                [class]="showConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"
+              ></i>
+            </button>
+          </div>
+          @if (getFieldError('confirmPassword')) {
+          <small class="mt-1 block text-red-400">
+            {{ getFieldError('confirmPassword') }}
+          </small>
+          }
+        </div>
+
+        <!-- Terms and Updates -->
+        <div class="mb-6 space-y-3">
+          <div class="flex items-start">
+            <p-checkbox
+              formControlName="agreeToTerms"
+              binary="true"
+              inputId="agreeToTerms"
+              styleClass="mt-1 mr-3"
+            ></p-checkbox>
+            <label
+              for="agreeToTerms"
+              class="cursor-pointer text-sm leading-5 text-gray-300"
+            >
+              Tôi đồng ý với
+              <a href="#" class="text-blue-400 hover:text-blue-300"
+                >Điều khoản sử dụng</a
+              >
+              và
+              <a href="#" class="text-blue-400 hover:text-blue-300"
+                >Chính sách bảo mật</a
+              >
+            </label>
+          </div>
+          @if (getFieldError('agreeToTerms')) {
+          <small class="block text-red-400">
+            {{ getFieldError('agreeToTerms') }}
+          </small>
+          }
+
+          <div class="flex items-start">
+            <p-checkbox
+              formControlName="receiveUpdates"
+              binary="true"
+              inputId="receiveUpdates"
+              class="mr-3 mt-1"
+            ></p-checkbox>
+            <label
+              for="receiveUpdates"
+              class="cursor-pointer text-sm leading-5 text-gray-300"
+            >
+              Tôi muốn nhận thông tin cập nhật và khuyến mãi qua email
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          [disabled]="!signupForm.valid || loading"
+          class="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition-colors duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-600"
+        >
+          @if (loading) {
+          <i class="pi pi-spin pi-spinner"></i>
+          }
+          <span>{{ loading ? 'Đang tạo tài khoản...' : 'Tạo tài khoản' }}</span>
+        </button>
+      </form>
+
+      <!-- Social Signup -->
+      <div class="mt-6">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-600"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="bg-gray-800 px-4 text-gray-400">Hoặc đăng ký với</span>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-2 gap-3">
+          <button
+            class="flex items-center justify-center gap-2 rounded-lg border border-gray-600 bg-gray-700 px-4 py-2 text-white transition-colors hover:bg-gray-600"
+          >
+            <i class="pi pi-google text-red-400"></i>
+            <span class="text-sm">Google</span>
+          </button>
+          <button
+            class="flex items-center justify-center gap-2 rounded-lg border border-gray-600 bg-gray-700 px-4 py-2 text-white transition-colors hover:bg-gray-600"
+          >
+            <i class="pi pi-github text-white"></i>
+            <span class="text-sm">GitHub</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Login Link -->
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-400">
+          Đã có tài khoản?
+          <button
+            type="button"
+            (click)="navigateToLogin()"
+            class="ml-1 font-medium text-blue-400 transition-colors hover:text-blue-300"
+          >
+            Đăng nhập ngay
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

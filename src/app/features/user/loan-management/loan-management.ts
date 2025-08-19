@@ -1,10 +1,7 @@
-// loan-management.component.ts
 import { Component, OnInit } from '@angular/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
-// loan-management.module.ts
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -16,9 +13,8 @@ import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TooltipModule } from 'primeng/tooltip';
-// import { InputTextareaModule } from 'primeng/inputtextarea';
-// import { CalendarModule } from 'primeng/calendar';
-// import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
+import { DatePickerModule } from 'primeng/datepicker';
 export interface LoanDebt {
   id: number;
   type: 'loan' | 'debt'; // vay hoặc nợ
@@ -50,9 +46,8 @@ export interface LoanDebt {
     ConfirmDialogModule,
     TooltipModule,
     AutoCompleteModule,
-    //  CalendarModule,
-    // DropdownModule,
-    // InputTextareaModule,
+    SelectModule,
+    DatePickerModule,
   ],
   templateUrl: './loan-management.html',
   styleUrl: './loan-management.css',
