@@ -27,7 +27,6 @@ export interface TransactionType {
   amount: number;
   expenseDate: Date;
   invoice: string | null;
-  // weekNumber: number;
   isRecurring: boolean;
   expenseCategory: ExpenseCategoryType;
   payment: PaymentType;

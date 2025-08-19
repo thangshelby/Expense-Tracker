@@ -24,7 +24,7 @@
   @apply bg-[#1e2634];
 }
 :host ::ng-deep .p-paginator .p-select {
-  @apply bg-primary p-0;
+  /* @apply bg-primary p-0; */
 }
 
 :host ::ng-deep .p-dialog .product-image {

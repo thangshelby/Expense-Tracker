@@ -116,7 +116,6 @@ export class NewTransaction implements OnDestroy {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.newTransactionForm.getRawValue());
     if (this.newTransactionForm.invalid) {
       this.messageService.add({
         severity: 'warn',
@@ -142,7 +141,7 @@ export class NewTransaction implements OnDestroy {
     );
     const idNumber = transactions.length + 1;
 
-    const idString = 'txn' + idNumber.toString().padStart(3, '0');
+    const idString = 'txn-' + idNumber.toString().padStart(3, '0');
 
     const formValues = this.newTransactionForm.getRawValue();
     const newTransaction: TransactionType = {
@@ -158,7 +157,9 @@ export class NewTransaction implements OnDestroy {
       location: formValues.location || 'Unknown',
     };
 
-    this.transactionService.addTransaction(newTransaction);
+    this.transactionService.addTransaction(newTransaction).subscribe((data) => {
+      console.log(data);
+    });
     this.newTransactionForm.reset();
     this.activeStep = 1;
     this.messageService.add({

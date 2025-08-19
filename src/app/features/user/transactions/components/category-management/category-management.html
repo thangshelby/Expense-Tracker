@@ -1,0 +1,81 @@
+<div class="min-h-screen bg-gray-900">
+  <!-- Header -->
+  <div class="flex items-center justify-between border-b border-gray-700 p-6">
+    <div>
+      <h1 class="mb-1 text-2xl font-bold text-white">Transactions</h1>
+      <div class="flex items-center gap-6 text-sm text-gray-400">
+        <span class="flex items-center gap-2">
+          <i class="pi pi-plus-circle"></i>
+          New
+        </span>
+        <span class="flex items-center gap-2">
+          <i class="pi pi-trash"></i>
+          Delete
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="border-b border-gray-700 bg-gray-800 p-6">
+    <div class="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <!-- Search -->
+      <div class="relative">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onFilterChange()"
+          placeholder="Search..."
+          class="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-2 pl-10 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none"
+        />
+        <i
+          class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 transform text-sm text-gray-400"
+        ></i>
+      </div>
+
+      <!-- Category Filter -->
+      <p-select
+        [(ngModel)]="selectedCategory"
+        (ngModelChange)="onFilterChange()"
+        class="rounded-lg border border-gray-600 bg-gray-700 px-4 py-2 text-sm text-white focus:border-blue-500 focus:outline-none"
+      >
+        <option value="">Tất cả danh mục</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </option>
+      </p-select>
+
+      <!-- Payment Method Filter -->
+      <select
+        [(ngModel)]="selectedPaymentMethod"
+        (ngModelChange)="onFilterChange()"
+        class="rounded-lg border border-gray-600 bg-gray-700 px-4 py-2 text-sm text-white focus:border-blue-500 focus:outline-none"
+      >
+        <option value="">Tất cả phương thức</option>
+        <option *ngFor="let method of paymentMethods" [value]="method.value">
+          {{ method.label }}
+        </option>
+      </select>
+
+      <!-- Clear Filters -->
+      <button
+        (click)="clearFilters()"
+        class="flex items-center justify-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-sm text-white transition-colors hover:bg-gray-500"
+      >
+        <i class="pi pi-filter-slash"></i>
+        <span>Xóa bộ lọc</span>
+      </button>
+    </div>
+
+    <!-- Add New Button -->
+    <div class="flex justify-end">
+      <button
+        (click)="showCreateDialog()"
+        class="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-700"
+      >
+        <i class="pi pi-plus"></i>
+        <span>New</span>
+      </button>
+    </div>
+  </div>
+</div>
